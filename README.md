@@ -70,8 +70,16 @@ Already built:
 
 So the refresh latency is: survey submission → Google Sheet (instant) →
 next 6-hour cron (or a manual trigger) → live about a minute later.
-Photos submitted via `photo_url` still need a manual pass (download, verify,
-`sips -Z 240`, commit into `photos/`).
+
+### Photo policy: auto-publish, weekly human audit
+
+Survey `photo_url`s are ingested automatically by the Action
+(`scripts/ingest_photos.py`): downloaded, validated as a real image ≥80px,
+resized to 240px JPEG, published, and recorded in `photos/manifest.json` as
+`self-submitted`. The weekly check is `photos.html` — every photo with its
+person-id and source. To remove a photo, add its id as a line in
+`photos/blocklist.txt`: the next run deletes the file and never re-ingests it
+(deleting the jpg alone is NOT enough for survey photos — it would come back).
 
 `data/sample_responses.csv` is a demo of the format — 45 real PhD students of
 Changliu Liu (CMU), Kyoungchul Kong (KAIST) and Xu Chen (UW), scraped from
