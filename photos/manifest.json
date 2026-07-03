@@ -1,0 +1,474 @@
+{
+ "chen-cheng-foo": {
+  "source": "http://www.me.ntu.edu.tw/epaper/20160331/index_002.html",
+  "confidence": "high"
+ },
+ "oh-jun-ho": {
+  "source": "https://www.asianscientist.com/scientist/as100-oh-jun-ho/",
+  "confidence": "high"
+ },
+ "yeh-tse-liang": {
+  "source": "http://www2.me.ncu.edu.tw/english/teacher/teacherpic/2009030491839.jpg",
+  "confidence": "high"
+ },
+ "teo-chee-leong": {
+  "source": "https://cde.nus.edu.sg/me/staff/teo-chee-leong/",
+  "confidence": "high"
+ },
+ "tan-han-shue": {
+  "source": "https://www.linkedin.com/in/han-shue-tan-31536591/",
+  "confidence": "high"
+ },
+ "chen-min-shin": {
+  "source": "https://www.me.ntu.edu.tw/web/people/emeritus.jsp",
+  "confidence": "high"
+ },
+ "yang-sangsik": {
+  "source": "https://www.ajou.ac.kr/ece/faculty/faculty02.do",
+  "confidence": "medium"
+ },
+ "tsao-tsu-chin": {
+  "source": "https://scholar.google.com/citations?user=wADiNucAAAAJ&hl=en",
+  "confidence": "high"
+ },
+ "chew-kok-kia": {
+  "source": "https://www.linkedin.com/in/kokkia",
+  "confidence": "high"
+ },
+ "jeon-doyoung": {
+  "source": "https://biomecha.sogang.ac.kr/biomecha/7.html",
+  "confidence": "high"
+ },
+ "anwar-george": {
+  "source": "https://me.berkeley.edu/people/george-anwar/",
+  "confidence": "high"
+ },
+ "jabbari-alireza": {
+  "source": "http://bwcnews.blogspot.com/2011/08/q-with-ali-jabbari-vice-president-of.html",
+  "confidence": "high"
+ },
+ "tung-eugene-david": {
+  "source": "https://ispe.org/people/eugene-tung",
+  "confidence": "medium"
+ },
+ "kachroo-pushkin": {
+  "source": "https://pushkin.faculty.unlv.edu/",
+  "confidence": "high"
+ },
+ "hwang-yean-ren": {
+  "source": "https://scholars.ncu.edu.tw/en/persons/yean-ren-hwang",
+  "confidence": "high"
+ },
+ "lee-ho-seong": {
+  "source": "https://www.gnu.ac.kr/mce/pi/prfsr/selectPrfsrIntrdView.do?mi=4760",
+  "confidence": "high"
+ },
+ "patwardhan-satyajit": {
+  "source": "https://web.archive.org/web/20200608070611/https://www.prospectsv.org/people-of-prospect-connectmyev/",
+  "confidence": "medium"
+ },
+ "pagilla-prabhakar": {
+  "source": "https://engineering.tamu.edu/mechanical/profiles/pagilla-prabhakar.html",
+  "confidence": "high"
+ },
+ "al-majed-mohammed": {
+  "source": "https://me.berkeley.edu/people/mohammed-al-majed/",
+  "confidence": "high"
+ },
+ "hingwe-pushkar": {
+  "source": "https://theorg.com/org/intuitive-surgical/org-chart/pushkar-hingwe",
+  "confidence": "high"
+ },
+ "saraf-sujit": {
+  "source": "https://www.naatak.org/mahabharat-all-tales-ever-told/su/",
+  "confidence": "medium"
+ },
+ "chee-wonshik": {
+  "source": "https://education.utexas.edu/faculty/wonshik_chee/",
+  "confidence": "high"
+ },
+ "smith-craig": {
+  "source": "https://scholar.google.com/citations?hl=en&user=ZfWU83gAAAAJ",
+  "confidence": "high"
+ },
+ "feng-kai-ten": {
+  "source": "https://dee.nycu.edu.tw/teachers.php?pa=getItem&teacher_id=46&locale=en",
+  "confidence": "high"
+ },
+ "ibaraki-soichi": {
+  "source": "https://seeds.office.hiroshima-u.ac.jp/profile/en.32f5c3316e553dcb520e17560c007669.html",
+  "confidence": "high"
+ },
+ "zhu-bo": {
+  "source": "https://globalventuring.com/corporate/emerging-leaders-qa-bo-zhu-lam-capital/",
+  "confidence": "medium"
+ },
+ "cloet-carlo": {
+  "source": "https://web.archive.org/web/20010502132651/http://www.me.berkeley.edu/~ccloet/home.html",
+  "confidence": "high"
+ },
+ "budiman-erwin-satraya": {
+  "source": "https://www.researchgate.net/profile/Erwin-Budiman-2",
+  "confidence": "high"
+ },
+ "suryanarayanan-shashikanth": {
+  "source": "https://www.me.iitb.ac.in/faculty/prof-shashikanth-suryanarayan",
+  "confidence": "high"
+ },
+ "zhou-kun": {
+  "source": "https://path.berkeley.edu/kunzhou_resized/",
+  "confidence": "high"
+ },
+ "hsiao-te-sheng": {
+  "source": "https://scholar.nycu.edu.tw/en/persons/te-sheng-hsiao/",
+  "confidence": "high"
+ },
+ "inaba-kiyonori": {
+  "source": "https://me.berkeley.edu/people/kiyonori-inaba/",
+  "confidence": "high"
+ },
+ "wu-guoyuan": {
+  "source": "https://www.cert.ucr.edu/image/dr-guoyuan-wu-headshot",
+  "confidence": "high"
+ },
+ "pan-liang": {
+  "source": "https://engineering.purdue.edu/ME/People/ptProfile?resource_id=80190",
+  "confidence": "medium"
+ },
+ "stearns-hoday": {
+  "source": "https://web.archive.org/web/20240628042810/https://msc.berkeley.edu/old3/people/photos/Hoday.jpg",
+  "confidence": "high"
+ },
+ "yu-shu-wen": {
+  "source": "https://web.archive.org/web/20240704021518/https://msc.berkeley.edu/old3/people/photos/Emma.jpg",
+  "confidence": "high"
+ },
+ "reynoso-mosa-pedro": {
+  "source": "https://web.archive.org/web/20240628042811/https://msc.berkeley.edu/old3/people/photos/Pedro.jpg",
+  "confidence": "high"
+ },
+ "weaver-catherin": {
+  "source": "https://msc.berkeley.edu/people/alumni.html",
+  "confidence": "high"
+ },
+ "tian-ran": {
+  "source": "https://msc.berkeley.edu/assets/images/people/ran.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "kodaira-akio": {
+  "source": "https://msc.berkeley.edu/assets/images/people/akio.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "li-chenran": {
+  "source": "https://msc.berkeley.edu/assets/images/people/chenran.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "xu-chenfeng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/chenfeng.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "yang-wu-te": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Wu-Te.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhang-xiang": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Xiang.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhu-xinghao": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Xinghao.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "li-jinning": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Jinning.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "sun-lingfeng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Lingfeng.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wu-zheng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Zheng.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wang-changhao": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Changhao.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "ma-hengbo": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Hengbo.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhou-yiyang": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Yiyang.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "gao-huidong": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Huidong.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "leu-jessica": {
+  "source": "https://msc.berkeley.edu/assets/images/people/jessica.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "tang-chen": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Chen.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "jin-shiyu": {
+  "source": "https://msc.berkeley.edu/assets/images/people/ShiyuJin.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "cheng-yujiao": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Yujiao.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "fahandezhsaadi-saman": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Saman.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "li-jiachen": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Jiachen.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "hu-yeping": {
+  "source": "https://msc.berkeley.edu/assets/images/people/yeping.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "xu-zhuo": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Zhuo.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chen-jianyu": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Jianyu.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wang-zining": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Zining.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "shin-kiwoo": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Kiwoo.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "li-shuyang": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Shuyang.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhan-wei": {
+  "source": "https://msc.berkeley.edu/assets/images/people/WeiZhan.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "sun-liting": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Liting.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "kaneishi-daisuke": {
+  "source": "https://msc.berkeley.edu/assets/images/people/daisuke.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "fan-yongxiang": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Yongxiang.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "peng-cheng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Cheng.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chan-chen-yu": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Chen-Yu.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "lin-hsien-chung": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Hsien-chung.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "tang-te": {
+  "source": "https://msc.berkeley.edu/assets/images/people/te.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "yu-xiaowen": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Alice.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhao-yu": {
+  "source": "https://msc.berkeley.edu/assets/images/people/YuZhao.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "liu-changliu": {
+  "source": "https://msc.berkeley.edu/assets/images/people/changliu.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zheng-minghui": {
+  "source": "https://msc.berkeley.edu/assets/images/people/minghui.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhou-shiying": {
+  "source": "https://msc.berkeley.edu/assets/images/people/shiying.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "haninger-kevin": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Kevin.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "lu-junkai": {
+  "source": "https://msc.berkeley.edu/assets/images/people/junkai.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "tan-raechel": {
+  "source": "https://msc.berkeley.edu/assets/images/people/raechel.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhang-wenlong": {
+  "source": "https://msc.berkeley.edu/assets/images/people/wenlong.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wang-yizhou": {
+  "source": "https://msc.berkeley.edu/assets/images/people/yizhou.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "tsai-chi-shen": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Chi-Shen.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wang-cong": {
+  "source": "https://msc.berkeley.edu/assets/images/people/WangCong.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "kanjanapas-kan": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Oak.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chan-michael": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Mike.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chen-xu": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Chenxu.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chang-siu-evan": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Evan.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chen-wenjie": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Wenjie.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "kim-sanggyum": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Sanggyum.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "bae-joonbum": {
+  "source": "https://msc.berkeley.edu/assets/images/people/JB.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "cheng-haifei": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Haifei.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "kong-kyoungchul": {
+  "source": "https://msc.berkeley.edu/assets/images/people/KC.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zheng-qixing": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Steve.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "han-chenghuei": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Nora.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "mishra-sandipan": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Sandi.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "jeon-soo": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Soo.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "lee-hyeongcheol": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Hclee.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "phillips-anthony": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Phillips.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "yao-bin": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Yao.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chiu-george": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Chiu.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "hu-jwu-sheng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/jshu.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "langari-reza": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Langari.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "horowitz-roberto": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Horowitz.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "qian-qiyang": {
+  "source": "https://msc.berkeley.edu/assets/images/people/qiyang.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chang-wei-jer": {
+  "source": "https://msc.berkeley.edu/assets/images/people/weijer.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "kobashi-keita": {
+  "source": "https://msc.berkeley.edu/assets/images/people/kobashi.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "li-yiheng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/yiheng.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wang-jen-wei": {
+  "source": "https://msc.berkeley.edu/assets/images/people/Jen-Wei.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "xie-yichen": {
+  "source": "https://msc.berkeley.edu/assets/images/people/yichen.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "chen-yuxin": {
+  "source": "https://msc.berkeley.edu/assets/images/people/yuxin.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "liang-boyuan": {
+  "source": "https://msc.berkeley.edu/assets/images/people/boyuan.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "viljoen-john": {
+  "source": "https://msc.berkeley.edu/assets/images/people/John.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wang-yixiao": {
+  "source": "https://msc.berkeley.edu/assets/images/people/YixiaoW.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "peng-chensheng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/chensheng.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "zhao-shuqi": {
+  "source": "https://msc.berkeley.edu/assets/images/people/shuqi.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "shimizu-yutaka": {
+  "source": "https://msc.berkeley.edu/assets/images/people/yutaka.jpg",
+  "confidence": "high (MSC lab site)"
+ },
+ "wang-pengcheng": {
+  "source": "https://msc.berkeley.edu/assets/images/people/pengchengw.jpg",
+  "confidence": "high (MSC lab site)"
+ }
+}

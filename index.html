@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tomizuka Academic Family Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page:        #f9f8f6;
+    --surface:     #fcfcfb;
+    --ink:         #0b0b0b;
+    --ink-2:       #52514e;
+    --muted:       #706e68;
+    --grid:        #e1e0d9;
+    --baseline:    #c3c2b7;
+    --border:      rgba(11,11,11,0.10);
+    --accent:      #B38A58;
+    --accent-deep: #8f6b3d;
+    --edu-ring:    #8f6b3d;
+    --lhalo:       rgba(11,11,11,0.45);
+    --dec-0: #86b6ef; --dec-0-ink: #0b0b0b; --dec-0-lstroke: transparent;
+    --dec-1: #5598e7; --dec-1-ink: #0b0b0b; --dec-1-lstroke: transparent;
+    --dec-2: #2a78d6; --dec-2-ink: #ffffff; --dec-2-lstroke: var(--lhalo);
+    --dec-3: #1c5cab; --dec-3-ink: #ffffff; --dec-3-lstroke: var(--lhalo);
+    --dec-4: #104281; --dec-4-ink: #ffffff; --dec-4-lstroke: var(--lhalo);
+    --dec-5: #0d366b; --dec-5-ink: #ffffff; --dec-5-lstroke: var(--lhalo);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page:        #0d0d0d;
+      --surface:     #1a1a19;
+      --ink:         #ffffff;
+      --ink-2:       #c3c2b7;
+      --muted:       #898781;
+      --grid:        #2c2c2a;
+      --baseline:    #383835;
+      --border:      rgba(255,255,255,0.10);
+      --accent:      #B38A58;
+      --accent-deep: #d9b98a;
+      --edu-ring:    #FDB515;
+      --dec-0: #cde2fb; --dec-0-ink: #0b0b0b; --dec-0-lstroke: transparent;
+      --dec-1: #9ec5f4; --dec-1-ink: #0b0b0b; --dec-1-lstroke: transparent;
+      --dec-2: #6da7ec; --dec-2-ink: #0b0b0b; --dec-2-lstroke: transparent;
+      --dec-3: #3987e5; --dec-3-ink: #0b0b0b; --dec-3-lstroke: transparent;
+      --dec-4: #256abf; --dec-4-ink: #ffffff; --dec-4-lstroke: var(--lhalo);
+      --dec-5: #184f95; --dec-5-ink: #ffffff; --dec-5-lstroke: var(--lhalo);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-deep); }
+
+  nav {
+    position: sticky; top: 0; z-index: 40;
+    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto; padding: 0 24px;
+    height: 60px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 19px; letter-spacing: .02em; }
+  .nav-links { display: flex; gap: 14px; align-items: center; }
+  .nav-links a { text-decoration: none; font-size: 13.5px; font-weight: 400; color: var(--ink-2); }
+  .btn-cta {
+    background: var(--accent); color: #fff !important; padding: 8px 16px; border-radius: 5px;
+    font-weight: 500 !important;
+  }
+
+  header.hero { text-align: center; padding: 64px 24px 8px; }
+  .hero-kicker {
+    color: var(--accent-deep); text-transform: uppercase; letter-spacing: .22em;
+    font-size: 12px; font-weight: 500; margin-bottom: 14px;
+  }
+  h1 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: clamp(30px, 5vw, 46px); margin: 0 0 14px; }
+  .hero-sub { color: var(--ink-2); font-size: 17px; max-width: 640px; margin: 0 auto; line-height: 1.6; }
+
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 28px 0; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .stat .v { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
+  .stat .l { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: .04em; text-transform: uppercase; }
+  @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px; position: relative;
+  }
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    padding: 2px 4px 14px;
+  }
+  .controls input[type="search"] {
+    background: var(--page); border: 1px solid var(--border); border-radius: 6px;
+    color: var(--ink); font: inherit; font-size: 13.5px; padding: 7px 12px; width: 230px;
+  }
+  .controls input[type="search"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .hint { font-size: 12.5px; color: var(--muted); }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .seg button {
+    background: transparent; border: none; color: var(--ink-2); font: inherit; font-size: 13px;
+    padding: 7px 14px; cursor: pointer;
+  }
+  .seg button.on { background: var(--ink); color: var(--surface); font-weight: 500; }
+  .ctrl-btn {
+    background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--ink-2);
+    font: inherit; font-size: 13px; padding: 7px 12px; cursor: pointer;
+  }
+  .ctrl-btn:hover { border-color: var(--accent); color: var(--ink); }
+  .spacer { flex: 1; }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 14px 18px; align-items: center;
+    padding: 0 4px 10px; font-size: 12.5px; color: var(--ink-2);
+  }
+  .lg { display: inline-flex; align-items: center; gap: 7px; }
+  .sw { width: 13px; height: 13px; border-radius: 4px; display: inline-block; }
+  .sw.ring { border-radius: 50%; background: transparent; border: 2.5px solid var(--edu-ring); width: 9px; height: 9px; }
+  .sw.ghost { border-radius: 50%; background: transparent; border: 1.5px dashed var(--muted); width: 10px; height: 10px; }
+
+  #chart { width: 100%; }
+  #chart svg { width: 100%; height: auto; display: block; cursor: default; }
+  .spoke { stroke: var(--grid); stroke-width: 0.7; }
+  .p-label {
+    font-family: 'Inter', system-ui, sans-serif; font-size: 10.5px; font-weight: 400;
+    fill: var(--ink-2); paint-order: stroke; stroke: var(--surface); stroke-width: 2.5px;
+    pointer-events: none;   /* labels cross other rings when branches open */
+    transition: opacity .25s;
+  }
+  .p-label .memo { fill: var(--muted); }
+  .arc-label {
+    font-size: 11.5px; font-weight: 500; letter-spacing: .08em;
+    paint-order: stroke; stroke-linejoin: round;
+  }
+  .person:focus { outline: none; }
+  .person:focus-visible circle.dot { stroke: var(--ink); stroke-width: 2.5px; }
+  .center-name { font-family: 'Playfair Display', serif; font-size: 25px; font-weight: 600; fill: var(--ink); }
+  .center-sub { font-size: 11.5px; fill: var(--muted); letter-spacing: .05em; }
+  .ghost-node { fill: none; stroke: var(--muted); stroke-dasharray: 3 3; stroke-width: 1.2; }
+  .ghost-link { fill: none; stroke: var(--grid); stroke-width: 1; stroke-dasharray: 3 3; }
+  .branch-link { fill: none; stroke: var(--baseline); stroke-width: 1; }
+  .person.wedge-dim text.p-label { opacity: 0; }
+  .edu-mark { fill: var(--edu-ring); }
+  .dimmed { opacity: 0.18; }
+  .hitmark circle.halo { fill: none; stroke: var(--edu-ring); stroke-width: 2.5; }
+
+  #tooltip {
+    position: fixed; z-index: 60; pointer-events: none; display: none;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.13);
+    padding: 11px 14px; max-width: 280px; font-size: 12.5px; color: var(--ink-2); line-height: 1.5;
+  }
+  #tooltip .tt-name { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 1px; }
+  #tooltip .tt-badge, #detail .tt-badge {
+    display: inline-block; font-size: 10.5px; font-weight: 500; letter-spacing: .05em;
+    color: var(--accent-deep); border: 1px solid var(--accent); border-radius: 4px;
+    padding: 1px 6px; margin-top: 5px;
+  }
+
+  #detail {
+    display: none; position: fixed; z-index: 65;
+    width: 302px; max-width: calc(100vw - 36px);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18); padding: 18px;
+    font-size: 13px; color: var(--ink-2); line-height: 1.55;
+  }
+  #detail .d-close {
+    position: absolute; top: 6px; right: 8px; background: none; border: none;
+    color: var(--muted); font-size: 20px; cursor: pointer; padding: 4px 8px;
+  }
+  #detail .d-close:hover { color: var(--ink); }
+  #detail .d-head { display: flex; gap: 13px; align-items: center; margin-bottom: 8px; }
+  #detail .d-photo {
+    width: 76px; height: 76px; border-radius: 50%; object-fit: cover;
+    border: 2.5px solid var(--accent); flex: none;
+  }
+  #detail .d-initials {
+    width: 76px; height: 76px; border-radius: 50%; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 25px; font-weight: 500;
+  }
+  #detail .d-name {
+    font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600;
+    color: var(--ink); line-height: 1.25;
+  }
+  #detail .d-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  #detail .d-line { margin-top: 6px; }
+  #detail .d-bio { margin-top: 8px; font-style: italic; }
+  #detail .d-badges { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+  #detail .d-update {
+    margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--grid); font-size: 12px;
+  }
+  @media (max-width: 700px) {
+    #detail {
+      position: fixed; top: auto; bottom: 0; left: 0; right: 0; width: auto;
+      border-radius: 14px 14px 0 0; z-index: 70;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.25);
+    }
+  }
+  #tableView { display: none; max-height: 640px; overflow-y: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead th {
+    position: sticky; top: 0; background: var(--surface); text-align: left; font-weight: 500;
+    color: var(--muted); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em;
+    padding: 8px 12px; border-bottom: 1px solid var(--grid);
+  }
+  tbody td { padding: 8px 12px; border-bottom: 1px solid var(--grid); color: var(--ink-2); }
+  tbody td:first-child { color: var(--ink); font-weight: 400; }
+  .pill {
+    font-size: 10.5px; font-weight: 500; color: var(--accent-deep);
+    border: 1px solid var(--accent); border-radius: 4px; padding: 1px 6px; white-space: nowrap;
+  }
+
+  .how { margin: 56px 0 20px; }
+  .how h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: 28px; text-align: center; margin-bottom: 8px; }
+  .how .sub { text-align: center; color: var(--ink-2); margin-bottom: 28px; }
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 760px) { .how-grid { grid-template-columns: 1fr; } }
+  .how-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px; }
+  .how-card .n {
+    font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent-deep);
+    margin-bottom: 10px; font-weight: 600;
+  }
+  .how-card h3 { font-size: 15px; font-weight: 600; margin: 0 0 8px; }
+  .how-card p { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; margin: 0; }
+
+  footer {
+    border-top: 1px solid var(--border); margin-top: 48px; padding: 28px 24px 40px;
+    text-align: center; color: var(--muted); font-size: 13px; line-height: 1.8;
+  }
+  #errbar {
+    display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 99;
+    background: #d03b3b; color: #fff; font-size: 12px; padding: 6px 12px; font-family: monospace;
+  }
+</style>
+</head>
+<body>
+<div id="errbar"></div>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">Tomizuka Academic Family Tree</span>
+    <div class="nav-links">
+      <a href="https://tomi80th.github.io/tomizukafest/" target="_blank" rel="noopener">Tomizuka Fest ↗</a>
+      <a class="btn-cta" href="survey.html">Join the Tree</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-kicker">Five decades of mentorship · 1974 – present</div>
+  <h1>The Academic Family of<br>Masayoshi Tomizuka</h1>
+  <p class="hero-sub">Every doctoral student of Professor Tomizuka — and, generation by
+    generation, <em>their</em> students too. Hover to explore, click a professor
+    to open the next generation.</p>
+</header>
+
+<div class="wrap">
+  <div class="stats" id="stats"></div>
+
+  <div class="card">
+    <div class="controls">
+      <input id="search" type="search" placeholder="Search a name…" aria-label="Search a name">
+      <span class="hint" id="searchCount"></span>
+      <span class="spacer"></span>
+      <div class="seg" role="tablist">
+        <button id="btnTree" class="on" role="tab" aria-selected="true">Tree</button>
+        <button id="btnTable" role="tab" aria-selected="false">Table</button>
+      </div>
+      <button class="ctrl-btn" id="btnCollapse">Close branches</button>
+      <button class="ctrl-btn" id="btnResetZoom">Reset view</button>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div id="chart" role="group" aria-label="Radial family tree of Professor Tomizuka's students"></div>
+    <div id="detail" role="dialog" aria-label="Person details"></div>
+    <p class="hint" id="chartHint" style="text-align:center; margin:6px 0 0;">
+      hover for a quick look · click anyone for their card — professors also open their branch ·
+      drag to pan · ⌘/Ctrl&thinsp;+&thinsp;scroll or pinch to zoom</p>
+    <div id="tableView"></div>
+  </div>
+
+  <section class="how" id="survey">
+    <h2>How this tree grows</h2>
+    <p class="sub">The tree builds itself — one short survey, passed from advisor to student.</p>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="n">01</div>
+        <h3>Fill in your card</h3>
+        <p>Each of Professor Tomizuka's alumni receives a short survey: name, photo,
+           a few lines about yourself, and who your advisor was.</p>
+      </div>
+      <div class="how-card">
+        <div class="n">02</div>
+        <h3>Pass it down</h3>
+        <p>Tick <em>"I am a professor"</em> on the survey and your own branch opens —
+           forward the same link to your PhD students and they appear below you,
+           their students after them.</p>
+      </div>
+      <div class="how-card">
+        <div class="n">03</div>
+        <h3>The tree updates</h3>
+        <p>This page rebuilds automatically as responses arrive. Photos and profiles
+           replace the dots you see today; new generations unfold outward.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  Made with gratitude for Professor Masayoshi Tomizuka's 80th birthday.<br>
+  <a href="https://tomi80th.github.io/tomizukafest/" target="_blank" rel="noopener">Tomizuka Fest</a> · August 7, 2026 · UC Berkeley<br>
+  <span style="font-size:11.5px">Affiliations shown are provisional until confirmed by each alum's survey response. No contact information is stored on this page.</span>
+</footer>
+
+<div id="tooltip" role="status"></div>
+
+<script src="assets/d3.v7.min.js"></script>
+<script src="data/tree.js"></script>
+<script>
+window.addEventListener('error', function (e) {
+  const bar = document.getElementById('errbar');
+  bar.style.display = 'block';
+  bar.textContent = 'JS error: ' + e.message + ' @ ' + (e.filename || '').split('/').pop() + ':' + e.lineno;
+});
+
+(function () {
+  'use strict';
+  const DATA = window.TREE_DATA;
+  const people = DATA.children;
+  const N = people.length;
+
+  // ---- constants -----------------------------------------------------------
+  const VB = 660;                       // viewBox half-size
+  const R_BAND_IN = 200, R_BAND_OUT = 224;
+  const R_SPOKE_IN = 230;
+  const R_GEN1 = 430;
+  const R_LABEL = 444;
+  const R_GEN_STEP = 112;               // radial distance per extra generation
+  const GAP = 16 * Math.PI / 180;       // gap at 12 o'clock
+  const A0 = GAP / 2, A1 = 2 * Math.PI - GAP / 2;
+  const NODE_R = 7, NODE_R_EDU = 8.5;
+  const DECADES = ['1977–1989', '1990s', '2000s', '2010s', '2020s', 'Current'];
+
+  const decVar = d => `var(--dec-${DECADES.indexOf(d.decade)})`;
+
+  // angle convention: 0 at 12 o'clock, clockwise (matches d3.arc)
+  people.forEach((p, i) => { p.angle = A0 + (i + 0.5) * (A1 - A0) / N; p.depth = 1; p.radius = R_GEN1; });
+  const pos = (a, r) => [r * Math.sin(a), -r * Math.cos(a)];
+
+  // ---- stats ---------------------------------------------------------------
+  let nEdu = 0;
+  (function cntEdu(list) {
+    list.forEach(p => { if (p.educator) nEdu++; cntEdu(p.children || []); });
+  })(people);
+  const years = people.map(p => p.year).filter(Boolean);
+  let nDesc = 0;
+  (function cnt(list) {
+    list.forEach(p => { if (p.children && p.children.length) { nDesc += p.children.length; cnt(p.children); } });
+  })(people);
+  const stats = [
+    [N, 'First-generation PhD students'],
+    [nEdu, 'Became professors'],
+    [`${Math.min(...years)}–now`, 'Years of graduates'],
+    [nDesc || '5+', nDesc ? 'Next-generation students (growing)' : 'Generations expected'],
+  ];
+  d3.select('#stats').selectAll('div').data(stats).join('div')
+    .attr('class', 'stat')
+    .html('<div class="v"></div><div class="l"></div>')
+    .each(function (d) {
+      d3.select(this).select('.v').text(d[0]);
+      d3.select(this).select('.l').text(d[1]);
+    });
+
+  // ---- legend --------------------------------------------------------------
+  const legend = d3.select('#legend');
+  DECADES.forEach((d, i) => {
+    const item = legend.append('span').attr('class', 'lg');
+    item.append('span').attr('class', 'sw').style('background', `var(--dec-${i})`);
+    item.append('span').text(d === 'Current' ? 'In the lab now' : d);
+  });
+  let lg = legend.append('span').attr('class', 'lg');
+  lg.append('span').attr('class', 'sw ring');
+  lg.append('span').text('Professor — click to open branch');
+  lg = legend.append('span').attr('class', 'lg');
+  lg.append('span').attr('class', 'sw ghost');
+  lg.append('span').text('Next generation (via survey)');
+  legend.append('span').attr('class', 'lg').text('† in memoriam');
+
+  // ---- svg scaffold --------------------------------------------------------
+  const VBOX = 700;   // viewBox half-size: VB plus breathing room for magnified labels
+  const svg = d3.select('#chart').append('svg')
+    .attr('viewBox', [-VBOX, -VBOX, 2 * VBOX, 2 * VBOX])
+    .attr('preserveAspectRatio', 'xMidYMid meet')
+    .style('touch-action', 'pan-y');
+  const root = svg.append('g');
+  const gSpokes = root.append('g');
+  const gBand = root.append('g');
+  const gLinks = root.append('g');
+  const gGhost = root.append('g');
+  const gNodes = root.append('g');
+  const gCenter = root.append('g');
+
+  // ---- decade band ---------------------------------------------------------
+  const segs = [];
+  DECADES.forEach(dec => {
+    const members = people.filter(p => p.decade === dec);
+    if (!members.length) return;
+    const step = (A1 - A0) / N;
+    segs.push({ dec, i: DECADES.indexOf(dec),
+      a0: members[0].angle - step / 2, a1: members[members.length - 1].angle + step / 2 });
+  });
+  const arc = d3.arc().innerRadius(R_BAND_IN).outerRadius(R_BAND_OUT)
+    .cornerRadius(4).padAngle(2 / R_BAND_IN);
+  gBand.selectAll('path.seg').data(segs).join('path')
+    .attr('d', d => arc({ startAngle: d.a0, endAngle: d.a1 }))
+    .style('fill', d => `var(--dec-${d.i})`);
+
+  // curved decade labels (flip on the bottom half so text stays upright)
+  const rMid = (R_BAND_IN + R_BAND_OUT) / 2;
+  segs.forEach(s => {
+    const mid = (s.a0 + s.a1) / 2;
+    const flip = mid > Math.PI / 2 && mid < 3 * Math.PI / 2;
+    const pad = 0.015;
+    let a = s.a0 + pad, b = s.a1 - pad;
+    if (flip) [a, b] = [b, a];
+    const [x0, y0] = pos(a, rMid), [x1, y1] = pos(b, rMid);
+    const sweep = flip ? 0 : 1;
+    const large = Math.abs(b - a) > Math.PI ? 1 : 0;
+    gBand.append('path')
+      .attr('id', `seglab-${s.i}`)
+      .attr('d', `M${x0},${y0} A${rMid},${rMid} 0 ${large} ${sweep} ${x1},${y1}`)
+      .attr('fill', 'none');
+    gBand.append('text').attr('class', 'arc-label')
+      .attr('dy', '0.36em')
+      .append('textPath')
+      .attr('href', `#seglab-${s.i}`)
+      .attr('startOffset', '50%')
+      .attr('text-anchor', 'middle')
+      .style('fill', `var(--dec-${s.i}-ink)`)
+      .style('stroke', `var(--dec-${s.i}-lstroke)`)
+      .style('stroke-width', '2.4px')
+      .text(s.dec === 'Current' ? 'NOW' : s.dec);
+  });
+
+  // ---- spokes --------------------------------------------------------------
+  gSpokes.selectAll('line').data(people).join('line')
+    .attr('class', 'spoke')
+    .attr('x1', d => pos(d.angle, R_SPOKE_IN)[0]).attr('y1', d => pos(d.angle, R_SPOKE_IN)[1])
+    .attr('x2', d => pos(d.angle, R_GEN1 - 12)[0]).attr('y2', d => pos(d.angle, R_GEN1 - 12)[1]);
+
+  // ---- center --------------------------------------------------------------
+  gCenter.append('clipPath').attr('id', 'clipC').append('circle').attr('r', 92);
+  gCenter.append('circle').attr('r', 96).style('fill', 'none')
+    .style('stroke', 'var(--accent)').style('stroke-width', 2.5);
+  gCenter.append('image')
+    .attr('href', DATA.photo).attr('x', -92).attr('y', -92)
+    .attr('width', 184).attr('height', 184)
+    .attr('clip-path', 'url(#clipC)')
+    .attr('preserveAspectRatio', 'xMidYMid slice');
+  gCenter.append('text').attr('class', 'center-name').attr('text-anchor', 'middle')
+    .attr('y', 132).text('Masayoshi Tomizuka');
+  gCenter.append('text').attr('class', 'center-sub').attr('text-anchor', 'middle')
+    .attr('y', 154).style('font-size', '10px')
+    .text('UC BERKELEY · MECHANICAL ENGINEERING');
+  gCenter.append('text').attr('class', 'center-sub').attr('text-anchor', 'middle')
+    .attr('y', -126).style('font-size', '13px')
+    .text('· EST. 1974 ·');
+
+  // ---- person nodes (recursive: any generation renders the same way) -------
+  const rotDeg = a => a * 180 / Math.PI - 90;
+  const isLeft = a => a > Math.PI;
+  const CHORD = R_GEN1 * (A1 - A0) / N;
+  let node = d3.select(null), label = d3.select(null), initials = d3.select(null);
+
+  // photo tiles: one objectBoundingBox pattern per portrait, so the image
+  // follows the circle through the fisheye magnification for free
+  const defs = svg.append('defs');
+  const patternsMade = new Set();
+  function ensurePattern(p) {
+    if (!p.photo || patternsMade.has(p.id)) return;
+    patternsMade.add(p.id);
+    defs.append('pattern')
+      .attr('id', 'pat-' + p.id)
+      .attr('patternUnits', 'objectBoundingBox')
+      .attr('patternContentUnits', 'objectBoundingBox')
+      .attr('width', 1).attr('height', 1)
+      .append('image')
+      .attr('href', p.photo)
+      .attr('width', 1).attr('height', 1)
+      .attr('preserveAspectRatio', 'xMidYMid slice');
+  }
+
+  function initNode(p, depth, parent) {
+    p.depth = depth;
+    p.parentNode = parent;
+    if (p.s === undefined) p.s = 1;
+    if (!p.decade) p.decade = 'Current';
+    p.baseR = p.photo ? (p.educator ? NODE_R_EDU : NODE_R)
+                      : (p.educator ? NODE_R_EDU - 1 : NODE_R - 1.5);
+    // cap magnified font so labels never overrun the viewBox at their radius
+    p.maxFs = Math.max(9, Math.min(16.3, (VBOX - 65 - p.radius) / (0.52 * p.name.length)));
+    if (p.chord === undefined) p.chord = CHORD;
+    ensurePattern(p);
+  }
+  people.forEach(p => initNode(p, 1, DATA));
+
+  // ---- tooltip -------------------------------------------------------------
+  const tt = document.getElementById('tooltip');
+  function showTip(d, evt) {
+    tt.textContent = '';
+    if (d.photo) {
+      const img = document.createElement('img');
+      img.src = d.photo;
+      img.alt = '';
+      img.style.cssText = 'width:58px;height:58px;border-radius:50%;object-fit:cover;'
+        + 'float:left;margin:1px 10px 4px 0;border:2px solid var(--accent)';
+      tt.appendChild(img);
+    }
+    const name = document.createElement('div');
+    name.className = 'tt-name';
+    name.textContent = d.name + (d.inMemoriam ? ' †' : '');
+    tt.appendChild(name);
+    const l1 = document.createElement('div');
+    const ctx = d.ghost ? `${d.parent.name}'s future students`
+      : d.depth > 1 ? `Advisor: ${d.parentNode.name}`
+      : null;   // gen-1 are all MSC Lab — saying so on every card is noise
+    l1.textContent = ctx ? d.batch + ' · ' + ctx : d.batch;
+    tt.appendChild(l1);
+    if (d.note) {
+      const ln = document.createElement('div');
+      ln.textContent = d.note;
+      tt.appendChild(ln);
+    }
+    if (d.affiliation) {
+      const l2 = document.createElement('div');
+      l2.textContent = (d.title ? d.title + ', ' : '') + d.affiliation;
+      tt.appendChild(l2);
+    }
+    if (d.inMemoriam) {
+      const l3 = document.createElement('div');
+      l3.textContent = 'In memoriam';
+      tt.appendChild(l3);
+    }
+    if (d.educator) {
+      const b = document.createElement('span');
+      b.className = 'tt-badge';
+      b.textContent = d.children && d.children.length
+        ? `PROFESSOR · ${d.children.length} students` : 'PROFESSOR · click to open branch';
+      tt.appendChild(b);
+    }
+    if (d.ghost) {
+      const g = document.createElement('div');
+      g.textContent = 'This branch fills in as survey responses arrive.';
+      tt.appendChild(g);
+    }
+    if (d.provisional) {
+      const pv = document.createElement('div');
+      pv.style.cssText = 'font-size:11px;color:var(--muted);margin-top:3px';
+      pv.textContent = 'From the lab website · pending survey confirmation';
+      tt.appendChild(pv);
+    }
+    tt.style.display = 'block';   // show first so moveTip measures a real rect
+    moveTip(evt);
+  }
+  function moveTip(evt) {
+    const pad = 14;
+    let x = evt.clientX + pad, y = evt.clientY + pad;
+    const r = tt.getBoundingClientRect();
+    if (x + r.width > innerWidth - 8) x = evt.clientX - r.width - pad;
+    if (y + r.height > innerHeight - 8) y = evt.clientY - r.height - pad;
+    tt.style.left = x + 'px';
+    tt.style.top = y + 'px';
+  }
+  const hideTip = () => { tt.style.display = 'none'; };
+
+  // ---- detail card (click-to-pin: everything the survey knows) -------------
+  const detail = document.getElementById('detail');
+  const hideDetail = () => { detail.style.display = 'none'; };
+
+  function showDetail(d, evt) {
+    detail.textContent = '';
+    const close = document.createElement('button');
+    close.className = 'd-close';
+    close.textContent = '×';
+    close.setAttribute('aria-label', 'Close details');
+    close.addEventListener('click', hideDetail);
+    detail.appendChild(close);
+
+    const head = document.createElement('div');
+    head.className = 'd-head';
+    if (d.photo) {
+      const img = document.createElement('img');
+      img.className = 'd-photo';
+      img.src = d.photo;
+      img.alt = d.name;
+      head.appendChild(img);
+    } else {
+      const ini = document.createElement('div');
+      ini.className = 'd-initials';
+      const di = DECADES.indexOf(d.decade);
+      ini.style.background = `var(--dec-${di})`;
+      ini.style.color = `var(--dec-${di}-ink)`;
+      ini.textContent = d.name.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+      head.appendChild(ini);
+    }
+    const hw = document.createElement('div');
+    const nm = document.createElement('div');
+    nm.className = 'd-name';
+    nm.textContent = d.name + (d.inMemoriam ? ' †' : '');
+    hw.appendChild(nm);
+    const sub = document.createElement('div');
+    sub.className = 'd-sub';
+    sub.textContent = d.depth > 1 ? `${d.batch} · Advisor: ${d.parentNode.name}` : d.batch;
+    hw.appendChild(sub);
+    head.appendChild(hw);
+    detail.appendChild(head);
+
+    const addLine = (text, cls) => {
+      if (!text) return;
+      const el = document.createElement('div');
+      el.className = cls || 'd-line';
+      el.textContent = text;
+      detail.appendChild(el);
+    };
+    addLine(d.affiliation ? (d.title ? `${d.title}, ${d.affiliation}` : d.affiliation) : null);
+    addLine(d.note);
+    addLine(d.bio, 'd-bio');
+    if (d.inMemoriam) addLine('In memoriam');
+
+    const badges = document.createElement('div');
+    badges.className = 'd-badges';
+    const addBadge = (text) => {
+      const b = document.createElement('span');
+      b.className = 'tt-badge';
+      b.textContent = text;
+      badges.appendChild(b);
+    };
+    if (d.educator) {
+      addBadge(d.children && d.children.length
+        ? `PROFESSOR · ${d.children.length} students on file`
+        : 'PROFESSOR · students via survey');
+    }
+    if (d.provisional) addBadge('PENDING SURVEY');
+    if (badges.childNodes.length) detail.appendChild(badges);
+
+    const upd = document.createElement('div');
+    upd.className = 'd-update';
+    const a = document.createElement('a');
+    a.href = 'survey.html';
+    a.textContent = `Is this you? Update your card →`;
+    upd.appendChild(a);
+    detail.appendChild(upd);
+
+    detail.style.display = 'block';
+    // pin near the click; the mobile media query turns it into a bottom sheet
+    if (matchMedia('(max-width: 700px)').matches) {
+      detail.style.left = detail.style.top = '';
+      detail.style.right = detail.style.bottom = '';
+    } else {
+      const r = detail.getBoundingClientRect();
+      let x = evt.clientX + 18, y = evt.clientY - 24;
+      if (x + r.width > innerWidth - 10) x = evt.clientX - r.width - 18;
+      x = Math.max(10, x);
+      y = Math.min(y, innerHeight - r.height - 10);
+      y = Math.max(10, y);
+      detail.style.left = x + 'px';
+      detail.style.top = y + 'px';
+      detail.style.right = 'auto';
+      detail.style.bottom = 'auto';
+    }
+  }
+
+  // on touch the tooltip stays after the tap; dismiss by tapping elsewhere
+  document.addEventListener('pointerdown', (e) => {
+    if (!e.target.closest('.person') && !e.target.closest('.ghostn')) {
+      hideTip();
+      if (!e.target.closest('#detail')) hideDetail();
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hideDetail();
+  });
+
+  // ---- branches: real children when the data has them, ghosts until then ---
+  const expanded = new Set();
+  const linkGen = d3.linkRadial().angle(d => d.a).radius(d => d.r);
+
+  // Fans that share a ring are laid out jointly: each wants to sit at its
+  // parent's angle; overlapping fans merge into a cluster that is packed
+  // side by side and centered to minimize total shift (axis-label dodging).
+  const FAN_MARGIN = 0.05;   // rad between adjacent fans on the same ring
+
+  function deoverlap(groups) {
+    groups.sort((a, b) => a.center - b.center);
+    const clusters = [];
+    const place = cl => {   // optimal start = mean(desired − in-cluster offset)
+      let off = 0, sum = 0;
+      cl.items.forEach(it => { sum += it.center - (off + it.w / 2); off += it.w; });
+      cl.start = sum / cl.items.length;
+      cl.start = Math.max(A0 + 0.01, Math.min(cl.start, A1 - 0.01 - cl.w));
+    };
+    groups.forEach(g => {
+      clusters.push({ items: [g], w: g.w });
+      place(clusters[clusters.length - 1]);
+      while (clusters.length > 1) {
+        const a = clusters[clusters.length - 2], b = clusters[clusters.length - 1];
+        if (a.start + a.w > b.start) {
+          a.items = a.items.concat(b.items);
+          a.w += b.w;
+          clusters.pop();
+          place(a);
+        } else break;
+      }
+    });
+    clusters.forEach(cl => {
+      let off = cl.start;
+      cl.items.forEach(g => { g.assigned = off + g.w / 2; off += g.w; });
+    });
+  }
+
+  function computeVisible() {
+    const nodes = [], links = [], ghosts = [], dimmed = new Set();
+    people.forEach(p => nodes.push(p));
+    let frontier = people.filter(p => p.educator && expanded.has(p.id));
+    let depth = 2;
+    while (frontier.length) {
+      const groups = frontier.map(p => {
+        if (p.children && p.children.length) {
+          const n = p.children.length;
+          const step = n > 1 ? Math.min(0.045, Math.max(0.02, 0.5 / n)) : 0;
+          return { parent: p, kind: 'kids', n, step,
+                   half: (n - 1) / 2 * step, center: p.angle,
+                   w: (n - 1) * step + FAN_MARGIN };
+        }
+        return { parent: p, kind: 'ghost', n: 3, step: 0.026,
+                 half: 0.026, center: p.angle, w: 0.052 + FAN_MARGIN };
+      });
+      deoverlap(groups);
+
+      const ring = nodes.filter(q => q.depth === depth - 1);
+      const nextFrontier = [];
+      groups.forEach(g => {
+        const p = g.parent;
+        const r = p.radius + R_GEN_STEP;
+        if (g.kind === 'kids') {
+          p.children.forEach((c, i) => {
+            c.angle = g.assigned + (i - (g.n - 1) / 2) * g.step;
+            c.radius = r;
+            c.chord = Math.max(9, (g.step || 0.03) * r);
+            initNode(c, p.depth + 1, p);
+            links.push({ source: p, target: c });
+            nodes.push(c);
+            if (c.educator && expanded.has(c.id)) nextFrontier.push(c);
+          });
+        } else {
+          [-1, 0, 1].forEach(k => ghosts.push({
+            id: p.id + ':ghost' + k, ghost: true, parent: p,
+            angle: g.assigned + k * 0.026, radius: r,
+            name: 'via survey', batch: 'Next generation',
+          }));
+        }
+        // clear the labels of the ring below wherever this fan covers them
+        ring.forEach(q => {
+          if (q !== p && Math.abs(q.angle - g.assigned) < g.half + 0.035) dimmed.add(q.id);
+        });
+      });
+      frontier = nextFrontier;
+      depth++;
+    }
+    return { nodes, links, ghosts, dimmed };
+  }
+
+  function buildNodes(enter) {
+    const g = enter.append('g')
+      .attr('class', 'person hitmark')
+      .attr('transform', d => `rotate(${rotDeg(d.angle)}) translate(${d.radius},0)`)
+      .attr('tabindex', 0)
+      .attr('role', d => d.educator ? 'button' : 'img')
+      .attr('aria-label', d => `${d.name}, ${d.batch}${d.affiliation ? ', ' + d.affiliation : ''}${d.educator ? '. Press Enter to open their branch.' : ''}`)
+      .style('cursor', d => d.educator ? 'pointer' : 'default');
+    g.filter(d => d.educator).append('circle')
+      .attr('class', 'eduring')
+      .attr('r', NODE_R_EDU + 3.5)
+      .style('fill', 'none')
+      .style('stroke', 'var(--edu-ring)')
+      .style('stroke-width', 2);
+    g.append('circle')
+      .attr('class', 'dot')
+      .attr('r', d => d.baseR)
+      // counter-rotate so portrait fills stay upright despite the radial rotate
+      .attr('transform', d => `rotate(${-rotDeg(d.angle)})`)
+      .style('fill', d => d.photo ? `url(#pat-${d.id})` : decVar(d))
+      .style('stroke', d => d.photo ? decVar(d) : 'none')
+      .style('stroke-width', d => d.photo ? 1.6 : 0);
+    g.filter(d => !d.photo).append('text')
+      .attr('class', 'p-initials')
+      .attr('text-anchor', 'middle').attr('dy', '0.34em')
+      .attr('transform', d => `rotate(${-rotDeg(d.angle)})`)
+      .style('font-size', '3.4px').style('opacity', 0)
+      .style('fill', d => `var(--dec-${DECADES.indexOf(d.decade)}-ink)`)
+      .style('pointer-events', 'none')
+      .text(d => d.name.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase());
+    g.append('text')
+      .attr('class', 'p-label')
+      .attr('x', d => isLeft(d.angle) ? -16 : 16)
+      .attr('dy', '0.32em')
+      .attr('text-anchor', d => isLeft(d.angle) ? 'end' : 'start')
+      .attr('transform', d => isLeft(d.angle) ? 'rotate(180)' : null)
+      .text(d => d.name + (d.inMemoriam ? ' †' : ''));
+    // hit area reaches outward over the first stretch of the name, but stops
+    // before the next ring (child dots sit at +R_GEN_STEP) to avoid capture
+    g.append('rect').attr('class', 'hit')
+      .attr('x', -20).attr('y', d => -d.chord / 2)
+      .attr('width', 80).attr('height', d => d.chord)
+      .style('fill', 'transparent').style('stroke', 'none');
+    g.on('pointerenter', (e, d) => showTip(d, e))
+      .on('pointermove', (e) => moveTip(e))
+      .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); })
+      .on('focus', (e, d) => {
+        // node's live screen position — correct under any zoom/pan transform
+        const r = e.currentTarget.getBoundingClientRect();
+        showTip(d, { clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 });
+      })
+      .on('blur', hideTip)
+      // click anyone -> detail card near the pointer; professors also toggle
+      .on('click', (e, d) => { hideTip(); showDetail(d, e); toggleBranch(d); })
+      .on('keydown', (e, d) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const r = e.currentTarget.getBoundingClientRect();
+          showDetail(d, { clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 });
+          toggleBranch(d);
+        }
+      });
+    return g;
+  }
+
+  function render() {
+    const v = computeVisible();
+    gLinks.selectAll('path.branch-link').data(v.links, l => l.target.id).join('path')
+      .attr('class', 'branch-link')
+      .attr('d', l => linkGen({
+        source: { a: l.source.angle, r: l.source.radius + l.source.baseR + 6 },
+        target: { a: l.target.angle, r: l.target.radius - l.target.baseR - 2 },
+      }));
+    gGhost.selectAll('path.ghost-link').data(v.ghosts, d => d.id).join('path')
+      .attr('class', 'ghost-link')
+      .attr('d', d => linkGen({
+        source: { a: d.parent.angle, r: d.parent.radius + 14 },
+        target: { a: d.angle, r: d.radius - 8 },
+      }));
+    const gn = gGhost.selectAll('g.ghostn').data(v.ghosts, d => d.id).join('g')
+      .attr('class', 'ghostn')
+      .attr('transform', d => `rotate(${rotDeg(d.angle)}) translate(${d.radius},0)`);
+    gn.selectAll('circle').data(d => [d]).join('circle')
+      .attr('class', 'ghost-node').attr('r', 6);
+    gn.on('pointerenter', (e, d) => showTip(d, e))
+      .on('pointermove', (e) => moveTip(e))
+      .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); });
+
+    node = gNodes.selectAll('g.person').data(v.nodes, d => d.id).join(buildNodes);
+    node.attr('aria-expanded', d => d.educator ? String(expanded.has(d.id)) : null)
+        .classed('wedge-dim', d => v.dimmed.has(d.id) && !expanded.has(d.id));
+    label = node.select('text.p-label');
+    initials = node.select('text.p-initials');
+  }
+
+  function toggleBranch(d) {
+    if (!d.educator) return;
+    if (expanded.has(d.id)) {
+      expanded.delete(d.id);
+      (function collapseKids(p) {
+        (p.children || []).forEach(c => { expanded.delete(c.id); collapseKids(c); });
+      })(d);
+    } else {
+      expanded.add(d.id);
+    }
+    render();
+  }
+  d3.select('#btnCollapse').on('click', () => { expanded.clear(); render(); });
+
+  render();
+
+  // ---- angular fisheye magnification on hover ------------------------------
+  const SIGMA = 0.075;          // ≈ 4.3°
+  const MAG = 1.9;              // extra scale at the pointer
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let targetA = null;
+  people.forEach(p => { p.s = 1; });
+
+  svg.on('pointermove.fisheye', (e) => {
+    const [mx, my] = d3.pointer(e, root.node());
+    const r = Math.hypot(mx, my);
+    if (r > 265 && r < VB + 140) {
+      let a = Math.atan2(mx, -my);
+      if (a < 0) a += 2 * Math.PI;
+      targetA = a;
+    } else targetA = null;
+  }).on('pointerleave.fisheye', () => { targetA = null; });
+
+  function tick() {
+    let dirty = false;
+    people.forEach(p => {
+      let t = 1;
+      if (targetA !== null) {
+        let d = Math.abs(p.angle - targetA);
+        d = Math.min(d, 2 * Math.PI - d);
+        t = 1 + MAG * Math.exp(-(d * d) / (SIGMA * SIGMA));
+      }
+      const next = reduceMotion ? t : p.s + (t - p.s) * 0.30;
+      if (Math.abs(next - p.s) > 0.004) { p.s = next; dirty = true; }
+      else if (p.s !== t && Math.abs(t - p.s) <= 0.004) { p.s = t; }
+    });
+    if (dirty) {
+      node.attr('transform', d =>
+        `rotate(${rotDeg(d.angle)}) translate(${d.radius + (d.s - 1) * 13},0)`);
+      node.select('circle.dot').attr('r', d => d.baseR * (0.75 + 0.25 * d.s));
+      node.select('circle.eduring').attr('r', d => (NODE_R_EDU + 3.5) * (0.8 + 0.2 * d.s));
+      initials
+        .style('opacity', d => Math.max(0, Math.min(1, (d.s - 1.45) / 0.5)))
+        .style('font-size', d => (3.4 * d.s) + 'px');
+      label
+        .style('font-size', d => Math.min(10.5 * (0.72 + 0.28 * d.s), d.maxFs) + 'px')
+        .style('font-weight', d => d.s > 1.7 ? 500 : 400)
+        .attr('x', d => (isLeft(d.angle) ? -1 : 1) * (16 + (d.s - 1) * 6));
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // ---- zoom / pan ----------------------------------------------------------
+  const zoom = d3.zoom().scaleExtent([0.5, 9])
+    // default clickDistance 0 makes any 1px jitter between mousedown/up eat
+    // the click as a "pan", so expanding a branch was nearly impossible
+    .clickDistance(8)
+    // wheel zoom needs ⌘/Ctrl (page scroll wins otherwise); one finger scrolls
+    // the page, two fingers pinch-zoom the chart; mouse drag pans as usual
+    .filter(e => {
+      if (e.type === 'wheel') return e.ctrlKey || e.metaKey;
+      if (e.touches) return e.touches.length > 1;
+      return !e.button;
+    })
+    .on('zoom', (e) => root.attr('transform', e.transform));
+  svg.call(zoom).on('dblclick.zoom', null);
+  d3.select('#btnResetZoom').on('click', () => {
+    if (reduceMotion) svg.call(zoom.transform, d3.zoomIdentity);
+    else svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity);
+  });
+
+  // ---- search --------------------------------------------------------------
+  const searchBox = document.getElementById('search');
+  const countEl = document.getElementById('searchCount');
+  function applySearch() {
+    const q = searchBox.value.trim().toLowerCase();
+    if (!q) {
+      node.classed('dimmed', false);
+      node.selectAll('circle.halo').remove();
+      countEl.textContent = '';
+      filterTable('');
+      return;
+    }
+    let n = 0;
+    node.classed('dimmed', d => {
+      const hit = d.name.toLowerCase().includes(q);
+      if (hit) n++;
+      return !hit;
+    });
+    node.selectAll('circle.halo').remove();
+    node.filter(d => d.name.toLowerCase().includes(q))
+      .insert('circle', ':first-child').attr('class', 'halo').attr('r', 14);
+    countEl.textContent = `${n} / ${N}`;
+    filterTable(q);
+  }
+  searchBox.addEventListener('input', applySearch);
+
+  // ---- table view (the accessible twin) -------------------------------------
+  const flatRows = [];
+  (function flat(list, gen, adv) {
+    list.forEach(p => {
+      flatRows.push({ p, gen, adv });
+      if (p.children && p.children.length) flat(p.children, gen + 1, p.name);
+    });
+  })(people, 1, 'Masayoshi Tomizuka');
+  const tableView = d3.select('#tableView');
+  const tbl = tableView.append('table');
+  tbl.append('thead').append('tr').selectAll('th')
+    .data(['Name', 'Gen', 'Cohort', 'Advisor', 'Now at', '']).join('th').text(d => d);
+  const tb = tbl.append('tbody');
+  const rows = tb.selectAll('tr').data(flatRows).join('tr');
+  rows.append('td').text(r => r.p.name + (r.p.inMemoriam ? ' †' : ''));
+  rows.append('td').text(r => 'G' + r.gen);
+  rows.append('td').text(r => r.p.batch);
+  rows.append('td').text(r => r.adv);
+  rows.append('td').text(r => r.p.affiliation ? (r.p.title ? `${r.p.affiliation} · ${r.p.title}` : r.p.affiliation) : (r.p.note || '— awaiting survey —'));
+  rows.append('td').html(r => r.p.educator ? '<span class="pill">PROFESSOR</span>' : '');
+
+  function filterTable(q) {
+    rows.style('display', r => !q || r.p.name.toLowerCase().includes(q) ? null : 'none');
+  }
+
+  const chartEl = document.getElementById('chart');
+  const tblEl = document.getElementById('tableView');
+  const btnTree = document.getElementById('btnTree');
+  const btnTable = document.getElementById('btnTable');
+  function setView(mode) {
+    const tree = mode === 'tree';
+    chartEl.style.display = tree ? 'block' : 'none';
+    tblEl.style.display = tree ? 'none' : 'block';
+    btnTree.classList.toggle('on', tree);
+    btnTable.classList.toggle('on', !tree);
+    btnTree.setAttribute('aria-selected', tree);
+    btnTable.setAttribute('aria-selected', !tree);
+  }
+  btnTree.addEventListener('click', () => setView('tree'));
+  btnTable.addEventListener('click', () => setView('table'));
+
+  document.title = `Tomizuka Academic Family Tree · ${N} scholars`;
+})();
+</script>
+</body>
+</html>
