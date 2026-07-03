@@ -2575,11 +2575,12 @@ window.TREE_DATA = {
    "year": 2021,
    "decade": "2020s",
    "educator": true,
-   "affiliation": "UC Riverside",
+   "affiliation": "Georgia Institute of Technology (Georgia Tech)",
    "title": "Assistant Professor",
    "inMemoriam": false,
    "photo": "photos/li-jiachen.jpg",
-   "children": []
+   "children": [],
+   "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford."
   },
   {
    "id": "fahandezhsaadi-saman",
