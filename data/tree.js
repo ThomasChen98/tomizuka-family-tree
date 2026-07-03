@@ -3083,7 +3083,8 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/chen-yuxin.jpg",
-   "children": []
+   "children": [],
+   "bio": "I'm from Shanghai, China. I love Robotics!"
   }
  ]
 };
