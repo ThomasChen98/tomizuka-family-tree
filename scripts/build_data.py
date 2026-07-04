@@ -187,11 +187,12 @@ def merge_survey(tree, path):
             title_in = (r.get('title') or '').strip()
             if aff_in:
                 me['affiliation'] = aff_in
+                me['note'] = None   # structured affiliation supersedes freetext
             if title_in:
                 me['title'] = title_in
             if (r.get('bio') or '').strip():
                 me['bio'] = r['bio'].strip()
-            if (r.get('note') or '').strip():
+            if (r.get('note') or '').strip() and not aff_in:
                 me['note'] = r['note'].strip()
             if year:                            # e.g. a current student graduated
                 me['year'] = year
@@ -227,7 +228,8 @@ def merge_survey(tree, path):
             'inMemoriam': (r.get('in_memoriam') or '').strip().lower() in ('true', 'yes', 'y', '1'),
             'photo': f'photos/{pid}.jpg' if os.path.exists(f'photos/{pid}.jpg') else None,
             'bio': (r.get('bio') or '').strip() or None,
-            'note': (r.get('note') or '').strip() or None,
+            'note': (None if (r.get('affiliation') or '').strip()
+                     else (r.get('note') or '').strip() or None),
             'provisional': provisional,
             'children': [],
         }

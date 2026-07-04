@@ -373,7 +373,7 @@ window.TREE_DATA = {
    "inMemoriam": true,
    "photo": "photos/huei-peng.jpg",
    "bio": null,
-   "note": "Mcity Director 2016–2021 · in memoriam 2022",
+   "note": null,
    "provisional": true,
    "children": []
   },
@@ -1322,7 +1322,7 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": null,
      "bio": null,
-     "note": "now at Yeungnam University",
+     "note": null,
      "provisional": true,
      "children": []
     },
@@ -1373,7 +1373,7 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": null,
      "bio": null,
-     "note": "now at Sangmyung University",
+     "note": null,
      "provisional": true,
      "children": []
     },
@@ -2699,8 +2699,8 @@ window.TREE_DATA = {
    "inMemoriam": false,
    "photo": "photos/li-jiachen.jpg",
    "children": [],
-   "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford.",
-   "note": "Assistant Professor at Georgia Tech"
+   "note": null,
+   "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford."
   },
   {
    "id": "fahandezhsaadi-saman",
@@ -3177,7 +3177,7 @@ window.TREE_DATA = {
    "inMemoriam": false,
    "photo": null,
    "bio": null,
-   "note": "entered Fall 2024",
+   "note": null,
    "provisional": true,
    "children": []
   },
