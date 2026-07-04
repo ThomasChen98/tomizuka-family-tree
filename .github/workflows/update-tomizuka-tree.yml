@@ -2,14 +2,25 @@ name: Update Tomizuka family tree
 
 on:
   schedule:
-    - cron: '17 */6 * * *'   # every 6 hours
+    - cron: '*/10 * * * *'   # every 10 minutes (GitHub may add a few minutes of jitter)
   workflow_dispatch: {}       # manual "refresh now" button
+  push:
+    branches: [gh-pages]      # code pushes deploy too
+
+concurrency:
+  group: tree-update
+  cancel-in-progress: false
 
 jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
       # Google Apps Script web-app URL — GET returns responses as CSV (no emails)
       SURVEY_CSV_URL: 'https://script.google.com/macros/s/AKfycbynzOtTM7IpW38e0ygxmRwPTsQesQJqwQx7i6vpFMXPo9cfgyoBCAocYyIWSEU5at89/exec'
@@ -52,8 +63,24 @@ jobs:
           git add data/tree.js photos
           git add data/needs-review.md 2>/dev/null || true
           if git diff --cached --quiet; then
-            echo "No changes."
+            echo "No data changes."
           else
             git commit -m "Auto-update family tree data"
             git push
           fi
+
+      # GITHUB_TOKEN pushes do NOT trigger the branch-based Pages build,
+      # so this workflow deploys the site itself (Pages source: GitHub Actions).
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
