@@ -148,6 +148,8 @@ def decade_bin(kind, year):
 
 def norm_name(s):
     s = unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode().lower()
+    # people write advisors as "Prof. X", "Professor X", "Dr. X" — drop honorifics
+    s = re.sub(r'\b(professor|prof|dr|mr|mrs|ms)\.?\s+', ' ', s)
     return re.sub(r'[^a-z]', '', s)
 
 
@@ -194,7 +196,9 @@ def merge_survey(tree, path):
                 me['bio'] = r['bio'].strip()
             if (r.get('note') or '').strip() and not aff_in:
                 me['note'] = r['note'].strip()
-            if year:                            # e.g. a current student graduated
+            # a year only counts as graduation when status isn't "current" —
+            # current students often write their EXPECTED graduation year
+            if year and not current:
                 me['year'] = year
                 me['kind'] = 'phd'
                 me['batch'] = f'PhD {year}'
@@ -220,7 +224,7 @@ def merge_survey(tree, path):
             'name': name,
             'batch': f'PhD {year}' if not current else 'PhD Candidate',
             'kind': kind,
-            'year': year,
+            'year': year if not current else None,   # expected years don't sort
             'decade': decade_bin(kind, year) if not current else 'Current',
             'educator': is_prof,
             'affiliation': (r.get('affiliation') or '').strip() or None,
@@ -245,6 +249,8 @@ def merge_survey(tree, path):
             for r in unmatched:
                 f.write(f"- {r.get('name')} (advisor given: {r.get('advisor')!r})\n")
         print(f'WARNING {len(unmatched)} unmatched rows -> data/needs-review.md', file=sys.stderr)
+    elif os.path.exists('data/needs-review.md'):
+        os.remove('data/needs-review.md')
 
 
 def _walk_children(node):
