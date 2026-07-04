@@ -196,6 +196,9 @@ def merge_survey(tree, path):
                 me['bio'] = r['bio'].strip()
             if (r.get('note') or '').strip() and not aff_in:
                 me['note'] = r['note'].strip()
+            hp = (r.get('homepage') or '').strip()
+            if hp.lower().startswith('http'):
+                me['homepage'] = hp
             # a year only counts as graduation when status isn't "current" —
             # current students often write their EXPECTED graduation year
             if year and not current:
@@ -234,6 +237,9 @@ def merge_survey(tree, path):
             'bio': (r.get('bio') or '').strip() or None,
             'note': (None if (r.get('affiliation') or '').strip()
                      else (r.get('note') or '').strip() or None),
+            'homepage': ((r.get('homepage') or '').strip()
+                         if (r.get('homepage') or '').strip().lower().startswith('http')
+                         else None),
             'provisional': provisional,
             'children': [],
         }

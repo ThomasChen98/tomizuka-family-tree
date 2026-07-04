@@ -650,6 +650,17 @@ function initTree() {
     };
     addLine(d.affiliation ? (d.title ? `${d.title}, ${d.affiliation}` : d.affiliation) : null);
     if (!sameText(d.note, d.affiliation)) addLine(d.note);
+    if (d.homepage && /^https?:\/\//i.test(d.homepage)) {
+      const hl = document.createElement('div');
+      hl.className = 'd-line';
+      const a = document.createElement('a');
+      a.href = d.homepage;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = 'Personal homepage ↗';
+      hl.appendChild(a);
+      detail.appendChild(hl);
+    }
     addLine(d.bio, 'd-bio');
     if (d.inMemoriam) addLine('In memoriam');
 
