@@ -136,7 +136,11 @@
 
   #chart { width: 100%; }
   #chart svg { width: 100%; height: auto; display: block; cursor: default; }
-  .spoke { stroke: var(--grid); stroke-width: 0.7; }
+  .spoke { stroke: var(--grid); stroke-width: 0.7; transition: stroke .15s, stroke-width .15s; }
+  .spoke.hot { stroke: var(--accent); stroke-width: 1.6; }
+  .seg-g { transition: transform .18s ease-out; }
+  .seg-g.active { transform: scale(1.07); }
+  .seg-g.active .arc-label { font-weight: 600; }
   .p-label {
     font-family: 'Inter', system-ui, sans-serif; font-size: 10.5px; font-weight: 400;
     fill: var(--ink-2); paint-order: stroke; stroke: var(--surface); stroke-width: 2.5px;
@@ -426,13 +430,18 @@ function initTree() {
   });
   const arc = d3.arc().innerRadius(R_BAND_IN).outerRadius(R_BAND_OUT)
     .cornerRadius(4).padAngle(2 / R_BAND_IN);
-  gBand.selectAll('path.seg').data(segs).join('path')
+  // one group per decade segment so the whole thing (arc + curved label) can
+  // scale up when the pointer sweeps over that part of the ring
+  const segG = gBand.selectAll('g.seg-g').data(segs).join('g').attr('class', 'seg-g');
+  segG.append('path')
+    .attr('class', 'seg')
     .attr('d', d => arc({ startAngle: d.a0, endAngle: d.a1 }))
     .style('fill', d => `var(--dec-${d.i})`);
 
   // curved decade labels (flip on the bottom half so text stays upright)
   const rMid = (R_BAND_IN + R_BAND_OUT) / 2;
-  segs.forEach(s => {
+  segG.each(function (s) {
+    const g = d3.select(this);
     const mid = (s.a0 + s.a1) / 2;
     const flip = mid > Math.PI / 2 && mid < 3 * Math.PI / 2;
     const pad = 0.015;
@@ -441,11 +450,11 @@ function initTree() {
     const [x0, y0] = pos(a, rMid), [x1, y1] = pos(b, rMid);
     const sweep = flip ? 0 : 1;
     const large = Math.abs(b - a) > Math.PI ? 1 : 0;
-    gBand.append('path')
+    g.append('path')
       .attr('id', `seglab-${s.i}`)
       .attr('d', `M${x0},${y0} A${rMid},${rMid} 0 ${large} ${sweep} ${x1},${y1}`)
       .attr('fill', 'none');
-    gBand.append('text').attr('class', 'arc-label')
+    g.append('text').attr('class', 'arc-label')
       .attr('dy', '0.36em')
       .append('textPath')
       .attr('href', `#seglab-${s.i}`)
@@ -458,7 +467,7 @@ function initTree() {
   });
 
   // ---- spokes --------------------------------------------------------------
-  gSpokes.selectAll('line').data(people).join('line')
+  const spokes = gSpokes.selectAll('line').data(people).join('line')
     .attr('class', 'spoke')
     .attr('x1', d => pos(d.angle, R_SPOKE_IN)[0]).attr('y1', d => pos(d.angle, R_SPOKE_IN)[1])
     .attr('x2', d => pos(d.angle, R_GEN1 - 12)[0]).attr('y2', d => pos(d.angle, R_GEN1 - 12)[1]);
@@ -938,6 +947,16 @@ function initTree() {
         .style('font-size', d => Math.min(10.5 * (0.72 + 0.28 * d.s), d.maxFs) + 'px')
         .style('font-weight', d => d.s > 1.7 ? 500 : 400)
         .attr('x', d => (isLeft(d.angle) ? -1 : 1) * (16 + (d.s - 1) * 6));
+      // light up the decade segment under the pointer and the hot spokes,
+      // so eye-tracking a dot back to its era doesn't rely on the thin lines
+      let act = null;
+      if (targetA !== null) {
+        for (const sg of segs) {
+          if (targetA >= sg.a0 && targetA <= sg.a1) { act = sg; break; }
+        }
+      }
+      segG.classed('active', d => d === act);
+      spokes.classed('hot', d => d.s > 1.55);
     }
     requestAnimationFrame(tick);
   }

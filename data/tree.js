@@ -2694,12 +2694,11 @@ window.TREE_DATA = {
    "year": 2021,
    "decade": "2020s",
    "educator": true,
-   "affiliation": "Georgia Institute of Technology (Georgia Tech)",
+   "affiliation": "UC Riverside",
    "title": "Assistant Professor",
    "inMemoriam": false,
    "photo": "photos/li-jiachen.jpg",
-   "children": [],
-   "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford."
+   "children": []
   },
   {
    "id": "fahandezhsaadi-saman",
@@ -3010,6 +3009,76 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "wang-jen-wei",
+   "name": "Jen-Wei Wang",
+   "batch": "PhD 2026",
+   "kind": "phd",
+   "year": 2026,
+   "decade": "2020s",
+   "educator": false,
+   "affiliation": "UC Berkeley",
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/wang-jen-wei.jpg",
+   "children": []
+  },
+  {
+   "id": "kobashi-keita",
+   "name": "Keita Kobashi",
+   "batch": "PhD 2026",
+   "kind": "phd",
+   "year": 2026,
+   "decade": "2020s",
+   "educator": false,
+   "affiliation": "UC Berkeley",
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/kobashi-keita.jpg",
+   "children": []
+  },
+  {
+   "id": "chang-wei-jer",
+   "name": "Wei-Jer Chang",
+   "batch": "PhD 2026",
+   "kind": "phd",
+   "year": 2026,
+   "decade": "2020s",
+   "educator": false,
+   "affiliation": "UC Berkeley",
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/chang-wei-jer.jpg",
+   "children": []
+  },
+  {
+   "id": "xie-yichen",
+   "name": "Yichen Xie",
+   "batch": "PhD 2026",
+   "kind": "phd",
+   "year": 2026,
+   "decade": "2020s",
+   "educator": false,
+   "affiliation": "UC Berkeley",
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/xie-yichen.jpg",
+   "children": []
+  },
+  {
+   "id": "li-yiheng",
+   "name": "Yiheng Li",
+   "batch": "PhD 2026",
+   "kind": "phd",
+   "year": 2026,
+   "decade": "2020s",
+   "educator": false,
+   "affiliation": "UC Berkeley",
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/li-yiheng.jpg",
+   "children": []
+  },
+  {
    "id": "liang-boyuan",
    "name": "Boyuan Liang",
    "batch": "PhD Candidate",
@@ -3038,20 +3107,6 @@ window.TREE_DATA = {
    "children": []
   },
   {
-   "id": "wang-jen-wei",
-   "name": "Jen-Wei Wang",
-   "batch": "PhD Candidate",
-   "kind": "current",
-   "year": null,
-   "decade": "Current",
-   "educator": false,
-   "affiliation": "UC Berkeley",
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/wang-jen-wei.jpg",
-   "children": []
-  },
-  {
    "id": "viljoen-john",
    "name": "John Viljoen",
    "batch": "PhD Candidate",
@@ -3063,20 +3118,6 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/viljoen-john.jpg",
-   "children": []
-  },
-  {
-   "id": "kobashi-keita",
-   "name": "Keita Kobashi",
-   "batch": "PhD Candidate",
-   "kind": "current",
-   "year": null,
-   "decade": "Current",
-   "educator": false,
-   "affiliation": "UC Berkeley",
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/kobashi-keita.jpg",
    "children": []
   },
   {
@@ -3122,20 +3163,6 @@ window.TREE_DATA = {
    "children": []
   },
   {
-   "id": "chang-wei-jer",
-   "name": "Wei-Jer Chang",
-   "batch": "PhD Candidate",
-   "kind": "current",
-   "year": null,
-   "decade": "Current",
-   "educator": false,
-   "affiliation": "UC Berkeley",
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/chang-wei-jer.jpg",
-   "children": []
-  },
-  {
    "id": "wenjie-li",
    "name": "Wenjie Li",
    "batch": "PhD Candidate",
@@ -3150,34 +3177,6 @@ window.TREE_DATA = {
    "bio": null,
    "note": "entered Fall 2024",
    "provisional": true,
-   "children": []
-  },
-  {
-   "id": "xie-yichen",
-   "name": "Yichen Xie",
-   "batch": "PhD Candidate",
-   "kind": "current",
-   "year": null,
-   "decade": "Current",
-   "educator": false,
-   "affiliation": "UC Berkeley",
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/xie-yichen.jpg",
-   "children": []
-  },
-  {
-   "id": "li-yiheng",
-   "name": "Yiheng Li",
-   "batch": "PhD Candidate",
-   "kind": "current",
-   "year": null,
-   "decade": "Current",
-   "educator": false,
-   "affiliation": "UC Berkeley",
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/li-yiheng.jpg",
    "children": []
   },
   {
@@ -3220,8 +3219,7 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/chen-yuxin.jpg",
-   "children": [],
-   "bio": "I'm from Shanghai, China. I love Robotics!"
+   "children": []
   }
  ]
 };

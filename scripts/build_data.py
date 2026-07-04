@@ -188,6 +188,13 @@ def merge_survey(tree, path):
                 me['title'] = (r.get('title') or '').strip() or me.get('title')
             if (r.get('bio') or '').strip():
                 me['bio'] = r['bio'].strip()
+            if (r.get('note') or '').strip():
+                me['note'] = r['note'].strip()
+            if year:                            # e.g. a current student graduated
+                me['year'] = year
+                me['kind'] = 'phd'
+                me['batch'] = f'PhD {year}'
+                me['decade'] = decade_bin('phd', year)
             continue
 
         parent = by_name.get(norm_name(r.get('advisor') or ''))
