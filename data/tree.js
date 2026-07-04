@@ -2788,6 +2788,24 @@ window.TREE_DATA = {
      "children": []
     },
     {
+     "id": "mingxuan-yan",
+     "name": "Mingxuan Yan",
+     "batch": "PhD Candidate",
+     "kind": "current",
+     "year": null,
+     "decade": "Current",
+     "educator": false,
+     "affiliation": null,
+     "title": null,
+     "inMemoriam": false,
+     "photo": null,
+     "bio": "I am Mingxuan Yan (pron: Ming-shwen Yen), a second-year PhD student. I am currently a member of GT TASL Lab under the supervision of Prof. Jiachen Li.",
+     "note": "PhD student, GT TASL Lab",
+     "homepage": null,
+     "provisional": false,
+     "children": []
+    },
+    {
      "id": "xiaopan-zhang",
      "name": "Xiaopan Zhang",
      "batch": "PhD Candidate",
