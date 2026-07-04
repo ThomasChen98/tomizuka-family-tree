@@ -2357,10 +2357,10 @@ window.TREE_DATA = {
      "affiliation": null,
      "title": null,
      "inMemoriam": false,
-     "photo": null,
+     "photo": "photos/abulikemu-abuduweili.jpg",
      "bio": null,
-     "note": "now at Apple",
-     "homepage": null,
+     "note": "Research Scientist at Apple",
+     "homepage": "https://walleclipse.github.io/",
      "provisional": true,
      "children": []
     },
