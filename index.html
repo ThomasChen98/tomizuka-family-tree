@@ -10,6 +10,7 @@
 <style>
   :root {
     --series1:     #2a78d6;
+    --cat1: #2a78d6; --cat2: #1baf7a; --cat3: #eda100; --cat4: #008300; --cat5: #4a3aa7;
     --page:        #f9f8f6;
     --surface:     #fcfcfb;
     --ink:         #0b0b0b;
@@ -32,6 +33,7 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --series1:     #3987e5;
+      --cat1: #3987e5; --cat2: #199e70; --cat3: #c98500; --cat4: #008300; --cat5: #9085e9;
       --page:        #0d0d0d;
       --surface:     #1a1a19;
       --ink:         #ffffff;
@@ -241,7 +243,13 @@
     background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
     padding: 16px 18px 10px;
   }
-  .chart-card h3 { margin: 0 0 8px; font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .chart-card h3 { margin: 0; font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .chart-card .chead {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 6px; margin-bottom: 8px;
+  }
+  .clegend { display: flex; gap: 12px; font-size: 11.5px; color: var(--ink-2); }
+  .clegend .sw { width: 11px; height: 11px; border-radius: 3px; }
   .chart-card svg { width: 100%; height: auto; display: block; }
   .chart-card .axis-text { fill: var(--muted); font-size: 10px; }
   .chart-card .gridline { stroke: var(--grid); stroke-width: 1; }
@@ -335,11 +343,17 @@
 
   <div class="charts">
     <div class="chart-card">
-      <h3>PhD graduates per five years</h3>
+      <div class="chead">
+        <h3>PhD graduates per five years</h3>
+        <div class="clegend" id="legendBars"></div>
+      </div>
       <div id="chartBars"></div>
     </div>
     <div class="chart-card">
-      <h3>The family over time — cumulative PhDs</h3>
+      <div class="chead">
+        <h3>The family over time — cumulative PhDs</h3>
+        <div class="clegend" id="legendCum"></div>
+      </div>
       <div id="chartCum"></div>
     </div>
   </div>
@@ -422,6 +436,7 @@ function initTree() {
   (function cnt(list, g) {
     list.forEach(p => {
       allNodes.push(p);
+      p.gen = g;
       maxGen = Math.max(maxGen, g);
       if (p.children && p.children.length) { nDesc += p.children.length; cnt(p.children, g + 1); }
     });
@@ -1293,23 +1308,39 @@ function initTree() {
       .on('click', (e, d) => showDetail(d.data, e));
   }
 
-  // ---- analytics: five-year histogram + cumulative growth ------------------
+  // ---- analytics: generation-stacked histogram + cumulative growth --------
   function buildCharts() {
-    const grads = allNodes.filter(p => p.year).map(p => p.year).sort((a, b) => a - b);
+    const color = g => `var(--cat${Math.min(g, 5)})`;
+    const genLabel = g => g >= 5 ? 'Gen 5+' : 'Gen ' + g;
+    const grads = allNodes.filter(p => p.year)
+      .map(p => ({ year: p.year, g: Math.min(p.gen, 5) }));
     if (!grads.length) return;
-    const bin0 = Math.floor(grads[0] / 5) * 5;
-    const binN = Math.floor(grads[grads.length - 1] / 5) * 5;
-    const bins = [];
-    for (let b = bin0; b <= binN; b += 5) {
-      bins.push({ b, n: grads.filter(y => y >= b && y < b + 5).length });
-    }
+    const gens = [...new Set(grads.map(d => d.g))].sort((a, b) => a - b);
+    const y0 = Math.min(...grads.map(d => d.year));
+    const y1 = Math.max(...grads.map(d => d.year));
     const W = 540, H = 220, M = { t: 16, r: 8, b: 24, l: 30 };
-    const maxN = Math.max(...bins.map(d => d.n));
 
-    // -- bars
+    // legends (identity is never color-alone)
+    ['#legendBars', '#legendCum'].forEach(sel => {
+      const lg = d3.select(sel);
+      gens.forEach(g => {
+        const it = lg.append('span').attr('class', 'lg');
+        it.append('span').attr('class', 'sw').style('background', color(g));
+        it.append('span').text(genLabel(g));
+      });
+    });
+
+    // -- stacked bars: PhDs per 5-year bin, one layer per generation
+    const bins = [];
+    for (let b = Math.floor(y0 / 5) * 5; b <= Math.floor(y1 / 5) * 5; b += 5) {
+      const counts = gens.map(g =>
+        grads.filter(d => d.g === g && d.year >= b && d.year < b + 5).length);
+      bins.push({ b, counts, total: counts.reduce((a, c) => a + c, 0) });
+    }
+    const maxT = Math.max(...bins.map(d => d.total));
     const sb = d3.select('#chartBars').append('svg').attr('viewBox', [0, 0, W, H]);
     const x = d3.scaleBand().domain(bins.map(d => d.b)).range([M.l, W - M.r]).padding(0.32);
-    const y = d3.scaleLinear().domain([0, maxN]).nice().range([H - M.b, M.t]);
+    const y = d3.scaleLinear().domain([0, maxT]).nice().range([H - M.b, M.t]);
     y.ticks(4).forEach(t => {
       if (t === 0) return;
       sb.append('line').attr('class', 'gridline')
@@ -1318,26 +1349,39 @@ function initTree() {
         .attr('x', M.l - 5).attr('y', y(t) + 3).attr('text-anchor', 'end').text(t);
     });
     bins.forEach((d, i) => {
-      const bx = x(d.b), bw = x.bandwidth(), by = y(d.n), bh = H - M.b - by;
-      if (d.n > 0) {
-        sb.append('path')
-          .attr('d', `M${bx},${H - M.b} V${by + 4} Q${bx},${by} ${bx + 4},${by} H${bx + bw - 4} Q${bx + bw},${by} ${bx + bw},${by + 4} V${H - M.b} Z`)
-          .style('fill', 'var(--series1)');
-      }
+      const bx = x(d.b), bw = x.bandwidth();
+      let acc = 0;
+      d.counts.forEach((n, gi) => {
+        if (!n) { return; }
+        const yTop = y(acc + n), yBot = y(acc);
+        if (acc + n === d.total) {   // top layer gets the rounded data-end
+          sb.append('path')
+            .attr('d', `M${bx},${yBot} V${yTop + 4} Q${bx},${yTop} ${bx + 4},${yTop} H${bx + bw - 4} Q${bx + bw},${yTop} ${bx + bw},${yTop + 4} V${yBot} Z`)
+            .style('fill', color(gens[gi]));
+        } else {                     // 2px surface gap between stacked layers
+          sb.append('rect')
+            .attr('x', bx).attr('y', yTop + 2).attr('width', bw)
+            .attr('height', Math.max(0.5, yBot - yTop - 2))
+            .style('fill', color(gens[gi]));
+        }
+        acc += n;
+      });
       if (i % 2 === 0) {
         sb.append('text').attr('class', 'axis-text')
           .attr('x', bx + bw / 2).attr('y', H - M.b + 14).attr('text-anchor', 'middle')
           .text(d.b);
       }
-      if (d.n === maxN) {
+      if (d.total === maxT) {
         sb.append('text').attr('class', 'axis-text')
-          .attr('x', bx + bw / 2).attr('y', by - 5).attr('text-anchor', 'middle')
-          .style('fill', 'var(--ink-2)').text(d.n);
+          .attr('x', bx + bw / 2).attr('y', y(d.total) - 5).attr('text-anchor', 'middle')
+          .style('fill', 'var(--ink-2)').text(d.total);
       }
-      sb.append('rect')   // generous hit target per bin
+      sb.append('rect')   // generous hit target per bin, tooltip lists every layer
         .attr('x', bx - 2).attr('y', M.t).attr('width', bw + 4).attr('height', H - M.t - M.b)
         .style('fill', 'transparent')
-        .on('pointerenter', (e) => showTipLines([`${d.n} PhDs`, `${d.b}–${d.b + 4}`], e))
+        .on('pointerenter', (e) => showTipLines(
+          [`${d.total} PhDs`, `${d.b}–${d.b + 4}`,
+           ...gens.map((g, gi) => `${genLabel(g)}: ${d.counts[gi]}`)], e))
         .on('pointermove', (e) => moveTip(e))
         .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); });
     });
@@ -1345,17 +1389,22 @@ function initTree() {
       .attr('x1', M.l).attr('x2', W - M.r).attr('y1', H - M.b).attr('y2', H - M.b)
       .style('stroke', 'var(--baseline)');
 
-    // -- cumulative line
+    // -- cumulative growth: stacked areas, one layer per generation
     const cum = [];
-    let c = 0;
-    const byYear = d3.rollup(grads, v => v.length, y2 => y2);
-    for (let yr = grads[0]; yr <= grads[grads.length - 1]; yr++) {
-      c += byYear.get(yr) || 0;
-      cum.push({ yr, c });
+    const running = gens.map(() => 0);
+    for (let yr = y0; yr <= y1; yr++) {
+      gens.forEach((g, gi) => {
+        running[gi] += grads.filter(d => d.g === g && d.year === yr).length;
+      });
+      const tops = [];
+      let acc = 0;
+      running.forEach(v => { acc += v; tops.push(acc); });
+      cum.push({ yr, tops, total: acc });
     }
+    const total = cum[cum.length - 1].total;
     const sc = d3.select('#chartCum').append('svg').attr('viewBox', [0, 0, W, H]);
-    const x2 = d3.scaleLinear().domain([cum[0].yr, cum[cum.length - 1].yr]).range([M.l, W - M.r]);
-    const y2s = d3.scaleLinear().domain([0, c]).nice().range([H - M.b, M.t]);
+    const x2 = d3.scaleLinear().domain([y0, y1]).range([M.l, W - M.r]);
+    const y2s = d3.scaleLinear().domain([0, total]).nice().range([H - M.b, M.t]);
     y2s.ticks(4).forEach(t => {
       if (t === 0) return;
       sc.append('line').attr('class', 'gridline')
@@ -1370,9 +1419,17 @@ function initTree() {
     sc.append('line').attr('class', 'gridline')
       .attr('x1', M.l).attr('x2', W - M.r).attr('y1', H - M.b).attr('y2', H - M.b)
       .style('stroke', 'var(--baseline)');
-    sc.append('path')
-      .attr('d', d3.line().x(d => x2(d.yr)).y(d => y2s(d.c))(cum))
-      .style('fill', 'none').style('stroke', 'var(--series1)').style('stroke-width', 2);
+    gens.forEach((g, gi) => {
+      const area = d3.area()
+        .x(d => x2(d.yr))
+        .y0(d => y2s(gi === 0 ? 0 : d.tops[gi - 1]))
+        .y1(d => y2s(d.tops[gi]));
+      sc.append('path').attr('d', area(cum))
+        .style('fill', color(g)).style('opacity', 0.55);
+      sc.append('path')
+        .attr('d', d3.line().x(d => x2(d.yr)).y(d => y2s(d.tops[gi]))(cum))
+        .style('fill', 'none').style('stroke', color(g)).style('stroke-width', 2);
+    });
     const cross = sc.append('line').attr('class', 'cross').style('display', 'none');
     const dot = sc.append('circle').attr('r', 3.5)
       .style('fill', 'var(--series1)').style('stroke', 'var(--surface)')
@@ -1383,11 +1440,13 @@ function initTree() {
       .on('pointermove', (e) => {
         const [mx] = d3.pointer(e);
         const yr = Math.round(x2.invert(mx));
-        const d = cum[Math.max(0, Math.min(cum.length - 1, yr - cum[0].yr))];
+        const d = cum[Math.max(0, Math.min(cum.length - 1, yr - y0))];
         cross.attr('x1', x2(d.yr)).attr('x2', x2(d.yr))
           .attr('y1', M.t).attr('y2', H - M.b).style('display', null);
-        dot.attr('cx', x2(d.yr)).attr('cy', y2s(d.c)).style('display', null);
-        showTipLines([`${d.c} PhDs`, `by ${d.yr}`], e);
+        dot.attr('cx', x2(d.yr)).attr('cy', y2s(d.total)).style('display', null);
+        showTipLines(
+          [`${d.total} PhDs`, `by ${d.yr}`,
+           ...gens.map((g, gi) => `${genLabel(g)}: ${gi === 0 ? d.tops[0] : d.tops[gi] - d.tops[gi - 1]}`)], e);
       })
       .on('pointerleave', (e) => {
         cross.style('display', 'none');
