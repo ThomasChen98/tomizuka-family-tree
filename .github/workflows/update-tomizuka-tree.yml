@@ -23,7 +23,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       # Google Apps Script web-app URL — GET returns responses as CSV (no emails)
-      SURVEY_CSV_URL: 'https://script.google.com/macros/s/AKfycbynzOtTM7IpW38e0ygxmRwPTsQesQJqwQx7i6vpFMXPo9cfgyoBCAocYyIWSEU5at89/exec'
+      SURVEY_CSV_URL: 'https://script.google.com/macros/s/AKfycbySDN3D1KwLilKY6UTPxc7KcDDij6wzHmeQYr9fndSeOjLvgBc96P5PGOs7sYaomVM/exec'
     steps:
       - uses: actions/checkout@v4
 
