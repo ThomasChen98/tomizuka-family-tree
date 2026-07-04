@@ -530,6 +530,8 @@ function initTree() {
 
   // ---- tooltip -------------------------------------------------------------
   const tt = document.getElementById('tooltip');
+  const sameText = (a, b) =>
+    (a || '').trim().toLowerCase() === (b || '').trim().toLowerCase();
   function showTip(d, evt) {
     tt.textContent = '';
     if (d.photo) {
@@ -550,7 +552,7 @@ function initTree() {
       : null;   // gen-1 are all MSC Lab — saying so on every card is noise
     l1.textContent = ctx ? d.batch + ' · ' + ctx : d.batch;
     tt.appendChild(l1);
-    if (d.note) {
+    if (d.note && !sameText(d.note, d.affiliation)) {
       const ln = document.createElement('div');
       ln.textContent = d.note;
       tt.appendChild(ln);
@@ -647,7 +649,7 @@ function initTree() {
       detail.appendChild(el);
     };
     addLine(d.affiliation ? (d.title ? `${d.title}, ${d.affiliation}` : d.affiliation) : null);
-    addLine(d.note);
+    if (!sameText(d.note, d.affiliation)) addLine(d.note);
     addLine(d.bio, 'd-bio');
     if (d.inMemoriam) addLine('In memoriam');
 

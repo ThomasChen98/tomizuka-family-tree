@@ -183,9 +183,12 @@ def merge_survey(tree, path):
         if me is not None:                      # update an existing card
             if is_prof and not me.get('educator'):
                 me['educator'] = True
-            if is_prof:
-                me['affiliation'] = (r.get('affiliation') or '').strip() or me.get('affiliation')
-                me['title'] = (r.get('title') or '').strip() or me.get('title')
+            aff_in = (r.get('affiliation') or '').strip()
+            title_in = (r.get('title') or '').strip()
+            if aff_in:
+                me['affiliation'] = aff_in
+            if title_in:
+                me['title'] = title_in
             if (r.get('bio') or '').strip():
                 me['bio'] = r['bio'].strip()
             if (r.get('note') or '').strip():
@@ -195,6 +198,11 @@ def merge_survey(tree, path):
                 me['kind'] = 'phd'
                 me['batch'] = f'PhD {year}'
                 me['decade'] = decade_bin('phd', year)
+                # graduating drops the automatic "UC Berkeley" (current-student)
+                # tag unless the row supplied a real affiliation
+                if (not aff_in and me.get('affiliation') == 'UC Berkeley'
+                        and not me.get('title') and not me.get('educator')):
+                    me['affiliation'] = None
             continue
 
         parent = by_name.get(norm_name(r.get('advisor') or ''))
