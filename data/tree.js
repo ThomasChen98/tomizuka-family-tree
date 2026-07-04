@@ -3387,7 +3387,7 @@ window.TREE_DATA = {
    "children": [],
    "bio": "Yuxin Chen is currently a Ph.D. candidate at UC Berkeley. He received his M.S. in Robotics and B.S. in Aerospace degrees from the University of Michigan, as well as a B.S. in Mechanical Engineering degree from Shanghai Jiao Tong University.",
    "note": "UC Berkeley",
-   "homepage": "https://thomaschen98.github.io"
+   "homepage": "https://thomaschen98.github.io/"
   }
  ]
 };
