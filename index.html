@@ -331,7 +331,6 @@
 <div id="tooltip" role="status"></div>
 
 <script src="assets/d3.v7.min.js"></script>
-<script src="data/tree.js"></script>
 <script>
 window.addEventListener('error', function (e) {
   const bar = document.getElementById('errbar');
@@ -339,7 +338,7 @@ window.addEventListener('error', function (e) {
   bar.textContent = 'JS error: ' + e.message + ' @ ' + (e.filename || '').split('/').pop() + ':' + e.lineno;
 });
 
-(function () {
+function initTree() {
   'use strict';
   const DATA = window.TREE_DATA;
   const people = DATA.children;
@@ -1031,6 +1030,21 @@ window.addEventListener('error', function (e) {
   btnTable.addEventListener('click', () => setView('table'));
 
   document.title = `Tomizuka Academic Family Tree · ${N} scholars`;
+}
+
+// load the data with a 5-minute cache-buster so fresh deploys show up on
+// a plain refresh (GitHub Pages serves max-age=600 otherwise)
+(function () {
+  const s = document.createElement('script');
+  s.src = 'data/tree.js?v=' + Math.floor(Date.now() / 300000);
+  s.onload = initTree;
+  s.onerror = function () {
+    const t = document.createElement('script');
+    t.src = 'data/tree.js';
+    t.onload = initTree;
+    document.head.appendChild(t);
+  };
+  document.head.appendChild(s);
 })();
 </script>
 </body>

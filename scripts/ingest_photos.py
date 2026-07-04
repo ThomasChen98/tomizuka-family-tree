@@ -43,6 +43,30 @@ def name_index(tree):
     return idx
 
 
+def extract_og_image(path, base_url):
+    """People paste page links (faculty pages, personal sites) rather than
+    direct image URLs — pull og:image / twitter:image out of the HTML."""
+    try:
+        head = open(path, 'rb').read(400_000).decode('utf-8', 'replace')
+    except OSError:
+        return None
+    if '<meta' not in head.lower():
+        return None
+    m = (re.search(r'<meta[^>]+(?:property|name)=["\'](?:og:image|twitter:image)["\'][^>]*'
+                   r'content=["\']([^"\']+)', head, re.I)
+         or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]*'
+                      r'(?:property|name)=["\'](?:og:image|twitter:image)', head, re.I))
+    if not m:
+        return None
+    url = m.group(1)
+    if url.startswith('//'):
+        return 'https:' + url
+    if url.startswith('/'):
+        proto, rest = base_url.split('://', 1)
+        return f"{proto}://{rest.split('/', 1)[0]}{url}"
+    return url
+
+
 def load_blocklist():
     ids = set()
     if os.path.exists(BLOCKLIST):
@@ -81,16 +105,33 @@ def main():
             if (manifest.get(pid) or {}).get('source') == url and os.path.exists(dst):
                 continue  # this exact photo is already in
             tmp = f'/tmp/ingest_{pid}'
-            rc = subprocess.run(
-                ['curl', '-sL', '--max-time', '60',
-                 '--max-filesize', str(MAX_BYTES), '-o', tmp, url],
-            ).returncode
-            if rc != 0 or not os.path.exists(tmp) or os.path.getsize(tmp) < 2000:
+
+            def fetch(u):
+                rc = subprocess.run(
+                    ['curl', '-sL', '--max-time', '60',
+                     '-A', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
+                     '--max-filesize', str(MAX_BYTES), '-o', tmp, u],
+                ).returncode
+                return rc == 0 and os.path.exists(tmp) and os.path.getsize(tmp) > 2000
+
+            def as_image():
+                im = Image.open(tmp)
+                im.load()
+                return im
+
+            if not fetch(url):
                 print(f'skip {pid}: download failed ({url})')
                 continue
             try:
-                im = Image.open(tmp)
-                im.load()
+                try:
+                    im = as_image()
+                except Exception:
+                    # not an image — maybe a page; try its og:image once
+                    og = extract_og_image(tmp, url)
+                    if not (og and fetch(og)):
+                        print(f'skip {pid}: not an image and no usable og:image ({url})')
+                        continue
+                    im = as_image()
                 if im.width < 80 or im.height < 80:
                     print(f'skip {pid}: too small {im.size}')
                     continue

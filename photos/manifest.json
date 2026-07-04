@@ -228,8 +228,9 @@
   "confidence": "high (MSC lab site)"
  },
  "li-jiachen": {
-  "source": "https://msc.berkeley.edu/assets/images/people/Jiachen.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://jiachenli94.github.io/assets/img/profile_photo.jpg",
+  "confidence": "self-submitted (survey; fetched from personal site)",
+  "ingested": "2026-07-03"
  },
  "hu-yeping": {
   "source": "https://msc.berkeley.edu/assets/images/people/yeping.jpg",

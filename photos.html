@@ -72,12 +72,12 @@
   <div class="grid" id="grid"></div>
 </div>
 
-<script src="data/tree.js"></script>
 <script>
-(async function () {
+async function initAudit() {
   'use strict';
+  const bust = Math.floor(Date.now() / 300000);
   let manifest = {};
-  try { manifest = await (await fetch('photos/manifest.json')).json(); } catch (e) {}
+  try { manifest = await (await fetch('photos/manifest.json?v=' + bust)).json(); } catch (e) {}
 
   const flat = [];
   (function walk(list, gen) {
@@ -136,6 +136,12 @@
     }
     grid.appendChild(card);
   });
+}
+(function () {
+  const s = document.createElement('script');
+  s.src = 'data/tree.js?v=' + Math.floor(Date.now() / 300000);
+  s.onload = initAudit;
+  document.head.appendChild(s);
 })();
 </script>
 </body>
