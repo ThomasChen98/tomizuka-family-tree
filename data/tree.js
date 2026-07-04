@@ -2698,7 +2698,42 @@ window.TREE_DATA = {
    "title": "Assistant Professor",
    "inMemoriam": false,
    "photo": "photos/li-jiachen.jpg",
-   "children": [],
+   "children": [
+    {
+     "id": "zhixu-li",
+     "name": "Zhixu Li",
+     "batch": "PhD 2028",
+     "kind": "phd",
+     "year": 2028,
+     "decade": "2020s",
+     "educator": false,
+     "affiliation": null,
+     "title": null,
+     "inMemoriam": false,
+     "photo": null,
+     "bio": null,
+     "note": "PhD student, GT TASL Lab",
+     "provisional": false,
+     "children": []
+    },
+    {
+     "id": "litian-gong",
+     "name": "Litian Gong",
+     "batch": "PhD Candidate",
+     "kind": "current",
+     "year": null,
+     "decade": "Current",
+     "educator": false,
+     "affiliation": null,
+     "title": null,
+     "inMemoriam": false,
+     "photo": null,
+     "bio": null,
+     "note": "PhD student, GT TASL Lab",
+     "provisional": false,
+     "children": []
+    }
+   ],
    "note": null,
    "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford."
   },
@@ -3222,7 +3257,7 @@ window.TREE_DATA = {
    "inMemoriam": false,
    "photo": "photos/chen-yuxin.jpg",
    "children": [],
-   "bio": "I'm from Shanghai, China. I love Robotics!",
+   "bio": "Yuxin Chen is currently a Ph.D. candidate at UC Berkeley. He received his M.S. in Robotics and B.S. in Aerospace degrees from the University of Michigan, as well as a B.S. in Mechanical Engineering degree from Shanghai Jiao Tong University.",
    "note": "UC Berkeley"
   }
  ]
