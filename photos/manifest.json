@@ -441,8 +441,9 @@
   "confidence": "high (MSC lab site)"
  },
  "chen-yuxin": {
-  "source": "https://msc.berkeley.edu/assets/images/people/yuxin.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://drive.google.com/uc?export=download&id=1MEb3cC6wABF-RkIIkYxdVfhu74CEzkR5",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-04"
  },
  "liang-boyuan": {
   "source": "https://msc.berkeley.edu/assets/images/people/boyuan.jpg",
