@@ -3345,6 +3345,24 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "wenjie-jeff-li",
+   "name": "Wenjie (Jeff) Li",
+   "batch": "PhD Candidate",
+   "kind": "current",
+   "year": null,
+   "decade": "Current",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/wenjie-jeff-li.jpg",
+   "bio": null,
+   "note": "UC Berkeley",
+   "homepage": null,
+   "provisional": false,
+   "children": []
+  },
+  {
    "id": "wenjie-li",
    "name": "Wenjie Li",
    "batch": "PhD Candidate",
