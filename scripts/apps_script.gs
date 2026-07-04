@@ -1,16 +1,28 @@
 /**
- * Google Apps Script backend for survey.html.
+ * Google Apps Script backend for survey.html.  (v3 — minimal Drive scope)
  *
- * Setup (once): see README. To UPDATE an existing deployment without changing
- * its URL: Apps Script editor → paste this file → Deploy → Manage deployments
- * → ✏️ edit → Version: "New version" → Deploy. The first run after adding the
- * photo-upload feature asks for a new Drive authorization — approve it.
+ * Uses the Drive Advanced Service (v3) instead of DriveApp so the script
+ * runs under the narrow "drive.file" scope: it can ONLY touch files it
+ * created itself, never your existing Drive content.
  *
- * Endpoints:
- *   POST — appends a survey response; if photo_data (base64 JPEG data-URL)
- *          is present, saves it to Drive folder "TomiTreePhotos" (anyone with
- *          link can view) and records the Drive URL in photo_url.
- *   GET  — returns all responses as CSV, email column excluded.
+ * REQUIRED manifest (appsscript.json — Project Settings → show manifest):
+ * {
+ *   "timeZone": "America/Los_Angeles",
+ *   "exceptionLogging": "STACKDRIVER",
+ *   "runtimeVersion": "V8",
+ *   "dependencies": {
+ *     "enabledAdvancedServices": [
+ *       { "userSymbol": "Drive", "version": "v3", "serviceId": "drive" }
+ *     ]
+ *   },
+ *   "oauthScopes": [
+ *     "https://www.googleapis.com/auth/spreadsheets.currentonly",
+ *     "https://www.googleapis.com/auth/drive.file"
+ *   ]
+ * }
+ *
+ * After pasting code + manifest: Run testDrive once (authorize), then
+ * Deploy → Manage deployments → edit → New version.
  */
 
 const SHEET_NAME = 'responses';
@@ -25,12 +37,7 @@ function doPost(e) {
 
   if (p.photo_data && p.photo_data.indexOf('base64,') > -1) {
     try {
-      const bytes = Utilities.base64Decode(p.photo_data.split('base64,')[1]);
-      const safe = (p.name || 'photo').replace(/[^\w\- ]/g, '').trim() || 'photo';
-      const blob = Utilities.newBlob(bytes, 'image/jpeg', safe + '.jpg');
-      const file = getFolder_().createFile(blob);
-      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      p.photo_url = 'https://drive.google.com/uc?export=download&id=' + file.getId();
+      p.photo_url = savePhoto_(p);
     } catch (err) {
       // keep whatever photo_url the form carried
     }
@@ -40,9 +47,35 @@ function doPost(e) {
   return ContentService.createTextOutput('ok');
 }
 
-function getFolder_() {
-  const it = DriveApp.getFoldersByName('TomiTreePhotos');
-  return it.hasNext() ? it.next() : DriveApp.createFolder('TomiTreePhotos');
+function savePhoto_(p) {
+  const bytes = Utilities.base64Decode(p.photo_data.split('base64,')[1]);
+  const safe = (p.name || 'photo').replace(/[^\w\- ]/g, '').trim() || 'photo';
+  const blob = Utilities.newBlob(bytes, 'image/jpeg', safe + '.jpg');
+  const file = Drive.Files.create(
+    { name: blob.getName(), parents: [getFolderId_()] }, blob);
+  Drive.Permissions.create({ type: 'anyone', role: 'reader' }, file.id);
+  return 'https://drive.google.com/uc?export=download&id=' + file.id;
+}
+
+// The folder id is cached in script properties, so we never need to SEARCH
+// Drive (searching is what requires the broad scope).
+function getFolderId_() {
+  const props = PropertiesService.getScriptProperties();
+  let id = props.getProperty('photoFolderId');
+  if (!id) {
+    const folder = Drive.Files.create({
+      name: 'TomiTreePhotos',
+      mimeType: 'application/vnd.google-apps.folder',
+    });
+    id = folder.id;
+    props.setProperty('photoFolderId', id);
+  }
+  return id;
+}
+
+// Run this once in the editor to authorize and create the photo folder.
+function testDrive() {
+  Logger.log('TomiTreePhotos folder id: ' + getFolderId_());
 }
 
 // GET returns the responses as CSV (email column excluded) for the site build.
