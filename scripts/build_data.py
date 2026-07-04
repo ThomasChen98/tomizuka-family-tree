@@ -158,6 +158,15 @@ def slug_full(name):
     return re.sub(r'[^a-z0-9]+', '-', s).strip('-')
 
 
+def _pagey(url):
+    """True when a URL is a web page rather than a direct image link —
+    people often paste their homepage into the photo field."""
+    u = (url or '').strip()
+    return (u.lower().startswith('http')
+            and not re.search(r'\.(jpe?g|png|gif|webp|avif|bmp)([?#]|$)', u, re.I)
+            and 'drive.google.com/uc' not in u)
+
+
 def merge_survey(tree, path):
     import csv
     by_name, ids = {}, set()
@@ -199,6 +208,8 @@ def merge_survey(tree, path):
             hp = (r.get('homepage') or '').strip()
             if hp.lower().startswith('http'):
                 me['homepage'] = hp
+            elif not me.get('homepage') and _pagey(r.get('photo_url')):
+                me['homepage'] = (r.get('photo_url') or '').strip()
             # a year only counts as graduation when status isn't "current" —
             # current students often write their EXPECTED graduation year
             if year and not current:
@@ -239,7 +250,8 @@ def merge_survey(tree, path):
                      else (r.get('note') or '').strip() or None),
             'homepage': ((r.get('homepage') or '').strip()
                          if (r.get('homepage') or '').strip().lower().startswith('http')
-                         else None),
+                         else ((r.get('photo_url') or '').strip()
+                               if _pagey(r.get('photo_url')) else None)),
             'provisional': provisional,
             'children': [],
         }

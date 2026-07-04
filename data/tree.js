@@ -2762,10 +2762,10 @@ window.TREE_DATA = {
      "affiliation": null,
      "title": null,
      "inMemoriam": false,
-     "photo": null,
+     "photo": "photos/junge-zhang.jpg",
      "bio": null,
      "note": "GT TASL Lab",
-     "homepage": null,
+     "homepage": "https://andy-zd.github.io/",
      "provisional": false,
      "children": []
     },
@@ -2798,10 +2798,10 @@ window.TREE_DATA = {
      "affiliation": null,
      "title": null,
      "inMemoriam": false,
-     "photo": null,
+     "photo": "photos/mingxuan-yan.jpg",
      "bio": "I am Mingxuan Yan (pron: Ming-shwen Yen), a second-year PhD student. I am currently a member of GT TASL Lab under the supervision of Prof. Jiachen Li.",
      "note": "PhD student, GT TASL Lab",
-     "homepage": null,
+     "homepage": "https://waterhyacinthinnanhu.github.io/",
      "provisional": false,
      "children": []
     },
@@ -2834,10 +2834,10 @@ window.TREE_DATA = {
      "affiliation": null,
      "title": null,
      "inMemoriam": false,
-     "photo": null,
+     "photo": "photos/zehao-wang.jpg",
      "bio": null,
      "note": "Ph.D. Student at GT TASL Lab",
-     "homepage": null,
+     "homepage": "https://zehaowang983.github.io/",
      "provisional": false,
      "children": []
     },
@@ -2861,7 +2861,8 @@ window.TREE_DATA = {
     }
    ],
    "note": null,
-   "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford."
+   "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford.",
+   "homepage": "https://www.linkedin.com/in/jiachen-li/"
   },
   {
    "id": "fahandezhsaadi-saman",

@@ -43,28 +43,42 @@ def name_index(tree):
     return idx
 
 
-def extract_og_image(path, base_url):
+IMG_HINTS = ('profile', 'avatar', 'portrait', 'headshot', 'prof_pic',
+             'author', 'me.jpg', 'me.jpeg', 'me.png', 'me.webp')
+IMG_BLOCK = ('logo', 'banner', 'icon', 'favicon', 'preview', 'publication',
+             'badge', 'sprite', 'qrcode')
+
+
+def extract_portrait(path, base_url):
     """People paste page links (faculty pages, personal sites) rather than
-    direct image URLs — pull og:image / twitter:image out of the HTML."""
+    direct image URLs. Try og:image / twitter:image first, then look for an
+    <img> that smells like the site owner's portrait (academic-homepage
+    templates use profile/avatar/me.jpg naming conventions)."""
+    from urllib.parse import urljoin
     try:
-        head = open(path, 'rb').read(400_000).decode('utf-8', 'replace')
+        head = open(path, 'rb').read(500_000).decode('utf-8', 'replace')
     except OSError:
         return None
-    if '<meta' not in head.lower():
+    low = head.lower()
+    if '<meta' not in low and '<img' not in low:
         return None
     m = (re.search(r'<meta[^>]+(?:property|name)=["\'](?:og:image|twitter:image)["\'][^>]*'
                    r'content=["\']([^"\']+)', head, re.I)
          or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]*'
                       r'(?:property|name)=["\'](?:og:image|twitter:image)', head, re.I))
-    if not m:
-        return None
-    url = m.group(1)
-    if url.startswith('//'):
-        return 'https:' + url
-    if url.startswith('/'):
-        proto, rest = base_url.split('://', 1)
-        return f"{proto}://{rest.split('/', 1)[0]}{url}"
-    return url
+    if m:
+        return urljoin(base_url, m.group(1))
+    best, best_score = None, 0
+    for im in re.finditer(r'<img[^>]+>', head, re.I):
+        orig = im.group(0)
+        tag = orig.lower()                       # match case-insensitively...
+        sm = re.search(r'src=["\']([^"\']+)', orig, re.I)
+        if not sm or any(b in tag for b in IMG_BLOCK):
+            continue
+        score = sum(1 for h in IMG_HINTS if h in tag)
+        if score > best_score:
+            best_score, best = score, sm.group(1)  # ...but keep the URL's case
+    return urljoin(base_url, best) if best else None
 
 
 def load_blocklist():
@@ -126,10 +140,10 @@ def main():
                 try:
                     im = as_image()
                 except Exception:
-                    # not an image — maybe a page; try its og:image once
-                    og = extract_og_image(tmp, url)
+                    # not an image — maybe a page; try its portrait once
+                    og = extract_portrait(tmp, url)
                     if not (og and fetch(og)):
-                        print(f'skip {pid}: not an image and no usable og:image ({url})')
+                        print(f'skip {pid}: not an image and no portrait found ({url})')
                         continue
                     im = as_image()
                 if im.width < 80 or im.height < 80:

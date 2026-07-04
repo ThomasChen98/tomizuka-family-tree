@@ -476,5 +476,20 @@
   "source": "https://news.engin.umich.edu/2022/12/remembering-huei-peng/",
   "confidence": "high (U-M memorial feature)",
   "ingested": "2026-07-03"
+ },
+ "zehao-wang": {
+  "source": "https://zehaowang983.github.io/",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-04"
+ },
+ "mingxuan-yan": {
+  "source": "https://waterhyacinthinnanhu.github.io/",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-04"
+ },
+ "junge-zhang": {
+  "source": "https://andy-zd.github.io/",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-04"
  }
 }
