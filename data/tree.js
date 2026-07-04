@@ -2788,6 +2788,24 @@ window.TREE_DATA = {
      "children": []
     },
     {
+     "id": "xiaopan-zhang",
+     "name": "Xiaopan Zhang",
+     "batch": "PhD Candidate",
+     "kind": "current",
+     "year": null,
+     "decade": "Current",
+     "educator": false,
+     "affiliation": null,
+     "title": null,
+     "inMemoriam": false,
+     "photo": null,
+     "bio": null,
+     "note": "PhD student, GT TASL Lab",
+     "homepage": null,
+     "provisional": false,
+     "children": []
+    },
+    {
      "id": "zehao-wang",
      "name": "Zehao Wang",
      "batch": "PhD Candidate",
