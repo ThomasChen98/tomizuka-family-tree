@@ -79,7 +79,11 @@ function testDrive() {
 }
 
 // GET returns the responses as CSV (email column excluded) for the site build.
+// ?ping=1 returns the code version instead, to verify what the deployment runs.
 function doGet(e) {
+  if (e && e.parameter && e.parameter.ping) {
+    return ContentService.createTextOutput('v3-drivefile');
+  }
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
   const values = sheet.getDataRange().getValues();
   const header = ['timestamp'].concat(FIELDS);
