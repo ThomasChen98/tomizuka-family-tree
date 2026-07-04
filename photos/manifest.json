@@ -441,9 +441,8 @@
   "confidence": "high (MSC lab site)"
  },
  "chen-yuxin": {
-  "source": "https://drive.google.com/uc?export=download&id=19Xgl2tSHkNxcbg0v_GupanpOEzK9yUsn",
-  "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-04"
+  "source": "https://msc.berkeley.edu/assets/images/people/yuxin.jpg",
+  "confidence": "high (MSC lab site)"
  },
  "liang-boyuan": {
   "source": "https://msc.berkeley.edu/assets/images/people/boyuan.jpg",
@@ -490,11 +489,6 @@
  },
  "junge-zhang": {
   "source": "https://andy-zd.github.io/",
-  "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-04"
- },
- "ce-hao": {
-  "source": "https://drive.google.com/uc?export=download&id=1kGZRkogv9QbCy5hnAJ4ysOs_3ua9ot3D",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-04"
  }

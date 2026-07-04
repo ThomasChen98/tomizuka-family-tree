@@ -221,6 +221,9 @@
     }
   }
   #sunburstView, #treemapView { display: none; }
+  #sunburstView path:focus, #treemapView g:focus { outline: none; }
+  #sunburstView path:focus-visible { stroke: var(--ink) !important; stroke-width: 2.5; }
+  #treemapView g:focus-visible rect { stroke: var(--ink); stroke-width: 2.5; }
   #sunburstView svg, #treemapView svg { width: 100%; height: auto; display: block; }
   .sb-label {
     font-size: 10.5px; fill: var(--ink-2); pointer-events: none;
@@ -564,14 +567,17 @@ function initTree() {
   function ensurePattern(p) {
     if (!p.photo || patternsMade.has(p.id)) return;
     patternsMade.add(p.id);
+    // viewBox + slice keeps the portrait's aspect ratio no matter how the
+    // painted element is shaped (circles, wide/tall treemap tiles, ...)
     defs.append('pattern')
       .attr('id', 'pat-' + p.id)
       .attr('patternUnits', 'objectBoundingBox')
-      .attr('patternContentUnits', 'objectBoundingBox')
       .attr('width', 1).attr('height', 1)
+      .attr('viewBox', '0 0 240 240')
+      .attr('preserveAspectRatio', 'xMidYMid slice')
       .append('image')
       .attr('href', p.photo)
-      .attr('width', 1).attr('height', 1)
+      .attr('width', 240).attr('height', 240)
       .attr('preserveAspectRatio', 'xMidYMid slice');
   }
 
