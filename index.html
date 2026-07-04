@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --series1:     #2a78d6;
     --page:        #f9f8f6;
     --surface:     #fcfcfb;
     --ink:         #0b0b0b;
@@ -30,6 +31,7 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
+      --series1:     #3987e5;
       --page:        #0d0d0d;
       --surface:     #1a1a19;
       --ink:         #ffffff;
@@ -96,6 +98,7 @@
   }
   .stat .v { font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
   .stat .l { font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: .04em; text-transform: uppercase; }
+  .stat .s { font-size: 11.5px; color: var(--ink-2); margin-top: 5px; }
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
 
   .card {
@@ -217,6 +220,29 @@
       box-shadow: 0 -10px 40px rgba(0,0,0,0.25);
     }
   }
+  #sunburstView, #treemapView { display: none; }
+  #sunburstView svg, #treemapView svg { width: 100%; height: auto; display: block; }
+  .sb-label {
+    font-size: 10.5px; fill: var(--ink-2); pointer-events: none;
+    paint-order: stroke; stroke: var(--surface); stroke-width: 2px;
+  }
+  .tm-parent { fill: none; stroke: var(--edu-ring); stroke-width: 1.5; }
+  .tm-parent-label { font-size: 10px; font-weight: 500; fill: var(--ink-2); pointer-events: none; }
+  .tm-label {
+    font-size: 9.5px; fill: #fff; pointer-events: none;
+    paint-order: stroke; stroke: rgba(0,0,0,0.5); stroke-width: 2px;
+  }
+  .charts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  @media (max-width: 760px) { .charts { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px 10px;
+  }
+  .chart-card h3 { margin: 0 0 8px; font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .chart-card svg { width: 100%; height: auto; display: block; }
+  .chart-card .axis-text { fill: var(--muted); font-size: 10px; }
+  .chart-card .gridline { stroke: var(--grid); stroke-width: 1; }
+  .chart-card .cross { stroke: var(--baseline); stroke-width: 1; }
   #tableView { display: none; max-height: 640px; overflow-y: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
   thead th {
@@ -285,18 +311,34 @@
       <span class="spacer"></span>
       <div class="seg" role="tablist">
         <button id="btnTree" class="on" role="tab" aria-selected="true">Tree</button>
+        <button id="btnSunburst" role="tab" aria-selected="false">Sunburst</button>
+        <button id="btnTreemap" role="tab" aria-selected="false">Treemap</button>
         <button id="btnTable" role="tab" aria-selected="false">Table</button>
       </div>
+      <div class="seg" id="genSeg" role="group" aria-label="Open generations"></div>
       <button class="ctrl-btn" id="btnCollapse">Close branches</button>
       <button class="ctrl-btn" id="btnResetZoom">Reset view</button>
     </div>
     <div class="legend" id="legend"></div>
     <div id="chart" role="group" aria-label="Radial family tree of Professor Tomizuka's students"></div>
+    <div id="sunburstView" role="group" aria-label="Sunburst view: arc size shows family size"></div>
+    <div id="treemapView" role="group" aria-label="Treemap view: one tile per person"></div>
     <div id="detail" role="dialog" aria-label="Person details"></div>
     <p class="hint" id="chartHint" style="text-align:center; margin:6px 0 0;">
       hover for a quick look · click anyone for their card — professors also open their branch ·
       drag to pan · ⌘/Ctrl&thinsp;+&thinsp;scroll or pinch to zoom</p>
     <div id="tableView"></div>
+  </div>
+
+  <div class="charts">
+    <div class="chart-card">
+      <h3>PhD graduates per five years</h3>
+      <div id="chartBars"></div>
+    </div>
+    <div class="chart-card">
+      <h3>The family over time — cumulative PhDs</h3>
+      <div id="chartCum"></div>
+    </div>
   </div>
 
   <section class="how" id="survey">
@@ -372,22 +414,34 @@ function initTree() {
     list.forEach(p => { if (p.educator) nEdu++; cntEdu(p.children || []); });
   })(people);
   const years = people.map(p => p.year).filter(Boolean);
-  let nDesc = 0;
-  (function cnt(list) {
-    list.forEach(p => { if (p.children && p.children.length) { nDesc += p.children.length; cnt(p.children); } });
-  })(people);
+  let nDesc = 0, maxGen = 1;
+  const allNodes = [];
+  (function cnt(list, g) {
+    list.forEach(p => {
+      allNodes.push(p);
+      maxGen = Math.max(maxGen, g);
+      if (p.children && p.children.length) { nDesc += p.children.length; cnt(p.children, g + 1); }
+    });
+  })(people, 1);
+  const nPhd = people.filter(p => p.kind === 'phd').length;
+  const nCur = allNodes.filter(p => p.kind === 'current').length;
+  const nUni = new Set(allNodes.filter(p => p.educator && p.affiliation)
+    .map(p => p.affiliation)).size;
+  const nPhotos = allNodes.filter(p => p.photo).length;
   const stats = [
-    [N, 'First-generation PhD students'],
-    [nEdu, 'Became professors'],
-    [`${Math.min(...years)}–now`, 'Years of graduates'],
-    [nDesc || '5+', nDesc ? 'Next-generation students (growing)' : 'Generations expected'],
+    [N, 'First-generation PhD students', `${nPhd} graduated · ${N - nPhd} in the lab now`],
+    [nEdu, 'Became professors', `at ${nUni} institutions worldwide`],
+    [`${Math.min(...years)}–now`, 'Years of graduates', `${new Date().getFullYear() - Math.min(...years) + 1} years and counting`],
+    [nDesc || '5+', nDesc ? 'Next-generation students (growing)' : 'Generations expected',
+     nDesc ? `${maxGen} generations · ${nPhotos} photos on the tree` : ''],
   ];
   d3.select('#stats').selectAll('div').data(stats).join('div')
     .attr('class', 'stat')
-    .html('<div class="v"></div><div class="l"></div>')
+    .html('<div class="v"></div><div class="l"></div><div class="s"></div>')
     .each(function (d) {
       d3.select(this).select('.v').text(d[0]);
       d3.select(this).select('.l').text(d[1]);
+      d3.select(this).select('.s').text(d[2]);
     });
 
   // ---- legend --------------------------------------------------------------
@@ -495,10 +549,17 @@ function initTree() {
   const isLeft = a => a > Math.PI;
   const CHORD = R_GEN1 * (A1 - A0) / N;
   let node = d3.select(null), label = d3.select(null), initials = d3.select(null);
+  let visible = people;   // every node currently on screen (all generations)
 
   // photo tiles: one objectBoundingBox pattern per portrait, so the image
-  // follows the circle through the fisheye magnification for free
-  const defs = svg.append('defs');
+  // follows the circle through the fisheye magnification for free.
+  // Patterns live in their own always-rendered zero-size svg — resources in a
+  // display:none view would not paint in the other views.
+  const defs = d3.select('body').append('svg')
+    .attr('width', 0).attr('height', 0)
+    .attr('aria-hidden', 'true')
+    .style('position', 'absolute')
+    .append('defs');
   const patternsMade = new Set();
   function ensurePattern(p) {
     if (!p.photo || patternsMade.has(p.id)) return;
@@ -900,6 +961,7 @@ function initTree() {
         .classed('wedge-dim', d => v.dimmed.has(d.id) && !expanded.has(d.id));
     label = node.select('text.p-label');
     initials = node.select('text.p-initials');
+    visible = v.nodes;
   }
 
   function toggleBranch(d) {
@@ -919,30 +981,37 @@ function initTree() {
   render();
 
   // ---- angular fisheye magnification on hover ------------------------------
-  const SIGMA = 0.075;          // ≈ 4.3°
+  const SIGMA = 0.075;          // angular falloff ≈ 4.3°
+  const SIGMA_R = 60;           // radial falloff — magnify only the ring under the pointer
   const MAG = 1.9;              // extra scale at the pointer
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let targetA = null;
+  let targetA = null, targetR = null;
   people.forEach(p => { p.s = 1; });
 
   svg.on('pointermove.fisheye', (e) => {
     const [mx, my] = d3.pointer(e, root.node());
     const r = Math.hypot(mx, my);
-    if (r > 265 && r < VB + 140) {
+    if (r > 265 && r < 900) {
       let a = Math.atan2(mx, -my);
       if (a < 0) a += 2 * Math.PI;
       targetA = a;
-    } else targetA = null;
-  }).on('pointerleave.fisheye', () => { targetA = null; });
+      targetR = r;
+    } else { targetA = null; targetR = null; }
+    stepFisheye();   // react on the event itself; rAF only smooths
+  }).on('pointerleave.fisheye', () => { targetA = null; targetR = null; });
+  // debug accessors (harmless; used by automated checks)
+  window.__fisheye = () => ({ targetA, targetR });
+  window.__nodeS = (name) => (visible.find(p => p.name === name) || {}).s;
 
-  function tick() {
+  function stepFisheye() {
     let dirty = false;
-    people.forEach(p => {
+    visible.forEach(p => {
       let t = 1;
       if (targetA !== null) {
         let d = Math.abs(p.angle - targetA);
         d = Math.min(d, 2 * Math.PI - d);
-        t = 1 + MAG * Math.exp(-(d * d) / (SIGMA * SIGMA));
+        const dr = (p.radius - targetR) / SIGMA_R;
+        t = 1 + MAG * Math.exp(-(d * d) / (SIGMA * SIGMA) - dr * dr);
       }
       const next = reduceMotion ? t : p.s + (t - p.s) * 0.30;
       if (Math.abs(next - p.s) > 0.004) { p.s = next; dirty = true; }
@@ -960,17 +1029,17 @@ function initTree() {
         .style('font-size', d => Math.min(10.5 * (0.72 + 0.28 * d.s), d.maxFs) + 'px')
         .style('font-weight', d => d.s > 1.7 ? 500 : 400)
         .attr('x', d => (isLeft(d.angle) ? -1 : 1) * (16 + (d.s - 1) * 6));
-      // light up the decade segment under the pointer and the hot spokes,
-      // so eye-tracking a dot back to its era doesn't rely on the thin lines
-      let act = null;
-      if (targetA !== null) {
-        for (const sg of segs) {
-          if (targetA >= sg.a0 && targetA <= sg.a1) { act = sg; break; }
-        }
-      }
+      // light up the decade segment of the person being magnified (any
+      // generation) and the hot spokes, so a dot maps to its era at a glance
+      let act = null, best = null;
+      visible.forEach(p => { if (!best || p.s > best.s) best = p; });
+      if (best && best.s > 1.35) act = segs.find(sg => sg.dec === best.decade) || null;
       segG.classed('active', d => d === act);
       spokes.classed('hot', d => d.s > 1.55);
     }
+  }
+  function tick() {
+    stepFisheye();
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
@@ -1046,20 +1115,292 @@ function initTree() {
   }
 
   const chartEl = document.getElementById('chart');
-  const tblEl = document.getElementById('tableView');
-  const btnTree = document.getElementById('btnTree');
-  const btnTable = document.getElementById('btnTable');
+  const views = {
+    tree: chartEl,
+    sunburst: document.getElementById('sunburstView'),
+    treemap: document.getElementById('treemapView'),
+    table: document.getElementById('tableView'),
+  };
+  const viewBtns = {
+    tree: document.getElementById('btnTree'),
+    sunburst: document.getElementById('btnSunburst'),
+    treemap: document.getElementById('btnTreemap'),
+    table: document.getElementById('btnTable'),
+  };
+  const built = {};
   function setView(mode) {
-    const tree = mode === 'tree';
-    chartEl.style.display = tree ? 'block' : 'none';
-    tblEl.style.display = tree ? 'none' : 'block';
-    btnTree.classList.toggle('on', tree);
-    btnTable.classList.toggle('on', !tree);
-    btnTree.setAttribute('aria-selected', tree);
-    btnTable.setAttribute('aria-selected', !tree);
+    Object.entries(views).forEach(([k, el]) => {
+      el.style.display = k === mode ? 'block' : 'none';
+    });
+    Object.entries(viewBtns).forEach(([k, b]) => {
+      b.classList.toggle('on', k === mode);
+      b.setAttribute('aria-selected', String(k === mode));
+    });
+    document.getElementById('chartHint').style.display = mode === 'tree' ? '' : 'none';
+    if (mode === 'sunburst' && !built.sunburst) { built.sunburst = true; buildSunburst(); }
+    if (mode === 'treemap' && !built.treemap) { built.treemap = true; buildTreemap(); }
   }
-  btnTree.addEventListener('click', () => setView('tree'));
-  btnTable.addEventListener('click', () => setView('table'));
+  Object.keys(viewBtns).forEach(k =>
+    viewBtns[k].addEventListener('click', () => setView(k)));
+
+  // one-click "open every branch down to generation N"
+  function expandToDepth(dmax) {
+    expanded.clear();
+    (function walk(list, g) {
+      list.forEach(p => {
+        if (g < dmax && p.educator && p.children && p.children.length) {
+          expanded.add(p.id);
+          walk(p.children, g + 1);
+        }
+      });
+    })(people, 1);
+    render();
+    setView('tree');
+  }
+  const genSeg = document.getElementById('genSeg');
+  if (maxGen >= 2) {
+    for (let g = 2; g <= maxGen; g++) {
+      const b = document.createElement('button');
+      b.textContent = 'Open gen ' + g;
+      b.addEventListener('click', () => expandToDepth(g));
+      genSeg.appendChild(b);
+    }
+  } else {
+    genSeg.style.display = 'none';
+  }
+
+  // ---- sunburst view: arc angle ∝ family size, one ring per generation ----
+  function buildSunburst() {
+    allNodes.forEach(ensurePattern);
+    const ringW = Math.min(95, 300 / maxGen + 35);
+    const R0 = 150;
+    const svgS = d3.select('#sunburstView').append('svg')
+      .attr('viewBox', [-470, -470, 940, 940])
+      .attr('preserveAspectRatio', 'xMidYMid meet');
+    const rootH = d3.hierarchy(DATA)
+      .sum(d => (d.children && d.children.length) ? 0 : 1)
+      .sort((a, b) => (a.data.year || 9999) - (b.data.year || 9999));
+    d3.partition().size([2 * Math.PI, maxGen])(rootH);
+    const arcS = d3.arc()
+      .startAngle(d => d.x0).endAngle(d => d.x1)
+      .padAngle(0.004).padRadius(R0)
+      .innerRadius(d => R0 + (d.depth - 1) * ringW)
+      .outerRadius(d => R0 + d.depth * ringW - 3)
+      .cornerRadius(3);
+    const cells = svgS.append('g').selectAll('path')
+      .data(rootH.descendants().filter(d => d.depth > 0))
+      .join('path')
+      .attr('d', arcS)
+      .style('fill', d => decVar(d.data))
+      .style('stroke', d => d.data.educator ? 'var(--edu-ring)' : 'none')
+      .style('stroke-width', 1.6)
+      .style('cursor', 'pointer')
+      .attr('tabindex', 0)
+      .attr('aria-label', d => `${d.data.name}, ${d.data.batch}`);
+    cells.on('pointerenter', (e, d) => showTip(d.data, e))
+      .on('pointermove', (e) => moveTip(e))
+      .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); })
+      .on('click', (e, d) => showDetail(d.data, e));
+    // radial labels for arcs wide enough to carry them
+    svgS.append('g').selectAll('text')
+      .data(rootH.descendants().filter(d =>
+        d.depth > 0 && (d.x1 - d.x0) * (R0 + (d.depth - 0.5) * ringW) > 26))
+      .join('text')
+      .attr('class', 'sb-label')
+      .attr('transform', d => {
+        const a = (d.x0 + d.x1) / 2;
+        const r = R0 + (d.depth - 1) * ringW + 8;
+        const deg = a * 180 / Math.PI - 90;
+        const flip = a > Math.PI;
+        return `rotate(${deg}) translate(${r},0)${flip ? ' rotate(180)' : ''}`;
+      })
+      .attr('text-anchor', d => (d.x0 + d.x1) / 2 > Math.PI ? 'end' : 'start')
+      .attr('dy', '0.32em')
+      .text(d => {
+        const max = Math.floor((ringW - 14) / 5.2);
+        const nm = d.data.name + (d.data.inMemoriam ? ' †' : '');
+        return nm.length > max ? nm.slice(0, max - 1) + '…' : nm;
+      });
+    // Tomizuka at the center
+    svgS.append('clipPath').attr('id', 'clipSb').append('circle').attr('r', 96);
+    svgS.append('circle').attr('r', 100).style('fill', 'none')
+      .style('stroke', 'var(--accent)').style('stroke-width', 2.5);
+    svgS.append('image')
+      .attr('href', DATA.photo).attr('x', -96).attr('y', -96)
+      .attr('width', 192).attr('height', 192)
+      .attr('clip-path', 'url(#clipSb)')
+      .attr('preserveAspectRatio', 'xMidYMid slice');
+    svgS.append('text').attr('class', 'center-sub').attr('text-anchor', 'middle')
+      .attr('y', 122).text('ARC SIZE = FAMILY SIZE');
+  }
+
+  // ---- treemap view: one tile per person, professors as framed groups -----
+  function buildTreemap() {
+    allNodes.forEach(ensurePattern);
+    const W = 1160, H = 660;
+    const svgT = d3.select('#treemapView').append('svg').attr('viewBox', [0, 0, W, H]);
+    const rootH = d3.hierarchy(DATA)
+      .sum(d => (d.children && d.children.length) ? 0 : 1)
+      .sort((a, b) => b.value - a.value || (a.data.year || 9999) - (b.data.year || 9999));
+    d3.treemap().size([W, H]).paddingInner(2).paddingOuter(3)
+      .paddingTop(d => d.depth > 0 && d.children ? 16 : 2)(rootH);
+    const parents = rootH.descendants().filter(d => d.depth > 0 && d.children);
+    const gP = svgT.append('g').selectAll('g').data(parents).join('g');
+    gP.append('rect').attr('class', 'tm-parent')
+      .attr('x', d => d.x0).attr('y', d => d.y0)
+      .attr('width', d => d.x1 - d.x0).attr('height', d => d.y1 - d.y0)
+      .attr('rx', 3);
+    gP.append('text').attr('class', 'tm-parent-label')
+      .attr('x', d => d.x0 + 5).attr('y', d => d.y0 + 11.5)
+      .text(d => {
+        const w = d.x1 - d.x0;
+        const nm = `${d.data.name} · ${d.value}`;
+        return w > nm.length * 5.6 ? nm : (w > 46 ? d.data.name.split(' ').pop() : '');
+      });
+    const leaves = rootH.leaves();
+    const gL = svgT.append('g').selectAll('g').data(leaves).join('g')
+      .style('cursor', 'pointer')
+      .attr('tabindex', 0)
+      .attr('aria-label', d => `${d.data.name}, ${d.data.batch}`);
+    gL.append('rect')
+      .attr('x', d => d.x0).attr('y', d => d.y0)
+      .attr('width', d => Math.max(1, d.x1 - d.x0))
+      .attr('height', d => Math.max(1, d.y1 - d.y0))
+      .attr('rx', 2)
+      .style('fill', d => d.data.photo ? `url(#pat-${d.data.id})` : decVar(d.data))
+      .style('stroke', d => d.data.educator ? 'var(--edu-ring)' : 'var(--surface)')
+      .style('stroke-width', d => d.data.educator ? 2 : 1);
+    gL.append('text').attr('class', 'tm-label')
+      .attr('x', d => d.x0 + 4).attr('y', d => d.y1 - 5)
+      .style('fill', d => d.data.photo ? '#fff' : `var(--dec-${DECADES.indexOf(d.data.decade)}-ink)`)
+      .style('stroke', d => d.data.photo ? 'rgba(0,0,0,0.5)' : 'none')
+      .text(d => {
+        const w = d.x1 - d.x0, h = d.y1 - d.y0;
+        if (h < 18) return '';
+        const last = d.data.name.split(' ').pop();
+        if (w > d.data.name.length * 5.4) return d.data.name;
+        return w > last.length * 5.4 + 8 ? last : '';
+      });
+    gL.on('pointerenter', (e, d) => showTip(d.data, e))
+      .on('pointermove', (e) => moveTip(e))
+      .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); })
+      .on('click', (e, d) => showDetail(d.data, e));
+  }
+
+  // ---- analytics: five-year histogram + cumulative growth ------------------
+  function buildCharts() {
+    const grads = allNodes.filter(p => p.year).map(p => p.year).sort((a, b) => a - b);
+    if (!grads.length) return;
+    const bin0 = Math.floor(grads[0] / 5) * 5;
+    const binN = Math.floor(grads[grads.length - 1] / 5) * 5;
+    const bins = [];
+    for (let b = bin0; b <= binN; b += 5) {
+      bins.push({ b, n: grads.filter(y => y >= b && y < b + 5).length });
+    }
+    const W = 540, H = 220, M = { t: 16, r: 8, b: 24, l: 30 };
+    const maxN = Math.max(...bins.map(d => d.n));
+
+    // -- bars
+    const sb = d3.select('#chartBars').append('svg').attr('viewBox', [0, 0, W, H]);
+    const x = d3.scaleBand().domain(bins.map(d => d.b)).range([M.l, W - M.r]).padding(0.32);
+    const y = d3.scaleLinear().domain([0, maxN]).nice().range([H - M.b, M.t]);
+    y.ticks(4).forEach(t => {
+      if (t === 0) return;
+      sb.append('line').attr('class', 'gridline')
+        .attr('x1', M.l).attr('x2', W - M.r).attr('y1', y(t)).attr('y2', y(t));
+      sb.append('text').attr('class', 'axis-text')
+        .attr('x', M.l - 5).attr('y', y(t) + 3).attr('text-anchor', 'end').text(t);
+    });
+    bins.forEach((d, i) => {
+      const bx = x(d.b), bw = x.bandwidth(), by = y(d.n), bh = H - M.b - by;
+      if (d.n > 0) {
+        sb.append('path')
+          .attr('d', `M${bx},${H - M.b} V${by + 4} Q${bx},${by} ${bx + 4},${by} H${bx + bw - 4} Q${bx + bw},${by} ${bx + bw},${by + 4} V${H - M.b} Z`)
+          .style('fill', 'var(--series1)');
+      }
+      if (i % 2 === 0) {
+        sb.append('text').attr('class', 'axis-text')
+          .attr('x', bx + bw / 2).attr('y', H - M.b + 14).attr('text-anchor', 'middle')
+          .text(d.b);
+      }
+      if (d.n === maxN) {
+        sb.append('text').attr('class', 'axis-text')
+          .attr('x', bx + bw / 2).attr('y', by - 5).attr('text-anchor', 'middle')
+          .style('fill', 'var(--ink-2)').text(d.n);
+      }
+      sb.append('rect')   // generous hit target per bin
+        .attr('x', bx - 2).attr('y', M.t).attr('width', bw + 4).attr('height', H - M.t - M.b)
+        .style('fill', 'transparent')
+        .on('pointerenter', (e) => showTipLines([`${d.n} PhDs`, `${d.b}–${d.b + 4}`], e))
+        .on('pointermove', (e) => moveTip(e))
+        .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); });
+    });
+    sb.append('line').attr('class', 'gridline')
+      .attr('x1', M.l).attr('x2', W - M.r).attr('y1', H - M.b).attr('y2', H - M.b)
+      .style('stroke', 'var(--baseline)');
+
+    // -- cumulative line
+    const cum = [];
+    let c = 0;
+    const byYear = d3.rollup(grads, v => v.length, y2 => y2);
+    for (let yr = grads[0]; yr <= grads[grads.length - 1]; yr++) {
+      c += byYear.get(yr) || 0;
+      cum.push({ yr, c });
+    }
+    const sc = d3.select('#chartCum').append('svg').attr('viewBox', [0, 0, W, H]);
+    const x2 = d3.scaleLinear().domain([cum[0].yr, cum[cum.length - 1].yr]).range([M.l, W - M.r]);
+    const y2s = d3.scaleLinear().domain([0, c]).nice().range([H - M.b, M.t]);
+    y2s.ticks(4).forEach(t => {
+      if (t === 0) return;
+      sc.append('line').attr('class', 'gridline')
+        .attr('x1', M.l).attr('x2', W - M.r).attr('y1', y2s(t)).attr('y2', y2s(t));
+      sc.append('text').attr('class', 'axis-text')
+        .attr('x', M.l - 5).attr('y', y2s(t) + 3).attr('text-anchor', 'end').text(t);
+    });
+    x2.ticks(6).forEach(t => {
+      sc.append('text').attr('class', 'axis-text')
+        .attr('x', x2(t)).attr('y', H - M.b + 14).attr('text-anchor', 'middle').text(t);
+    });
+    sc.append('line').attr('class', 'gridline')
+      .attr('x1', M.l).attr('x2', W - M.r).attr('y1', H - M.b).attr('y2', H - M.b)
+      .style('stroke', 'var(--baseline)');
+    sc.append('path')
+      .attr('d', d3.line().x(d => x2(d.yr)).y(d => y2s(d.c))(cum))
+      .style('fill', 'none').style('stroke', 'var(--series1)').style('stroke-width', 2);
+    const cross = sc.append('line').attr('class', 'cross').style('display', 'none');
+    const dot = sc.append('circle').attr('r', 3.5)
+      .style('fill', 'var(--series1)').style('stroke', 'var(--surface)')
+      .style('stroke-width', 2).style('display', 'none');
+    sc.append('rect')
+      .attr('x', M.l).attr('y', M.t).attr('width', W - M.l - M.r).attr('height', H - M.t - M.b)
+      .style('fill', 'transparent')
+      .on('pointermove', (e) => {
+        const [mx] = d3.pointer(e);
+        const yr = Math.round(x2.invert(mx));
+        const d = cum[Math.max(0, Math.min(cum.length - 1, yr - cum[0].yr))];
+        cross.attr('x1', x2(d.yr)).attr('x2', x2(d.yr))
+          .attr('y1', M.t).attr('y2', H - M.b).style('display', null);
+        dot.attr('cx', x2(d.yr)).attr('cy', y2s(d.c)).style('display', null);
+        showTipLines([`${d.c} PhDs`, `by ${d.yr}`], e);
+      })
+      .on('pointerleave', (e) => {
+        cross.style('display', 'none');
+        dot.style('display', 'none');
+        if (e.pointerType !== 'touch') hideTip();
+      });
+  }
+  function showTipLines(lines, evt) {
+    tt.textContent = '';
+    lines.forEach((l, i) => {
+      const d = document.createElement('div');
+      if (i === 0) d.className = 'tt-name';
+      d.textContent = l;
+      tt.appendChild(d);
+    });
+    tt.style.display = 'block';
+    moveTip(evt);
+  }
+  buildCharts();
 
   document.title = `Tomizuka Academic Family Tree · ${N} scholars`;
 }
