@@ -2783,7 +2783,7 @@ window.TREE_DATA = {
      "photo": null,
      "bio": null,
      "note": "PhD student, GT TASL Lab",
-     "homepage": null,
+     "homepage": "https://litiangong.com/",
      "provisional": false,
      "children": []
     },
