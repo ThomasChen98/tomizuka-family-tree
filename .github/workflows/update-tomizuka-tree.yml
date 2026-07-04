@@ -38,7 +38,7 @@ jobs:
 
       - name: Rebuild tree data
         run: |
-          ARGS="--base data/base.json --survey data/sample_responses.csv"
+          ARGS="--base data/base.json --survey data/additions.csv --survey data/sample_responses.csv"
           if [ -s /tmp/live_responses.csv ]; then
             ARGS="$ARGS --survey /tmp/live_responses.csv"
           fi

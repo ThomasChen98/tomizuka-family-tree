@@ -209,7 +209,7 @@ def merge_survey(tree, path):
             'educator': is_prof,
             'affiliation': (r.get('affiliation') or '').strip() or None,
             'title': (r.get('title') or '').strip() or None,
-            'inMemoriam': False,
+            'inMemoriam': (r.get('in_memoriam') or '').strip().lower() in ('true', 'yes', 'y', '1'),
             'photo': f'photos/{pid}.jpg' if os.path.exists(f'photos/{pid}.jpg') else None,
             'bio': (r.get('bio') or '').strip() or None,
             'note': (r.get('note') or '').strip() or None,

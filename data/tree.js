@@ -36,6 +36,23 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "c-s-lin",
+   "name": "C. S. Lin",
+   "batch": "PhD 1983",
+   "kind": "phd",
+   "year": 1983,
+   "decade": "1977–1989",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": null,
+   "bio": null,
+   "note": null,
+   "provisional": true,
+   "children": []
+  },
+  {
    "id": "horowitz-roberto",
    "name": "Roberto Horowitz",
    "batch": "PhD 1983",
@@ -341,6 +358,23 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/jabbari-alireza.jpg",
+   "children": []
+  },
+  {
+   "id": "huei-peng",
+   "name": "Huei Peng",
+   "batch": "PhD 1992",
+   "kind": "phd",
+   "year": 1992,
+   "decade": "1990s",
+   "educator": true,
+   "affiliation": "University of Michigan",
+   "title": "Roger L. McCarthy Professor of Mechanical Engineering",
+   "inMemoriam": true,
+   "photo": "photos/huei-peng.jpg",
+   "bio": null,
+   "note": "Mcity Director 2016–2021 · in memoriam 2022",
+   "provisional": true,
    "children": []
   },
   {
@@ -1002,6 +1036,23 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "hector-dominguez",
+   "name": "Hector Dominguez",
+   "batch": "PhD 2004",
+   "kind": "phd",
+   "year": 2004,
+   "decade": "2000s",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": null,
+   "bio": null,
+   "note": null,
+   "provisional": true,
+   "children": []
+  },
+  {
    "id": "huang-jihua",
    "name": "Jihua Huang",
    "batch": "PhD 2004",
@@ -1030,6 +1081,23 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "hwan-hur",
+   "name": "Hwan Hur",
+   "batch": "PhD 2005",
+   "kind": "phd",
+   "year": 2005,
+   "decade": "2000s",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": null,
+   "bio": null,
+   "note": null,
+   "provisional": true,
+   "children": []
+  },
+  {
    "id": "hsiao-te-sheng",
    "name": "Te-Sheng Hsiao",
    "batch": "PhD 2005",
@@ -1041,6 +1109,23 @@ window.TREE_DATA = {
    "title": "Associate Professor",
    "inMemoriam": false,
    "photo": "photos/hsiao-te-sheng.jpg",
+   "children": []
+  },
+  {
+   "id": "hyun-sug-kim",
+   "name": "Hyun-sug Kim",
+   "batch": "PhD 2007",
+   "kind": "phd",
+   "year": 2007,
+   "decade": "2000s",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": null,
+   "bio": null,
+   "note": null,
+   "provisional": true,
    "children": []
   },
   {
@@ -2083,6 +2168,23 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "chung-yen-lin",
+   "name": "Chung-Yen Lin",
+   "batch": "PhD 2016",
+   "kind": "phd",
+   "year": 2016,
+   "decade": "2010s",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": null,
+   "bio": null,
+   "note": "now at Apple (Senior Manager, ML & Robotics)",
+   "provisional": true,
+   "children": []
+  },
+  {
    "id": "lu-junkai",
    "name": "Junkai Lu",
    "batch": "PhD 2016",
@@ -2523,6 +2625,23 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/fan-yongxiang.jpg",
+   "children": []
+  },
+  {
+   "id": "yu-chu-huang",
+   "name": "Yu-Chu Huang",
+   "batch": "PhD 2019",
+   "kind": "phd",
+   "year": 2019,
+   "decade": "2010s",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": null,
+   "bio": null,
+   "note": null,
+   "provisional": true,
    "children": []
   },
   {
@@ -3014,6 +3133,23 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/chang-wei-jer.jpg",
+   "children": []
+  },
+  {
+   "id": "wenjie-li",
+   "name": "Wenjie Li",
+   "batch": "PhD Candidate",
+   "kind": "current",
+   "year": null,
+   "decade": "Current",
+   "educator": false,
+   "affiliation": "UC Berkeley",
+   "title": null,
+   "inMemoriam": false,
+   "photo": null,
+   "bio": null,
+   "note": "entered Fall 2024",
+   "provisional": true,
    "children": []
   },
   {

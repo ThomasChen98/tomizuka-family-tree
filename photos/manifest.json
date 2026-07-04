@@ -471,5 +471,10 @@
  "wang-pengcheng": {
   "source": "https://msc.berkeley.edu/assets/images/people/pengchengw.jpg",
   "confidence": "high (MSC lab site)"
+ },
+ "huei-peng": {
+  "source": "https://news.engin.umich.edu/2022/12/remembering-huei-peng/",
+  "confidence": "high (U-M memorial feature)",
+  "ingested": "2026-07-03"
  }
 }
