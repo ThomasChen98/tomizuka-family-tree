@@ -190,7 +190,8 @@ def merge_survey(tree, path):
         year = int(m.group(0)) if m else None
         status_l = (r.get('status') or '').strip().lower()
         is_ms = status_l == 'ms' or 'master' in status_l
-        current = ('current' in status_l or year is None) and not is_ms
+        graduated = 'grad' in status_l
+        current = (('current' in status_l) or (year is None and not graduated)) and not is_ms
         kind = 'ms' if is_ms else ('current' if current else 'phd')
         provisional = (r.get('source') or '').strip() == 'bootstrap'
 
@@ -251,10 +252,11 @@ def merge_survey(tree, path):
             'id': pid,
             'name': name,
             'batch': ((f'MS {year}' if year else 'MS') if is_ms
-                      else (f'PhD {year}' if not current else 'PhD Candidate')),
+                      else ((f'PhD {year}' if year else 'PhD') if not current
+                            else 'PhD Candidate')),
             'kind': kind,
             'year': year if not current else None,   # expected years don't sort
-            'decade': decade_bin(kind, year) if not current else 'Current',
+            'decade': decade_bin(kind, year) if (not current and year) else 'Current',
             'educator': is_prof,
             'affiliation': (r.get('affiliation') or '').strip() or None,
             'title': (r.get('title') or '').strip() or None,
