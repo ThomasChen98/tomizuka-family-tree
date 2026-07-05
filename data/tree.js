@@ -1038,24 +1038,6 @@ window.TREE_DATA = {
    "children": []
   },
   {
-   "id": "hector-dominguez",
-   "name": "Hector Dominguez",
-   "batch": "PhD 2004",
-   "kind": "phd",
-   "year": 2004,
-   "decade": "2000s",
-   "educator": false,
-   "affiliation": null,
-   "title": null,
-   "inMemoriam": false,
-   "photo": null,
-   "bio": null,
-   "note": null,
-   "homepage": null,
-   "provisional": true,
-   "children": []
-  },
-  {
    "id": "huang-jihua",
    "name": "Jihua Huang",
    "batch": "PhD 2004",
@@ -1113,24 +1095,6 @@ window.TREE_DATA = {
    "title": "Associate Professor",
    "inMemoriam": false,
    "photo": "photos/hsiao-te-sheng.jpg",
-   "children": []
-  },
-  {
-   "id": "hyun-sug-kim",
-   "name": "Hyun-sug Kim",
-   "batch": "PhD 2007",
-   "kind": "phd",
-   "year": 2007,
-   "decade": "2000s",
-   "educator": false,
-   "affiliation": null,
-   "title": null,
-   "inMemoriam": false,
-   "photo": null,
-   "bio": null,
-   "note": null,
-   "homepage": null,
-   "provisional": true,
    "children": []
   },
   {
@@ -2775,8 +2739,8 @@ window.TREE_DATA = {
     {
      "id": "litian-gong",
      "name": "Litian Gong",
-     "batch": "PhD Candidate",
-     "kind": "current",
+     "batch": "PhD",
+     "kind": "phd",
      "year": null,
      "decade": "Current",
      "educator": false,
@@ -2793,8 +2757,8 @@ window.TREE_DATA = {
     {
      "id": "mingxuan-yan",
      "name": "Mingxuan Yan",
-     "batch": "PhD Candidate",
-     "kind": "current",
+     "batch": "PhD",
+     "kind": "phd",
      "year": null,
      "decade": "Current",
      "educator": false,
@@ -2811,8 +2775,8 @@ window.TREE_DATA = {
     {
      "id": "xiaopan-zhang",
      "name": "Xiaopan Zhang",
-     "batch": "PhD Candidate",
-     "kind": "current",
+     "batch": "PhD",
+     "kind": "phd",
      "year": null,
      "decade": "Current",
      "educator": false,
