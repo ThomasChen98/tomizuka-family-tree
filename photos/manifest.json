@@ -172,8 +172,9 @@
   "confidence": "high (MSC lab site)"
  },
  "zhang-xiang": {
-  "source": "https://msc.berkeley.edu/assets/images/people/Xiang.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://drive.google.com/uc?export=download&id=1kHiMcSTDpcgkDXdhm75sv5BxbYhXhcMT",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-05"
  },
  "zhu-xinghao": {
   "source": "https://msc.berkeley.edu/assets/images/people/Xinghao.jpg",
@@ -305,8 +306,9 @@
   "confidence": "high (MSC lab site)"
  },
  "zhou-shiying": {
-  "source": "https://msc.berkeley.edu/assets/images/people/shiying.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://drive.google.com/uc?export=download&id=1ZbwQWEdcNIlWNN-0GO5B6fqYO5xH9sje",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-05"
  },
  "haninger-kevin": {
   "source": "https://msc.berkeley.edu/assets/images/people/Kevin.jpg",
@@ -480,17 +482,17 @@
   "ingested": "2026-07-03"
  },
  "zehao-wang": {
-  "source": "https://tasl.ucr.edu/people_photos/zehaowang.jpg",
+  "source": "https://zehaowang983.github.io/",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-05"
  },
  "mingxuan-yan": {
-  "source": "https://tasl.ucr.edu/people_photos/mingxuanyan.jpg",
+  "source": "https://waterhyacinthinnanhu.github.io/",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-05"
  },
  "junge-zhang": {
-  "source": "https://tasl.ucr.edu/people_photos/jungezhang.jpg",
+  "source": "https://andy-zd.github.io/",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-05"
  },
