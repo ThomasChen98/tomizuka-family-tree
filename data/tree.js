@@ -2361,7 +2361,7 @@ window.TREE_DATA = {
      "bio": null,
      "note": "Research Scientist at Apple",
      "homepage": "https://walleclipse.github.io/",
-     "provisional": true,
+     "provisional": false,
      "children": []
     },
     {
@@ -2860,6 +2860,7 @@ window.TREE_DATA = {
      "children": []
     }
    ],
+   "provisional": false,
    "note": null,
    "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford.",
    "homepage": "https://www.linkedin.com/in/jiachen-li/"
@@ -3202,7 +3203,8 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/wang-jen-wei.jpg",
-   "children": []
+   "children": [],
+   "provisional": false
   },
   {
    "id": "kobashi-keita",
@@ -3216,7 +3218,8 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/kobashi-keita.jpg",
-   "children": []
+   "children": [],
+   "provisional": false
   },
   {
    "id": "chang-wei-jer",
@@ -3230,7 +3233,8 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/chang-wei-jer.jpg",
-   "children": []
+   "children": [],
+   "provisional": false
   },
   {
    "id": "xie-yichen",
@@ -3244,7 +3248,8 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/xie-yichen.jpg",
-   "children": []
+   "children": [],
+   "provisional": false
   },
   {
    "id": "li-yiheng",
@@ -3258,7 +3263,8 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/li-yiheng.jpg",
-   "children": []
+   "children": [],
+   "provisional": false
   },
   {
    "id": "liang-boyuan",
@@ -3345,26 +3351,8 @@ window.TREE_DATA = {
    "children": []
   },
   {
-   "id": "wenjie-jeff-li",
-   "name": "Wenjie (Jeff) Li",
-   "batch": "PhD Candidate",
-   "kind": "current",
-   "year": null,
-   "decade": "Current",
-   "educator": false,
-   "affiliation": null,
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/wenjie-jeff-li.jpg",
-   "bio": null,
-   "note": "UC Berkeley",
-   "homepage": null,
-   "provisional": false,
-   "children": []
-  },
-  {
    "id": "wenjie-li",
-   "name": "Wenjie Li",
+   "name": "Wenjie (Jeff) Li",
    "batch": "PhD Candidate",
    "kind": "current",
    "year": null,
@@ -3373,11 +3361,11 @@ window.TREE_DATA = {
    "affiliation": "UC Berkeley",
    "title": null,
    "inMemoriam": false,
-   "photo": null,
+   "photo": "photos/wenjie-li.jpg",
    "bio": null,
-   "note": null,
+   "note": "UC Berkeley",
    "homepage": null,
-   "provisional": true,
+   "provisional": false,
    "children": []
   },
   {
@@ -3421,6 +3409,7 @@ window.TREE_DATA = {
    "inMemoriam": false,
    "photo": "photos/chen-yuxin.jpg",
    "children": [],
+   "provisional": false,
    "bio": "Yuxin Chen is currently a Ph.D. candidate at UC Berkeley. He received his M.S. in Robotics and B.S. in Aerospace degrees from the University of Michigan, as well as a B.S. in Mechanical Engineering degree from Shanghai Jiao Tong University.",
    "note": "UC Berkeley",
    "homepage": "https://thomaschen98.github.io/"
