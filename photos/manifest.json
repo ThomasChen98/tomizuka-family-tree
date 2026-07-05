@@ -306,8 +306,9 @@
   "confidence": "high (MSC lab site)"
  },
  "zhou-shiying": {
-  "source": "https://msc.berkeley.edu/assets/images/people/shiying.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://drive.google.com/uc?export=download&id=1ZbwQWEdcNIlWNN-0GO5B6fqYO5xH9sje",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-05"
  },
  "haninger-kevin": {
   "source": "https://msc.berkeley.edu/assets/images/people/Kevin.jpg",
