@@ -171,16 +171,18 @@ def _pagey(url):
 
 def merge_survey(tree, path):
     import csv
-    by_name, ids = {}, set()
+    by_name, ids, parent_of = {}, set(), {}
 
-    def index(node):
+    def index(node, parent_name):
         by_name.setdefault(norm_name(node['name']), node)
         ids.add(node.get('id'))
+        parent_of[node.get('id')] = parent_name
         for c in node.get('children', []):
-            index(c)
-    index(tree)
+            index(c, node['name'])
+    index(tree, None)
 
     unmatched = []
+    mismatched = []
     for r in csv.DictReader(open(path)):
         name = (r.get('name') or '').strip()
         if not name:
@@ -195,7 +197,17 @@ def merge_survey(tree, path):
         kind = 'ms' if is_ms else ('current' if current else 'phd')
         provisional = (r.get('source') or '').strip() == 'bootstrap'
 
-        me = by_name.get(norm_name(name))
+        # distinct=yes explicitly declares a namesake: never merge by name
+        me = None if (r.get('distinct') or '').strip().lower() in ('yes', 'true', '1') \
+            else by_name.get(norm_name(name))
+        if me is not None:
+            # same name but a DIFFERENT advisor than the tree records is a
+            # homonym or a co-advised duplicate — never overwrite, flag it
+            adv_n = norm_name(r.get('advisor') or '')
+            par = parent_of.get(me.get('id'))
+            if adv_n and par and adv_n != norm_name(par):
+                mismatched.append(r)
+                continue
         if me is not None:                      # update an existing card
             if not provisional:
                 me['provisional'] = False       # a real survey confirms the card
@@ -274,16 +286,27 @@ def merge_survey(tree, path):
         }
         parent.setdefault('children', []).append(child)
         by_name.setdefault(norm_name(name), child)
+        parent_of[pid] = parent['name']
 
     for node_list in _walk_children(tree):
         node_list.sort(key=lambda c: (c['year'] or 9999, c['name']))
 
-    if unmatched:
+    if unmatched or mismatched:
         with open('data/needs-review.md', 'w') as f:
-            f.write('# Survey rows whose advisor could not be matched\n\n')
-            for r in unmatched:
-                f.write(f"- {r.get('name')} (advisor given: {r.get('advisor')!r})\n")
-        print(f'WARNING {len(unmatched)} unmatched rows -> data/needs-review.md', file=sys.stderr)
+            if unmatched:
+                f.write('# Survey rows whose advisor could not be matched\n\n')
+                for r in unmatched:
+                    f.write(f"- {r.get('name')} (advisor given: {r.get('advisor')!r})\n")
+            if mismatched:
+                f.write('\n# Name exists under a different advisor '
+                        '(homonym, or co-advised duplicate?)\n\n')
+                f.write('If a real namesake: re-add the row with distinct=yes. '
+                        'If co-advised: safe to ignore.\n\n')
+                for r in mismatched:
+                    f.write(f"- {r.get('name')} (row advisor: {r.get('advisor')!r}, "
+                            f"{r.get('status')} {r.get('grad_year')})\n")
+        print(f'WARNING {len(unmatched)} unmatched, {len(mismatched)} advisor-mismatched '
+              f'-> data/needs-review.md', file=sys.stderr)
     elif os.path.exists('data/needs-review.md'):
         os.remove('data/needs-review.md')
 

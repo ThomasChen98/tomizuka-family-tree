@@ -1,1 +1,4 @@
-name,advisor,status,grad_year,is_professor,affiliation,title,note,bio,photo_url,source,in_memoriam
+name,advisor,status,grad_year,is_professor,affiliation,title,note,bio,photo_url,source,in_memoriam,distinct
+Pengcheng Wang,Jingang Yi,graduated,2018,no,,,"now at Innovation Academy for Microsatellite, CAS",,,bootstrap,,yes
+Dongjun (DJ) Lee,Perry Y. Li,graduated,2004,yes,Seoul National University,Professor,,,,bootstrap,,yes
+Jiachen Li,Dongmei Chen,current,,no,,,,,,bootstrap,,yes
