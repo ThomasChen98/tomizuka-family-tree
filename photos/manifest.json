@@ -172,9 +172,8 @@
   "confidence": "high (MSC lab site)"
  },
  "zhang-xiang": {
-  "source": "https://drive.google.com/uc?export=download&id=1kHiMcSTDpcgkDXdhm75sv5BxbYhXhcMT",
-  "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "source": "https://msc.berkeley.edu/assets/images/people/Xiang.jpg",
+  "confidence": "high (MSC lab site)"
  },
  "zhu-xinghao": {
   "source": "https://msc.berkeley.edu/assets/images/people/Xinghao.jpg",
@@ -306,9 +305,8 @@
   "confidence": "high (MSC lab site)"
  },
  "zhou-shiying": {
-  "source": "https://drive.google.com/uc?export=download&id=1ZbwQWEdcNIlWNN-0GO5B6fqYO5xH9sje",
-  "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "source": "https://msc.berkeley.edu/assets/images/people/shiying.jpg",
+  "confidence": "high (MSC lab site)"
  },
  "haninger-kevin": {
   "source": "https://msc.berkeley.edu/assets/images/people/Kevin.jpg",
@@ -482,17 +480,17 @@
   "ingested": "2026-07-03"
  },
  "zehao-wang": {
-  "source": "https://zehaowang983.github.io/",
+  "source": "https://tasl.ucr.edu/people_photos/zehaowang.jpg",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-05"
  },
  "mingxuan-yan": {
-  "source": "https://waterhyacinthinnanhu.github.io/",
+  "source": "https://tasl.ucr.edu/people_photos/mingxuanyan.jpg",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-05"
  },
  "junge-zhang": {
-  "source": "https://andy-zd.github.io/",
+  "source": "https://tasl.ucr.edu/people_photos/jungezhang.jpg",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-05"
  },
@@ -1989,6 +1987,606 @@
  "beau-aguilar": {
   "source": "https://mavericklab.uark.edu/files/2025/07/Beau-Aguilar.jpg",
   "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-05"
+ },
+ "nader-sadegh": {
+  "source": "https://me.gatech.edu/faculty/sadegh",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "eric-j-barth": {
+  "source": "https://www.vanderbilt.edu/vise/people/eric-barth/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yong-zhu": {
+  "source": "https://www.wilkes.edu/campus-directory/yong.zhu.aspx",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yue-chen": {
+  "source": "https://bme.gatech.edu/bio/yue-chen",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "anthony-gunderman": {
+  "source": "https://engineering.uark.edu/mechanical-engineering/faculty/uid/algunder/name/Anthony+Gunderman/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "mengtang-li": {
+  "source": "https://mengtangli.github.io/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "elissa-ledoux": {
+  "source": "https://www.benedictine.edu/person/elissa-ledoux",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "hassan-almubarak": {
+  "source": "https://cie.kfupm.edu.sa/people/faculty/dr-hassan-al-mubarak/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jia-yush-yen": {
+  "source": "https://www.ntust.edu.tw/p/404-1000-87707.php?Lang=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "chul-goo-kang": {
+  "source": "https://scholar.google.com/citations?user=C6rd72oAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "william-messner": {
+  "source": "https://theconversation.com/profiles/william-c-messner-288376",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "perry-y-li": {
+  "source": "https://cse.umn.edu/me/perry-li",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "saroj-saimek": {
+  "source": "https://mgronline.com/science/detail/9520000018900",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "devin-berg": {
+  "source": "https://www.uwstout.edu/directory/bergdev",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "luis-alvarez": {
+  "source": "https://www.iingen.unam.mx/es-mx/Investigacion/Academicos/Paginas/Alvar.aspx",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "guillermo-becerra-nunez": {
+  "source": "https://www.paginaspersonales.unam.mx/app/webroot/index.php/academicos/datosContacto/alias:guillermobecerra",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jesus-morales-valdez": {
+  "source": "https://scholar.google.com/citations?user=Fl6a4d8AAAAJ&hl=es",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "david-horsley": {
+  "source": "https://faculty.engineering.ucdavis.edu/horsley/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jack-l-skinner": {
+  "source": "https://www.mtech.edu/mechanical-engineering/faculty/jack-skinner/index.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jessica-andriolo": {
+  "source": "https://www.mtech.edu/mechanical-engineering/faculty/jessica-andriolo/index.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "amos-taiswa": {
+  "source": "https://www.mtech.edu/mechanical-engineering/faculty/amos-taiswa/index.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yipeng-lu": {
+  "source": "https://ic.pku.edu.cn/en/Faculty/Facultys/MEMS/LuYipeng/index.htm",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "soner-sonmezoglu": {
+  "source": "https://www.sonmezoglulab.com/people",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "sungsu-park": {
+  "source": "https://www.space.re.kr/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "tsung-lin-tony-chen": {
+  "source": "https://me.nycu.edu.tw/people/people2/Tsung-Lin-Chen-42669445",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jingang-yi": {
+  "source": "https://mae.rutgers.edu/jingang-yi",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yizhai-zhang": {
+  "source": "https://www.ais.cn/mentor/mentorDetail/1136de58-50cd-11eb-94db-a85e45a23623",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "mitja-trkov": {
+  "source": "https://engineering.rowan.edu/faculty_staff/listing/mitja-trkov.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "kaiyan-yu": {
+  "source": "https://www.binghamton.edu/mechanical-engineering/people/profile.html?id=kyu",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "feng-han": {
+  "source": "https://www.nyit.edu/bio/feng-han/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "laura-munoz": {
+  "source": "https://www.rit.edu/science/directory/lmmsma-laura-munoz",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "si-hyung-shawn-lim": {
+  "source": "https://scholar.google.co.kr/citations?user=j6x0W6UAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jongeun-choi": {
+  "source": "https://mlcs.yonsei.ac.kr/Professor.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "kenn-oldham": {
+  "source": "https://me.engin.umich.edu/people/faculty/kenn-oldham/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "kendall-teichert": {
+  "source": "https://www.byui.edu/directories/kendall-teichert",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "sarah-felix": {
+  "source": "https://faculty.rpi.edu/sarah-felix",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "fu-zhang": {
+  "source": "https://mars.hku.hk/people.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "negar-mehr": {
+  "source": "https://iconlab.negarmehr.com/people/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "ruolin-li": {
+  "source": "https://viterbischool.usc.edu/news/2024/10/could-autonomous-vehicles-make-us-more-altruistic/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jung-yup-kim": {
+  "source": "https://pure.seoultech.ac.kr/en/persons/jung-yup-kim",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "hyunmin-jo": {
+  "source": "https://scholar.google.com/citations?user=MgFW5MEAAAAJ&hl=en",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "baek-kyu-cho": {
+  "source": "https://scholar.google.com/citations?user=PL8VkjEAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "dongil-choi": {
+  "source": "https://drcl.mju.ac.kr/professor",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "inho-lee": {
+  "source": "https://pnu-camel.oopy.io/home/people",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "sangsin-park": {
+  "source": "https://nextlab.one/prof-park/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "olivier-lambercy": {
+  "source": "https://relab.ethz.ch/laboratory/team/olivier-lambercy.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yabo-fu": {
+  "source": "https://scholar.google.com/citations?user=uKRH4goAAAAJ&hl=en",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "eui-hyeok-yang": {
+  "source": "https://www.stevens.edu/profile/eyang",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "junjun-ding": {
+  "source": "https://www.alfred.edu/academics/faculty-staff/profiles/ding-junjun.cfm",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "ok-chan-jeong": {
+  "source": "https://cms.inje.ac.kr/bme/intro/faculty.do",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "d-h-kim": {
+  "source": "https://www.bradley.edu/academics/departments/mechanical-engineering/faculty/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "z-x-sun": {
+  "source": "https://cse.umn.edu/me/zongxuan-sun",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "xingyong-song": {
+  "source": "https://engineering.tamu.edu/etid/profiles/songxy.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yongsoon-yoon": {
+  "source": "https://scholar.google.com/citations?user=EtjD8pQAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yunli-shao": {
+  "source": "https://emobility.uga.edu/team-member/yunli-shao/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "nestor-perez-arancibia": {
+  "source": "https://mme.wsu.edu/mme-personnel/wsu-profile/n.perezarancibia/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "chi-ying-lin": {
+  "source": "https://www.me.ntust.edu.tw/p/405-1005-49982,c2252.php?Lang=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "shalom-ruben": {
+  "source": "https://www.colorado.edu/mechanical/shalom-ruben",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "cheng-wei-chen": {
+  "source": "https://cwchenee.wixsite.com/nasa-ntuee",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yu-hsiu-martin-lee": {
+  "source": "https://scholar.google.com/citations?user=x46iv8gAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "lecheng-ruan": {
+  "source": "https://leleucla.github.io/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "shiang-hwua-yu": {
+  "source": "https://web.ee.nsysu.edu.tw/p/412-1203-25871.php?Lang=zh-tw",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "keng-yuan-chen": {
+  "source": "https://eea.ee.yzu.edu.tw/teacher_detail/bettery33?lang=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "sung-kyung-hong": {
+  "source": "https://scholar.google.com/citations?user=9DpAaQIAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jong-seob-won": {
+  "source": "https://scholar.google.com/citations?user=pH8PnmMAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "mohammad-abdel-kareem-jaradat": {
+  "source": "https://www.aus.edu/faculty/mohammad-jaradat",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yeesuck-kim": {
+  "source": "https://calbaptist.edu/faculty-directory/profileview?id=500",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "kemal-sarp-arsava": {
+  "source": "https://www.ntnu.edu/employees/kemal.arsava",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "changwon-kim": {
+  "source": "https://mae.pknu.ac.kr/mae/2204?action=view&no=19401878",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "ardalan-vahidi": {
+  "source": "https://www.clemson.edu/cecas/departments/me/people/faculty/vahidi.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "ding-zhao": {
+  "source": "https://www.meche.engineering.cmu.edu/directory/bios/zhao-ding.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "songan-zhang": {
+  "source": "https://gift.sjtu.edu.cn/en/faculty/40924",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "bo-chiuan-chen": {
+  "source": "https://sites.google.com/a/mail.ntut.edu.tw/avcl/index",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "changsun-ahn": {
+  "source": "https://scholar.google.com/citations?hl=en&user=kGUoQtYAAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "dongmei-chen": {
+  "source": "https://www.me.utexas.edu/people/faculty-directory/chen",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yogesh-manoharan": {
+  "source": "https://scholar.google.com/citations?user=bMReeQMAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "dongsuk-kum": {
+  "source": "https://mo.kaist.ac.kr/en/professor/dongseok-geum/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "kibeom-lee": {
+  "source": "https://scholar.google.com/citations?user=Pk540RcAAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "sanmin-kim": {
+  "source": "https://auto.kookmin.ac.kr/about/faculty",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jay-tawee-pukrushpan": {
+  "source": "https://www.me.eng.ku.ac.th/faculty/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "kangwon-wayne-lee": {
+  "source": "https://ame.tukorea.ac.kr/me/1691/subview.do",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "namwook-kim": {
+  "source": "https://erica.scholarworks.kr/researcher-profile?ep=328",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "polat-sendur": {
+  "source": "https://scholar.google.com/citations?user=bfSCM5AAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "supavut-chantranuwathana": {
+  "source": "https://me.eng.chula.ac.th/mecu-faculty-members/sunhapos-chantranuwathana/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yongsong-chen": {
+  "source": "https://amc.ccu.edu.tw/p/406-1143-6129,r1291.php?Lang=zh-tw",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "zhenzhong-jia": {
+  "source": "https://www.sustech.edu.cn/en/faculties/jiazhenzhong.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "samy-shedied": {
+  "source": "https://www.newspacehorizons.com/speakers/samy-ali-shedied",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "sadeq-alnasur": {
+  "source": "https://engineering.ku.edu.kw/ee/people/sadeq-j-alnasur",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "patricia-mellodge": {
+  "source": "http://web.archive.org/web/20180204182643/http://www.hartford.edu/ceta/about-us/facultystaff/ece/mellodge/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "sabiha-wadoo": {
+  "source": "https://www.nyit.edu/bio/sabiha-wadoo/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "ricky-castles": {
+  "source": "https://cet.ecu.edu/engineering/faculty-and-staff/ricky-castles/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "neveen-shlayan": {
+  "source": "https://cooper.edu/academics/people/neveen-shlayan",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "shaurya-agarwal": {
+  "source": "https://www.cece.ucf.edu/person/shauryaagarwal/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "keith-a-williams": {
+  "source": "https://eng.ua.edu/eng-directory/dr-keith-a-williams/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "cheng-lun-chen": {
+  "source": "https://www.ee.nchu.edu.tw/wb_teacher01.asp?url=31&cno=3",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yaoyu-li": {
+  "source": "https://me.utdallas.edu/people/yaoyu-li/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "hung-ming-cheng": {
+  "source": "https://community.wvu.edu/~hucheng/",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "pei-ju-chiang": {
+  "source": "https://sname.ncku.edu.tw/p/412-1102-23727.php?Lang=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yan-fu-kuo": {
+  "source": "https://www.bime.ntu.edu.tw/English/News_Photo_Content_n_100917_s_104183.html",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "james-mynderse": {
+  "source": "https://ltu.edu/faculty/mynderse-james/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "j-william-boley": {
+  "source": "https://www.bu.edu/eng/profile/william-boley-ph-d/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "nikhil-bajaj": {
+  "source": "https://engineering.pitt.edu/people/faculty/nikhil-bajaj/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "allison-murray": {
+  "source": "https://scholar.google.com/citations?hl=en&user=2ksLTBAAAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "ahmed-al-otaibi": {
+  "source": "https://scholar.google.com/citations?hl=en&user=pjbrHj0AAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "xiaocong-zhu": {
+  "source": "http://me.zju.edu.cn/meenglish/2016/1129/c15487a770723/page.psp",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "chuxiong-hu": {
+  "source": "https://www.me.tsinghua.edu.cn/en/info/1275/2062.htm",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "dedong-gao": {
+  "source": "https://jxxy.qhu.edu.cn/szgk/jxdzgcjys/4737.htm",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "shan-chen": {
+  "source": "https://scholar.google.com/citations?hl=en&user=wd8xbJUAAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yan-gu": {
+  "source": "https://engineering.purdue.edu/ME/People/ptProfile?resource_id=273141",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "ramamurthy-v-dwivedula": {
+  "source": "https://sitam.co.in/index.php/our-principals",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "li-hsiang-shen": {
+  "source": "https://scholar.google.com/citations?user=BExg0OcAAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "po-hsuan-tseng": {
+  "source": "https://ece.ntut.edu.tw/p/405-1071-30218,c2679.php?Lang=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "uduak-inyang-udoh": {
+  "source": "https://scholar.google.com/citations?user=TeEpcZcAAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "jungsu-choi": {
+  "source": "https://hrc.yu.ac.kr/Principal-Investigator",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "hyunjin-choi": {
+  "source": "https://scholar.google.com/citations?user=UgLn9KQAAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "xishun-liao": {
+  "source": "https://www.cece.ucf.edu/person/xishun-liao/",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "yiwei-wang": {
+  "source": "https://scholar.google.com/citations?hl=en&user=9UC6-YUAAAAJ",
+  "confidence": "medium (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "emiliano-quinones-yumbla": {
+  "source": "https://scholar.google.com/citations?user=y0_xIZ8AAAAJ&hl=en",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "karishma-patnaik": {
+  "source": "https://scholar.google.com/citations?hl=en&user=-OrVZbAAAAAJ",
+  "confidence": "high (faculty-page hunt)",
+  "ingested": "2026-07-05"
+ },
+ "meng-lun-lee": {
+  "source": "https://www.oit.edu/directory/menglun-lee",
+  "confidence": "high (faculty-page hunt)",
   "ingested": "2026-07-05"
  }
 }
