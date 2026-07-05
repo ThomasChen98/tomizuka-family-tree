@@ -443,11 +443,13 @@ function initTree() {
   })(people, 1);
   const nPhd = people.filter(p => p.kind === 'phd').length;
   const nCur = allNodes.filter(p => p.kind === 'current').length;
+  const nMs = people.filter(p => p.kind === 'ms').length;
   const nUni = new Set(allNodes.filter(p => p.educator && p.affiliation)
     .map(p => p.affiliation)).size;
   const nPhotos = allNodes.filter(p => p.photo).length;
   const stats = [
-    [N, 'First-generation PhD students', `${nPhd} graduated · ${N - nPhd} in the lab now`],
+    [N - nMs, 'First-generation PhD students',
+     `${nPhd} graduated · ${N - nPhd - nMs} in the lab now${nMs ? ` · +${nMs} MS` : ''}`],
     [nEdu, 'Became professors', `at ${nUni} institutions worldwide`],
     [`${Math.min(...years)}–now`, 'Years of graduates', `${new Date().getFullYear() - Math.min(...years) + 1} years and counting`],
     [nDesc || '5+', nDesc ? 'Next-generation students (growing)' : 'Generations expected',
@@ -1312,7 +1314,7 @@ function initTree() {
   function buildCharts() {
     const color = g => `var(--cat${Math.min(g, 5)})`;
     const genLabel = g => g >= 5 ? 'Gen 5+' : 'Gen ' + g;
-    const grads = allNodes.filter(p => p.year)
+    const grads = allNodes.filter(p => p.year && p.kind === 'phd')
       .map(p => ({ year: p.year, g: Math.min(p.gen, 5) }));
     if (!grads.length) return;
     const gens = [...new Set(grads.map(d => d.g))].sort((a, b) => a - b);

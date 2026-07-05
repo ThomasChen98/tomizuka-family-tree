@@ -188,8 +188,10 @@ def merge_survey(tree, path):
         is_prof = (r.get('is_professor') or '').strip().lower() in ('true', 'yes', 'y', '1')
         m = re.search(r'\d{4}', r.get('grad_year') or '')
         year = int(m.group(0)) if m else None
-        current = 'current' in (r.get('status') or '').lower() or year is None
-        kind = 'current' if current else 'phd'
+        status_l = (r.get('status') or '').strip().lower()
+        is_ms = status_l == 'ms' or 'master' in status_l
+        current = ('current' in status_l or year is None) and not is_ms
+        kind = 'ms' if is_ms else ('current' if current else 'phd')
         provisional = (r.get('source') or '').strip() == 'bootstrap'
 
         me = by_name.get(norm_name(name))
@@ -218,7 +220,13 @@ def merge_survey(tree, path):
                 me['homepage'] = (r.get('photo_url') or '').strip()
             # a year only counts as graduation when status isn't "current" —
             # current students often write their EXPECTED graduation year
-            if year and not current:
+            if is_ms:                          # curator override: MS, not PhD
+                me['kind'] = 'ms'
+                me['batch'] = f'MS {year}' if year else 'MS'
+                if year:
+                    me['year'] = year
+                    me['decade'] = decade_bin('phd', year)
+            elif year and not current:
                 me['year'] = year
                 me['kind'] = 'phd'
                 me['batch'] = f'PhD {year}'
@@ -242,7 +250,8 @@ def merge_survey(tree, path):
         child = {
             'id': pid,
             'name': name,
-            'batch': f'PhD {year}' if not current else 'PhD Candidate',
+            'batch': ((f'MS {year}' if year else 'MS') if is_ms
+                      else (f'PhD {year}' if not current else 'PhD Candidate')),
             'kind': kind,
             'year': year if not current else None,   # expected years don't sort
             'decade': decade_bin(kind, year) if not current else 'Current',

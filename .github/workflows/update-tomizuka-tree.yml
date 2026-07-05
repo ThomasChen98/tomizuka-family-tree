@@ -42,6 +42,8 @@ jobs:
           if [ -s /tmp/live_responses.csv ]; then
             ARGS="$ARGS --survey /tmp/live_responses.csv"
           fi
+          # curator corrections merge LAST so they beat self-reports
+          ARGS="$ARGS --survey data/overrides.csv"
           echo "BUILD_ARGS=$ARGS" >> "$GITHUB_ENV"
           python3 scripts/build_data.py $ARGS
 
