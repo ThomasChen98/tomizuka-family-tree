@@ -164,6 +164,10 @@
   .ghost-node { fill: none; stroke: var(--muted); stroke-dasharray: 3 3; stroke-width: 1.2; }
   .ghost-link { fill: none; stroke: var(--grid); stroke-width: 1; stroke-dasharray: 3 3; }
   .branch-link { fill: none; stroke: var(--baseline); stroke-width: 1; }
+  .branch-link.faint { stroke-opacity: 0.4; }
+  .branch-link.hot {
+    stroke: var(--accent); stroke-opacity: 1; stroke-width: 1.7;
+  }
   .person.wedge-dim text.p-label { opacity: 0; }
   .edu-mark { fill: var(--edu-ring); }
   .dimmed { opacity: 0.18; }
@@ -569,6 +573,7 @@ function initTree() {
   const isLeft = a => a > Math.PI;
   const CHORD = R_GEN1 * (A1 - A0) / N;
   let node = d3.select(null), label = d3.select(null), initials = d3.select(null);
+  let linkSel = d3.select(null);
   let visible = people;   // every node currently on screen (all generations)
 
   // photo tiles: one objectBoundingBox pattern per portrait, so the image
@@ -804,7 +809,22 @@ function initTree() {
 
   // ---- branches: real children when the data has them, ghosts until then ---
   const expanded = new Set();
-  const linkGen = d3.linkRadial().angle(d => d.a).radius(d => d.r);
+  // polar orthogonal routing: radial out -> arc along the inter-ring corridor
+  // -> radial in. Arcs stay at corridor radius, so links can never cut across
+  // the middle of the chart no matter how far a fan was dodged.
+  function radialElbow(s, t) {
+    let da = t.a - s.a;
+    while (da > Math.PI) da -= 2 * Math.PI;
+    while (da < -Math.PI) da += 2 * Math.PI;
+    const rMid = (s.r + t.r) / 2;
+    const [x0, y0] = pos(s.a, s.r);
+    const [x3, y3] = pos(s.a + da, t.r);
+    if (Math.abs(da) < 0.003) return `M${x0},${y0} L${x3},${y3}`;
+    const [x1, y1] = pos(s.a, rMid);
+    const [x2, y2] = pos(s.a + da, rMid);
+    const sweep = da > 0 ? 1 : 0;
+    return `M${x0},${y0} L${x1},${y1} A${rMid},${rMid} 0 0 ${sweep} ${x2},${y2} L${x3},${y3}`;
+  }
 
   // Fans that share a ring are laid out jointly: each wants to sit at its
   // parent's angle; overlapping fans merge into a cluster that is packed
@@ -967,18 +987,17 @@ function initTree() {
 
   function render() {
     const v = computeVisible();
-    gLinks.selectAll('path.branch-link').data(v.links, l => l.target.id).join('path')
+    linkSel = gLinks.selectAll('path.branch-link').data(v.links, l => l.target.id).join('path')
       .attr('class', 'branch-link')
-      .attr('d', l => linkGen({
-        source: { a: l.source.angle, r: l.source.radius + l.source.baseR + 6 },
-        target: { a: l.target.angle, r: l.target.radius - l.target.baseR - 2 },
-      }));
+      .classed('faint', v.links.length > 120)
+      .attr('d', l => radialElbow(
+        { a: l.source.angle, r: l.source.radius + l.source.baseR + 4 },
+        { a: l.target.angle, r: l.target.radius - l.target.baseR - 2 }));
     gGhost.selectAll('path.ghost-link').data(v.ghosts, d => d.id).join('path')
       .attr('class', 'ghost-link')
-      .attr('d', d => linkGen({
-        source: { a: d.parent.angle, r: d.parent.radius + 14 },
-        target: { a: d.angle, r: d.radius - 8 },
-      }));
+      .attr('d', d => radialElbow(
+        { a: d.parent.angle, r: d.parent.radius + 14 },
+        { a: d.angle, r: d.radius - 8 }));
     const gn = gGhost.selectAll('g.ghostn').data(v.ghosts, d => d.id).join('g')
       .attr('class', 'ghostn')
       .attr('transform', d => `rotate(${rotDeg(d.angle)}) translate(${d.radius},0)`);
@@ -1068,6 +1087,8 @@ function initTree() {
       if (best && best.s > 1.35) act = segs.find(sg => sg.dec === best.decade) || null;
       segG.classed('active', d => d === act);
       spokes.classed('hot', d => d.s > 1.55);
+      // light the magnified person's own branch line
+      linkSel.classed('hot', l => l.target.s > 1.5 || l.source.s > 1.5);
     }
   }
   function tick() {
