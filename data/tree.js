@@ -2936,6 +2936,24 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "ce-hao",
+   "name": "Ce Hao",
+   "batch": "MS 2022",
+   "kind": "ms",
+   "year": 2022,
+   "decade": "2020s",
+   "educator": true,
+   "affiliation": "Beijing Zhongguancun Academy",
+   "title": "Assistant professor",
+   "inMemoriam": false,
+   "photo": "photos/ce-hao.jpg",
+   "bio": "I jointed MSC Lab in 2019 as an RA, and enrolled as a PhD student on 2021. \nI left on 2023 and went to NUS at Singapore.\n\nI studied autonomous driving control system with Catherine Weaver, superviosed by Chen Tang, Wei Zhan, Liting Sun and Professor Tomizuka.\n\nNow I am working in Beijing as an assistant professor.",
+   "note": "now a PhD student at NUS",
+   "homepage": "https://cehao1.github.io/",
+   "provisional": false,
+   "children": []
+  },
+  {
    "id": "tang-chen",
    "name": "Chen Tang",
    "batch": "PhD 2022",
@@ -2975,24 +2993,6 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/zhou-yiyang.jpg",
-   "children": []
-  },
-  {
-   "id": "ce-hao",
-   "name": "Ce Hao",
-   "batch": "PhD 2023",
-   "kind": "phd",
-   "year": 2023,
-   "decade": "2020s",
-   "educator": true,
-   "affiliation": "Beijing Zhongguancun Academy",
-   "title": "Assistant professor",
-   "inMemoriam": false,
-   "photo": "photos/ce-hao.jpg",
-   "bio": "I jointed MSC Lab in 2019 as an RA, and enrolled as a PhD student on 2021. \nI left on 2023 and went to NUS at Singapore.\n\nI studied autonomous driving control system with Catherine Weaver, superviosed by Chen Tang, Wei Zhan, Liting Sun and Professor Tomizuka.\n\nNow I am working in Beijing as an assistant professor.",
-   "note": null,
-   "homepage": "https://cehao1.github.io/",
-   "provisional": false,
    "children": []
   },
   {
@@ -3159,12 +3159,15 @@ window.TREE_DATA = {
    "kind": "phd",
    "year": 2025,
    "decade": "2020s",
-   "educator": false,
-   "affiliation": null,
-   "title": null,
+   "educator": true,
+   "affiliation": "UT Austin",
+   "title": "Assistant Professor",
    "inMemoriam": false,
    "photo": "photos/xu-chenfeng.jpg",
-   "children": []
+   "children": [],
+   "provisional": false,
+   "note": null,
+   "homepage": "https://www.cs.utexas.edu/people/faculty-researchers/chenfeng-xu"
   },
   {
    "id": "li-chenran",
