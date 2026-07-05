@@ -150,6 +150,8 @@ def norm_name(s):
     s = unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode().lower()
     # people write advisors as "Prof. X", "Professor X", "Dr. X" — drop honorifics
     s = re.sub(r'\b(professor|prof|dr|mr|mrs|ms)\.?\s+', ' ', s)
+    # and themselves as 'Wenjie (Jeff) Li' — drop parenthesized nicknames
+    s = re.sub(r'\([^)]*\)', ' ', s)
     return re.sub(r'[^a-z]', '', s)
 
 
@@ -192,6 +194,10 @@ def merge_survey(tree, path):
 
         me = by_name.get(norm_name(name))
         if me is not None:                      # update an existing card
+            if not provisional:
+                me['provisional'] = False       # a real survey confirms the card
+                if name != me['name']:
+                    me['name'] = name           # self-reported name wins
             if is_prof and not me.get('educator'):
                 me['educator'] = True
             aff_in = (r.get('affiliation') or '').strip()
