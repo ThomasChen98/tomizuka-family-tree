@@ -3105,7 +3105,10 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/zhang-xiang.jpg",
-   "children": []
+   "children": [],
+   "provisional": false,
+   "note": "Fanuc",
+   "homepage": "https://xiang-zhang-98.github.io/"
   },
   {
    "id": "zhu-xinghao",
