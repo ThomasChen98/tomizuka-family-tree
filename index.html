@@ -856,6 +856,15 @@ function initTree() {
         return { parent: p, kind: 'ghost', n: 3, step: 0.026,
                  half: 0.026, center: p.angle, w: 0.052 + FAN_MARGIN };
       });
+      // when every branch is open the ring physically can't fit the fans at
+      // full width — squeeze all of them proportionally (dense but readable
+      // via fisheye; Sunburst/Treemap are the full-picture views)
+      const span = (A1 - A0) - 0.06;
+      const totalW = groups.reduce((a, g) => a + g.w, 0);
+      if (totalW > span) {
+        const k = span / totalW;
+        groups.forEach(g => { g.step *= k; g.half *= k; g.w *= k; });
+      }
       deoverlap(groups);
 
       const ring = nodes.filter(q => q.depth === depth - 1);
