@@ -449,7 +449,7 @@ function initTree() {
   const nPhotos = allNodes.filter(p => p.photo).length;
   const stats = [
     [N - nMs, 'First-generation PhD students',
-     `${nPhd} graduated · ${N - nPhd - nMs} in the lab now${nMs ? ` · +${nMs} MS` : ''}`],
+     `${nPhd} graduated · ${N - nPhd - nMs} in the lab now`],
     [nEdu, 'Became professors', `at ${nUni} institutions worldwide`],
     [`${Math.min(...years)}–now`, 'Years of graduates', `${new Date().getFullYear() - Math.min(...years) + 1} years and counting`],
     [nDesc || '5+', nDesc ? 'Next-generation students (growing)' : 'Generations expected',
