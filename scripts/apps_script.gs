@@ -50,9 +50,21 @@ function doPost(e) {
 function savePhoto_(p) {
   const bytes = Utilities.base64Decode(p.photo_data.split('base64,')[1]);
   const safe = (p.name || 'photo').replace(/[^\w\- ]/g, '').trim() || 'photo';
-  const blob = Utilities.newBlob(bytes, 'image/jpeg', safe + '.jpg');
-  const file = Drive.Files.create(
-    { name: blob.getName(), parents: [getFolderId_()] }, blob);
+  const name = safe + '.jpg';
+  const folderId = getFolderId_();
+  // repeat submissions replace the previous upload instead of piling up
+  try {
+    const prev = Drive.Files.list({
+      q: "'" + folderId + "' in parents and name = '" +
+         name.replace(/'/g, "\\'") + "' and trashed = false",
+      fields: 'files(id)',
+    });
+    (prev.files || []).forEach(function (f) {
+      Drive.Files.update({ trashed: true }, f.id);
+    });
+  } catch (err) { /* cleanup is best-effort */ }
+  const blob = Utilities.newBlob(bytes, 'image/jpeg', name);
+  const file = Drive.Files.create({ name: name, parents: [folderId] }, blob);
   Drive.Permissions.create({ type: 'anyone', role: 'reader' }, file.id);
   return 'https://drive.google.com/uc?export=download&id=' + file.id;
 }

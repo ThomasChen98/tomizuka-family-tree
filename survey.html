@@ -233,6 +233,10 @@
   document.getElementById('f').addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn.disabled) return;          // no double/triple submissions
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
     const data = new FormData(form);
     if (!cb.checked) data.set('is_professor', 'no');
     data.set('source', 'survey');
@@ -242,6 +246,8 @@
         data.set('photo_data', await fileToJpegDataURL(photoFile, 600));
       } catch (err) {
         alert('Could not read that image — please try another file or paste a link instead.');
+        btn.disabled = false;
+        btn.textContent = 'Add me to the tree';
         return;
       }
     }
