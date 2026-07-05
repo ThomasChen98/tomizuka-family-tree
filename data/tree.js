@@ -20739,7 +20739,9 @@ window.TREE_DATA = {
    "inMemoriam": false,
    "photo": "photos/li-yiheng.jpg",
    "children": [],
-   "provisional": false
+   "provisional": false,
+   "note": "Research Scientist at Waymo",
+   "homepage": "https://yihengli.com"
   },
   {
    "id": "liang-boyuan",
