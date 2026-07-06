@@ -326,7 +326,7 @@
       <span class="spacer"></span>
       <div class="seg" role="tablist">
         <button id="btnTree" class="on" role="tab" aria-selected="true">Tree</button>
-        <button id="btnSunburst" role="tab" aria-selected="false">Sunburst</button>
+        <button id="btnSunburst" role="tab" aria-selected="false">Bubbles</button>
         <button id="btnTreemap" role="tab" aria-selected="false">Treemap</button>
         <button id="btnTable" role="tab" aria-selected="false">Table</button>
       </div>
@@ -336,7 +336,7 @@
     </div>
     <div class="legend" id="legend"></div>
     <div id="chart" role="group" aria-label="Radial family tree of Professor Tomizuka's students"></div>
-    <div id="sunburstView" role="group" aria-label="Sunburst view: arc size shows family size"></div>
+    <div id="sunburstView" role="group" aria-label="Bubble view: bubble size shows family size"></div>
     <div id="treemapView" role="group" aria-label="Treemap view: one tile per person"></div>
     <div id="detail" role="dialog" aria-label="Person details"></div>
     <p class="hint" id="chartHint" style="text-align:center; margin:6px 0 0;">
@@ -437,14 +437,15 @@ function initTree() {
   const years = people.map(p => p.year).filter(Boolean);
   let nDesc = 0, maxGen = 1;
   const allNodes = [];
-  (function cnt(list, g) {
+  (function cnt(list, g, par) {
     list.forEach(p => {
       allNodes.push(p);
       p.gen = g;
+      p._parent = par;
       maxGen = Math.max(maxGen, g);
-      if (p.children && p.children.length) { nDesc += p.children.length; cnt(p.children, g + 1); }
+      if (p.children && p.children.length) { nDesc += p.children.length; cnt(p.children, g + 1, p); }
     });
-  })(people, 1);
+  })(people, 1, null);
   const nPhd = people.filter(p => p.kind === 'phd').length;
   const nCur = allNodes.filter(p => p.kind === 'current').length;
   const nMs = people.filter(p => p.kind === 'ms').length;
@@ -497,58 +498,63 @@ function initTree() {
   const gNodes = root.append('g');
   const gCenter = root.append('g');
 
-  // ---- decade band ---------------------------------------------------------
-  const segs = [];
-  DECADES.forEach(dec => {
-    const members = people.filter(p => p.decade === dec);
-    if (!members.length) return;
-    const step = (A1 - A0) / N;
-    segs.push({ dec, i: DECADES.indexOf(dec),
-      a0: members[0].angle - step / 2, a1: members[members.length - 1].angle + step / 2 });
-  });
-  const arc = d3.arc().innerRadius(R_BAND_IN).outerRadius(R_BAND_OUT)
+  // ---- decade band (rebuilt each render — gen-1 angles shift as fans open) -
+  let segs = [];
+  let segG = d3.select(null);
+  const arcBand = d3.arc().innerRadius(R_BAND_IN).outerRadius(R_BAND_OUT)
     .cornerRadius(4).padAngle(2 / R_BAND_IN);
-  // one group per decade segment so the whole thing (arc + curved label) can
-  // scale up when the pointer sweeps over that part of the ring
-  const segG = gBand.selectAll('g.seg-g').data(segs).join('g').attr('class', 'seg-g');
-  segG.append('path')
-    .attr('class', 'seg')
-    .attr('d', d => arc({ startAngle: d.a0, endAngle: d.a1 }))
-    .style('fill', d => `var(--dec-${d.i})`);
+  const rMidBand = (R_BAND_IN + R_BAND_OUT) / 2;
 
-  // curved decade labels (flip on the bottom half so text stays upright)
-  const rMid = (R_BAND_IN + R_BAND_OUT) / 2;
-  segG.each(function (s) {
-    const g = d3.select(this);
-    const mid = (s.a0 + s.a1) / 2;
-    const flip = mid > Math.PI / 2 && mid < 3 * Math.PI / 2;
-    const pad = 0.015;
-    let a = s.a0 + pad, b = s.a1 - pad;
-    if (flip) [a, b] = [b, a];
-    const [x0, y0] = pos(a, rMid), [x1, y1] = pos(b, rMid);
-    const sweep = flip ? 0 : 1;
-    const large = Math.abs(b - a) > Math.PI ? 1 : 0;
-    g.append('path')
-      .attr('id', `seglab-${s.i}`)
-      .attr('d', `M${x0},${y0} A${rMid},${rMid} 0 ${large} ${sweep} ${x1},${y1}`)
-      .attr('fill', 'none');
-    g.append('text').attr('class', 'arc-label')
-      .attr('dy', '0.36em')
-      .append('textPath')
-      .attr('href', `#seglab-${s.i}`)
-      .attr('startOffset', '50%')
-      .attr('text-anchor', 'middle')
-      .style('fill', `var(--dec-${s.i}-ink)`)
-      .style('stroke', `var(--dec-${s.i}-lstroke)`)
-      .style('stroke-width', '2.4px')
-      .text(s.dec === 'Current' ? 'NOW' : s.dec);
-  });
+  function updateBand() {
+    segs = [];
+    let cur = null;
+    people.forEach(p => {
+      const a0 = p.angle - p.slot / 2, a1 = p.angle + p.slot / 2;
+      if (cur && cur.dec === p.decade) cur.a1 = a1;
+      else { cur = { dec: p.decade, i: DECADES.indexOf(p.decade), a0, a1 }; segs.push(cur); }
+    });
+    segG = gBand.selectAll('g.seg-g').data(segs, s => s.dec)
+      .join(enter => {
+        const g = enter.append('g').attr('class', 'seg-g');
+        g.append('path').attr('class', 'seg');
+        g.append('path').attr('class', 'seglab')
+          .attr('id', s => `seglab-${s.i}`).attr('fill', 'none');
+        g.append('text').attr('class', 'arc-label').attr('dy', '0.36em')
+          .append('textPath')
+          .attr('href', s => `#seglab-${s.i}`)
+          .attr('startOffset', '50%')
+          .attr('text-anchor', 'middle')
+          .style('fill', s => `var(--dec-${s.i}-ink)`)
+          .style('stroke', s => `var(--dec-${s.i}-lstroke)`)
+          .style('stroke-width', '2.4px')
+          .text(s => s.dec === 'Current' ? 'NOW' : s.dec);
+        return g;
+      });
+    segG.select('path.seg')
+      .attr('d', s => arcBand({ startAngle: s.a0, endAngle: s.a1 }))
+      .style('fill', s => `var(--dec-${s.i})`);
+    segG.select('path.seglab').attr('d', s => {
+      const mid = (s.a0 + s.a1) / 2;
+      const flip = mid > Math.PI / 2 && mid < 3 * Math.PI / 2;
+      const pad = Math.min(0.015, (s.a1 - s.a0) / 4);
+      let a = s.a0 + pad, b = s.a1 - pad;
+      if (flip) [a, b] = [b, a];
+      const [x0, y0] = pos(a, rMidBand), [x1, y1] = pos(b, rMidBand);
+      const large = Math.abs(b - a) > Math.PI ? 1 : 0;
+      return `M${x0},${y0} A${rMidBand},${rMidBand} 0 ${large} ${flip ? 0 : 1} ${x1},${y1}`;
+    });
+    segG.select('text.arc-label')
+      .style('display', s => (s.a1 - s.a0) * rMidBand > 42 ? null : 'none');
+  }
 
-  // ---- spokes --------------------------------------------------------------
+  // ---- spokes (endpoints follow the gen-1 layout) ---------------------------
   const spokes = gSpokes.selectAll('line').data(people).join('line')
-    .attr('class', 'spoke')
-    .attr('x1', d => pos(d.angle, R_SPOKE_IN)[0]).attr('y1', d => pos(d.angle, R_SPOKE_IN)[1])
-    .attr('x2', d => pos(d.angle, R_GEN1 - 12)[0]).attr('y2', d => pos(d.angle, R_GEN1 - 12)[1]);
+    .attr('class', 'spoke');
+  function updateSpokes() {
+    spokes
+      .attr('x1', d => pos(d.angle, R_SPOKE_IN)[0]).attr('y1', d => pos(d.angle, R_SPOKE_IN)[1])
+      .attr('x2', d => pos(d.angle, R_GEN1 - 12)[0]).attr('y2', d => pos(d.angle, R_GEN1 - 12)[1]);
+  }
 
   // ---- center --------------------------------------------------------------
   gCenter.append('clipPath').attr('id', 'clipC').append('circle').attr('r', 92);
@@ -574,6 +580,7 @@ function initTree() {
   const CHORD = R_GEN1 * (A1 - A0) / N;
   let node = d3.select(null), label = d3.select(null), initials = d3.select(null);
   let linkSel = d3.select(null);
+  let zoomRef = null;
   let visible = people;   // every node currently on screen (all generations)
 
   // photo tiles: one objectBoundingBox pattern per portrait, so the image
@@ -807,123 +814,68 @@ function initTree() {
     if (e.key === 'Escape') hideDetail();
   });
 
-  // ---- branches: real children when the data has them, ghosts until then ---
+  // ---- branches: weighted radial partition ----------------------------------
+  // Every open subtree claims angular room proportional to its visible leaf
+  // count, so children always sit centered directly outside their parent —
+  // no fan dodging, obvious provenance, and short local bezier links.
+  // Dense wedges are explorable via the fisheye and zoom.
   const expanded = new Set();
-  // polar orthogonal routing: radial out -> arc along the inter-ring corridor
-  // -> radial in. Arcs stay at corridor radius, so links can never cut across
-  // the middle of the chart no matter how far a fan was dodged.
-  function radialElbow(s, t) {
-    let da = t.a - s.a;
-    while (da > Math.PI) da -= 2 * Math.PI;
-    while (da < -Math.PI) da += 2 * Math.PI;
-    const rMid = (s.r + t.r) / 2;
-    const [x0, y0] = pos(s.a, s.r);
-    const [x3, y3] = pos(s.a + da, t.r);
-    if (Math.abs(da) < 0.003) return `M${x0},${y0} L${x3},${y3}`;
-    const [x1, y1] = pos(s.a, rMid);
-    const [x2, y2] = pos(s.a + da, rMid);
-    const sweep = da > 0 ? 1 : 0;
-    return `M${x0},${y0} L${x1},${y1} A${rMid},${rMid} 0 0 ${sweep} ${x2},${y2} L${x3},${y3}`;
-  }
-
-  // Fans that share a ring are laid out jointly: each wants to sit at its
-  // parent's angle; overlapping fans merge into a cluster that is packed
-  // side by side and centered to minimize total shift (axis-label dodging).
-  const FAN_MARGIN = 0.05;   // rad between adjacent fans on the same ring
-
-  function deoverlap(groups) {
-    groups.sort((a, b) => a.center - b.center);
-    const clusters = [];
-    const place = cl => {   // optimal start = mean(desired − in-cluster offset)
-      let off = 0, sum = 0;
-      cl.items.forEach(it => { sum += it.center - (off + it.w / 2); off += it.w; });
-      cl.start = sum / cl.items.length;
-      cl.start = Math.max(A0 + 0.01, Math.min(cl.start, A1 - 0.01 - cl.w));
-    };
-    groups.forEach(g => {
-      clusters.push({ items: [g], w: g.w });
-      place(clusters[clusters.length - 1]);
-      while (clusters.length > 1) {
-        const a = clusters[clusters.length - 2], b = clusters[clusters.length - 1];
-        if (a.start + a.w > b.start) {
-          a.items = a.items.concat(b.items);
-          a.w += b.w;
-          clusters.pop();
-          place(a);
-        } else break;
-      }
-    });
-    clusters.forEach(cl => {
-      let off = cl.start;
-      cl.items.forEach(g => { g.assigned = off + g.w / 2; off += g.w; });
-    });
-  }
+  const linkGen = d3.linkRadial().angle(d => d.a).radius(d => d.r);
 
   function computeVisible() {
-    const nodes = [], links = [], ghosts = [], dimmed = new Set();
-    people.forEach(p => nodes.push(p));
-    let frontier = people.filter(p => p.educator && expanded.has(p.id));
-    let depth = 2;
-    while (frontier.length) {
-      const groups = frontier.map(p => {
-        if (p.children && p.children.length) {
-          const n = p.children.length;
-          const step = n > 1 ? Math.min(0.045, Math.max(0.02, 0.5 / n)) : 0;
-          return { parent: p, kind: 'kids', n, step,
-                   half: (n - 1) / 2 * step, center: p.angle,
-                   w: (n - 1) * step + FAN_MARGIN };
-        }
-        return { parent: p, kind: 'ghost', n: 3, step: 0.026,
-                 half: 0.026, center: p.angle, w: 0.052 + FAN_MARGIN };
-      });
-      // when every branch is open the ring physically can't fit the fans at
-      // full width — squeeze all of them proportionally (dense but readable
-      // via fisheye; Sunburst/Treemap are the full-picture views)
-      const span = (A1 - A0) - 0.06;
-      const totalW = groups.reduce((a, g) => a + g.w, 0);
-      if (totalW > span) {
-        const k = span / totalW;
-        groups.forEach(g => { g.step *= k; g.half *= k; g.w *= k; });
-      }
-      deoverlap(groups);
+    const nodes = [], links = [], ghosts = [];
+    let maxDepth = 1;
+    const kids = p => (p.educator && expanded.has(p.id) && p.children && p.children.length)
+      ? p.children : [];
+    const weigh = p => {
+      const ks = kids(p);
+      p._w = ks.length ? ks.reduce((acc, c) => acc + weigh(c), 0) : 1;
+      return p._w;
+    };
+    let total = 0;
+    people.forEach(p => { total += weigh(p); });
 
-      const ring = nodes.filter(q => q.depth === depth - 1);
-      const nextFrontier = [];
-      groups.forEach(g => {
-        const p = g.parent;
-        const r = p.radius + R_GEN_STEP;
-        if (g.kind === 'kids') {
-          p.children.forEach((c, i) => {
-            c.angle = g.assigned + (i - (g.n - 1) / 2) * g.step;
-            c.radius = r;
-            c.chord = Math.max(9, (g.step || 0.03) * r);
-            initNode(c, p.depth + 1, p);
-            links.push({ source: p, target: c });
-            nodes.push(c);
-            if (c.educator && expanded.has(c.id)) nextFrontier.push(c);
-          });
-        } else {
-          [-1, 0, 1].forEach(k => ghosts.push({
-            id: p.id + ':ghost' + k, ghost: true, parent: p,
-            angle: g.assigned + k * 0.026, radius: r,
-            name: 'via survey', batch: 'Next generation',
-          }));
-        }
-        // clear the labels of the ring below wherever this fan covers them
-        ring.forEach(q => {
-          if (q !== p && Math.abs(q.angle - g.assigned) < g.half + 0.035) dimmed.add(q.id);
+    function place(p, a0, a1, depth, parent) {
+      p.angle = (a0 + a1) / 2;
+      p.slot = a1 - a0;
+      p.radius = R_GEN1 + (depth - 1) * R_GEN_STEP;
+      initNode(p, depth, parent);
+      p.chord = Math.max(6, Math.min(24, p.slot * p.radius));
+      p._open = false;
+      nodes.push(p);
+      maxDepth = Math.max(maxDepth, depth);
+      const ks = kids(p);
+      if (ks.length) {
+        p._open = true;
+        let a = a0;
+        ks.forEach(c => {
+          const w = (a1 - a0) * c._w / p._w;
+          links.push({ source: p, target: c });
+          place(c, a, a + w, depth + 1, p);
+          a += w;
         });
-      });
-      frontier = nextFrontier;
-      depth++;
+      } else if (p.educator && expanded.has(p.id)) {
+        p._open = true;
+        const g = Math.min(0.02, Math.max(0.006, p.slot / 4));
+        [-1, 0, 1].forEach(k => ghosts.push({
+          id: p.id + ':ghost' + k, ghost: true, parent: p,
+          angle: p.angle + k * g, radius: p.radius + R_GEN_STEP,
+          name: 'via survey', batch: 'Next generation',
+        }));
+      }
     }
-    return { nodes, links, ghosts, dimmed };
+    let a = A0;
+    people.forEach(p => {
+      const w = (A1 - A0) * p._w / total;
+      place(p, a, a + w, 1, null);
+      a += w;
+    });
+    return { nodes, links, ghosts, maxDepth };
   }
 
   function buildNodes(enter) {
     const g = enter.append('g')
       .attr('class', 'person hitmark')
-      .attr('transform', d => `rotate(${rotDeg(d.angle)}) translate(${d.radius},0)`)
       .attr('tabindex', 0)
       .attr('role', d => d.educator ? 'button' : 'img')
       .attr('aria-label', d => `${d.name}, ${d.batch}${d.affiliation ? ', ' + d.affiliation : ''}${d.educator ? '. Press Enter to open their branch.' : ''}`)
@@ -936,32 +888,24 @@ function initTree() {
       .style('stroke-width', 2);
     g.append('circle')
       .attr('class', 'dot')
-      .attr('r', d => d.baseR)
-      // counter-rotate so portrait fills stay upright despite the radial rotate
-      .attr('transform', d => `rotate(${-rotDeg(d.angle)})`)
       .style('fill', d => d.photo ? `url(#pat-${d.id})` : decVar(d))
       .style('stroke', d => d.photo ? decVar(d) : 'none')
       .style('stroke-width', d => d.photo ? 1.6 : 0);
     g.filter(d => !d.photo).append('text')
       .attr('class', 'p-initials')
       .attr('text-anchor', 'middle').attr('dy', '0.34em')
-      .attr('transform', d => `rotate(${-rotDeg(d.angle)})`)
       .style('font-size', '3.4px').style('opacity', 0)
       .style('fill', d => `var(--dec-${DECADES.indexOf(d.decade)}-ink)`)
       .style('pointer-events', 'none')
       .text(d => d.name.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase());
     g.append('text')
       .attr('class', 'p-label')
-      .attr('x', d => isLeft(d.angle) ? -16 : 16)
       .attr('dy', '0.32em')
-      .attr('text-anchor', d => isLeft(d.angle) ? 'end' : 'start')
-      .attr('transform', d => isLeft(d.angle) ? 'rotate(180)' : null)
       .text(d => d.name + (d.inMemoriam ? ' †' : ''));
     // hit area reaches outward over the first stretch of the name, but stops
     // before the next ring (child dots sit at +R_GEN_STEP) to avoid capture
     g.append('rect').attr('class', 'hit')
-      .attr('x', -20).attr('y', d => -d.chord / 2)
-      .attr('width', 80).attr('height', d => d.chord)
+      .attr('x', -20).attr('width', 80)
       .style('fill', 'transparent').style('stroke', 'none');
     g.on('pointerenter', (e, d) => showTip(d, e))
       .on('pointermove', (e) => moveTip(e))
@@ -985,19 +929,24 @@ function initTree() {
     return g;
   }
 
+  let lastMaxDepth = 1;
   function render() {
     const v = computeVisible();
+    updateBand();
+    updateSpokes();
     linkSel = gLinks.selectAll('path.branch-link').data(v.links, l => l.target.id).join('path')
       .attr('class', 'branch-link')
       .classed('faint', v.links.length > 120)
-      .attr('d', l => radialElbow(
-        { a: l.source.angle, r: l.source.radius + l.source.baseR + 4 },
-        { a: l.target.angle, r: l.target.radius - l.target.baseR - 2 }));
+      .attr('d', l => linkGen({
+        source: { a: l.source.angle, r: l.source.radius + l.source.baseR + 4 },
+        target: { a: l.target.angle, r: l.target.radius - l.target.baseR - 2 },
+      }));
     gGhost.selectAll('path.ghost-link').data(v.ghosts, d => d.id).join('path')
       .attr('class', 'ghost-link')
-      .attr('d', d => radialElbow(
-        { a: d.parent.angle, r: d.parent.radius + 14 },
-        { a: d.angle, r: d.radius - 8 }));
+      .attr('d', d => linkGen({
+        source: { a: d.parent.angle, r: d.parent.radius + 14 },
+        target: { a: d.angle, r: d.radius - 8 },
+      }));
     const gn = gGhost.selectAll('g.ghostn').data(v.ghosts, d => d.id).join('g')
       .attr('class', 'ghostn')
       .attr('transform', d => `rotate(${rotDeg(d.angle)}) translate(${d.radius},0)`);
@@ -1009,10 +958,34 @@ function initTree() {
 
     node = gNodes.selectAll('g.person').data(v.nodes, d => d.id).join(buildNodes);
     node.attr('aria-expanded', d => d.educator ? String(expanded.has(d.id)) : null)
-        .classed('wedge-dim', d => v.dimmed.has(d.id) && !expanded.has(d.id));
+        .attr('transform', d => `rotate(${rotDeg(d.angle)}) translate(${d.radius},0)`);
+    node.select('circle.dot')
+      .attr('r', d => d.baseR)
+      // counter-rotate so portrait fills stay upright despite the radial rotate
+      .attr('transform', d => `rotate(${-rotDeg(d.angle)})`);
+    node.select('text.p-initials')
+      .attr('transform', d => `rotate(${-rotDeg(d.angle)})`);
+    node.select('rect.hit')
+      .attr('y', d => -d.chord / 2)
+      .attr('height', d => d.chord);
     label = node.select('text.p-label');
+    // open branches flip their label to the inner side so it never collides
+    // with their own children; cramped slots hide labels until magnified
+    label
+      .attr('text-anchor', d => (isLeft(d.angle) === !!d._open) ? 'start' : 'end')
+      .attr('x', d => (isLeft(d.angle) === !!d._open ? 1 : -1) * 16)
+      .attr('transform', d => isLeft(d.angle) ? 'rotate(180)' : null)
+      .style('display', d => d.slot * d.radius >= 10 ? null : 'none');
     initials = node.select('text.p-initials');
     visible = v.nodes;
+
+    // auto-fit the zoom when a ring is added or removed
+    if (v.maxDepth !== lastMaxDepth) {
+      lastMaxDepth = v.maxDepth;
+      const maxR = R_GEN1 + (v.maxDepth - 1) * R_GEN_STEP + 160;
+      const k = Math.min(1, (VBOX - 20) / maxR);
+      if (zoomRef) svg.call(zoomRef.transform, d3.zoomIdentity.scale(k));
+    }
   }
 
   function toggleBranch(d) {
@@ -1079,12 +1052,16 @@ function initTree() {
       label
         .style('font-size', d => Math.min(10.5 * (0.72 + 0.28 * d.s), d.maxFs) + 'px')
         .style('font-weight', d => d.s > 1.7 ? 500 : 400)
-        .attr('x', d => (isLeft(d.angle) ? -1 : 1) * (16 + (d.s - 1) * 6));
-      // light up the decade segment of the person being magnified (any
-      // generation) and the hot spokes, so a dot maps to its era at a glance
+        .attr('x', d => (isLeft(d.angle) === !!d._open ? 1 : -1) * (16 + (d.s - 1) * 6))
+        // magnification reveals labels that dense wedges keep hidden at rest
+        .style('display', d => (d.slot * d.radius >= 10 || d.s > 1.35) ? null : 'none');
+      // the decade band belongs to the first generation only — light it when
+      // a gen-1 person is magnified, not for their descendants
       let act = null, best = null;
       visible.forEach(p => { if (!best || p.s > best.s) best = p; });
-      if (best && best.s > 1.35) act = segs.find(sg => sg.dec === best.decade) || null;
+      if (best && best.s > 1.35 && best.depth === 1) {
+        act = segs.find(sg => sg.dec === best.decade) || null;
+      }
       segG.classed('active', d => d === act);
       spokes.classed('hot', d => d.s > 1.55);
       // light the magnified person's own branch line
@@ -1111,6 +1088,7 @@ function initTree() {
     })
     .on('zoom', (e) => root.attr('transform', e.transform));
   svg.call(zoom).on('dblclick.zoom', null);
+  zoomRef = zoom;
   d3.select('#btnResetZoom').on('click', () => {
     if (reduceMotion) svg.call(zoom.transform, d3.zoomIdentity);
     else svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity);
@@ -1128,16 +1106,26 @@ function initTree() {
       filterTable('');
       return;
     }
-    let n = 0;
-    node.classed('dimmed', d => {
-      const hit = d.name.toLowerCase().includes(q);
-      if (hit) n++;
-      return !hit;
-    });
+    // search the WHOLE family, not just what is on screen: matches hiding in
+    // collapsed branches pull their ancestor chain open automatically
+    const matches = allNodes.filter(p => p.name.toLowerCase().includes(q));
+    if (q.length >= 3) {
+      let opened = false;
+      matches.forEach(m => {
+        for (let a = m._parent; a; a = a._parent) {
+          if (a.educator && a.children && a.children.length && !expanded.has(a.id)) {
+            expanded.add(a.id);
+            opened = true;
+          }
+        }
+      });
+      if (opened) render();
+    }
+    node.classed('dimmed', d => !d.name.toLowerCase().includes(q));
     node.selectAll('circle.halo').remove();
     node.filter(d => d.name.toLowerCase().includes(q))
       .insert('circle', ':first-child').attr('class', 'halo').attr('r', 14);
-    countEl.textContent = `${n} / ${N}`;
+    countEl.textContent = `${matches.length} / ${allNodes.length}`;
     filterTable(q);
   }
   searchBox.addEventListener('input', applySearch);
@@ -1222,69 +1210,103 @@ function initTree() {
     genSeg.style.display = 'none';
   }
 
-  // ---- sunburst view: arc angle ∝ family size, one ring per generation ----
+  // ---- bubble view: the whole family at once, bubble size = family size ----
   function buildSunburst() {
     allNodes.forEach(ensurePattern);
-    const ringW = Math.min(95, 300 / maxGen + 35);
-    const R0 = 150;
-    const svgS = d3.select('#sunburstView').append('svg')
-      .attr('viewBox', [-470, -470, 940, 940])
-      .attr('preserveAspectRatio', 'xMidYMid meet');
-    const rootH = d3.hierarchy(DATA)
-      .sum(d => (d.children && d.children.length) ? 0 : 1)
-      .sort((a, b) => (a.data.year || 9999) - (b.data.year || 9999));
-    d3.partition().size([2 * Math.PI, maxGen])(rootH);
-    const arcS = d3.arc()
-      .startAngle(d => d.x0).endAngle(d => d.x1)
-      .padAngle(0.004).padRadius(R0)
-      .innerRadius(d => R0 + (d.depth - 1) * ringW)
-      .outerRadius(d => R0 + d.depth * ringW - 3)
-      .cornerRadius(3);
-    const cells = svgS.append('g').selectAll('path')
-      .data(rootH.descendants().filter(d => d.depth > 0))
-      .join('path')
-      .attr('d', arcS)
-      .style('fill', d => decVar(d.data))
-      .style('stroke', d => d.data.educator ? 'var(--edu-ring)' : 'none')
-      .style('stroke-width', 1.6)
+    const weigh = p => {
+      const ks = p.children || [];
+      p._bw = ks.length ? ks.reduce((a, c) => a + weigh(c), 0) : 1;
+      return p._bw;
+    };
+    let total = 0;
+    people.forEach(p => { total += weigh(p); });
+    const R0 = 200;
+    const RSTEP = maxGen > 1 ? (600 - R0) / (maxGen - 1) : 0;
+    const bubbleR = (p, slotPx) => (p.children && p.children.length)
+      ? Math.max(6, Math.min(30, 2.4 * Math.sqrt(p._bw), slotPx * 0.45)) : 3.5;
+
+    const svgB = d3.select('#sunburstView').append('svg')
+      .attr('viewBox', [-700, -700, 1400, 1400])
+      .attr('preserveAspectRatio', 'xMidYMid meet')
+      .style('touch-action', 'pan-y');
+    const rootB = svgB.append('g');
+    const zoomB = d3.zoom().scaleExtent([0.5, 12])
+      .filter(e => {
+        if (e.type === 'wheel') return e.ctrlKey || e.metaKey;
+        if (e.touches) return e.touches.length > 1;
+        return !e.button;
+      })
+      .on('zoom', (e) => rootB.attr('transform', e.transform));
+    svgB.call(zoomB).on('dblclick.zoom', null);
+
+    const items = [], blinks = [];
+    function placeB(p, a0, a1, depth, parent) {
+      const a = (a0 + a1) / 2;
+      const r = R0 + (depth - 1) * RSTEP;
+      const slotPx = (a1 - a0) * r;
+      const nr = bubbleR(p, slotPx);
+      const it = { p, a, r, nr, slotPx };
+      items.push(it);
+      if (parent) blinks.push({ s: parent, t: it });
+      let acc = a0;
+      (p.children || []).forEach(c => {
+        const w = (a1 - a0) * c._bw / p._bw;
+        placeB(c, acc, acc + w, depth + 1, it);
+        acc += w;
+      });
+    }
+    const center = { a: 0, r: 0, nr: 122 };
+    let accA = A0;
+    people.forEach(p => {
+      const w = (A1 - A0) * p._bw / total;
+      placeB(p, accA, accA + w, 1, center);
+      accA += w;
+    });
+
+    rootB.append('g').selectAll('path').data(blinks).join('path')
+      .attr('class', 'branch-link faint')
+      .attr('d', l => linkGen({
+        source: { a: l.s.a, r: l.s.r + l.s.nr },
+        target: { a: l.t.a, r: l.t.r - l.t.nr },
+      }));
+
+    const cell = rootB.append('g').selectAll('g').data(items).join('g')
+      .attr('transform', d => { const [x, y] = pos(d.a, d.r); return `translate(${x},${y})`; })
       .style('cursor', 'pointer')
       .attr('tabindex', 0)
-      .attr('aria-label', d => `${d.data.name}, ${d.data.batch}`);
-    cells.on('pointerenter', (e, d) => showTip(d.data, e))
-      .on('pointermove', (e) => moveTip(e))
-      .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); })
-      .on('click', (e, d) => showDetail(d.data, e));
-    // radial labels for arcs wide enough to carry them
-    svgS.append('g').selectAll('text')
-      .data(rootH.descendants().filter(d =>
-        d.depth > 0 && (d.x1 - d.x0) * (R0 + (d.depth - 0.5) * ringW) > 26))
-      .join('text')
-      .attr('class', 'sb-label')
-      .attr('transform', d => {
-        const a = (d.x0 + d.x1) / 2;
-        const r = R0 + (d.depth - 1) * ringW + 8;
-        const deg = a * 180 / Math.PI - 90;
-        const flip = a > Math.PI;
-        return `rotate(${deg}) translate(${r},0)${flip ? ' rotate(180)' : ''}`;
-      })
-      .attr('text-anchor', d => (d.x0 + d.x1) / 2 > Math.PI ? 'end' : 'start')
-      .attr('dy', '0.32em')
+      .attr('aria-label', d => `${d.p.name}, ${d.p.batch}`);
+    cell.append('circle')
+      .attr('r', d => d.nr)
+      .style('fill', d => d.p.photo ? `url(#pat-${d.p.id})` : decVar(d.p))
+      .style('stroke', d => d.p.educator ? 'var(--edu-ring)' : 'var(--surface)')
+      .style('stroke-width', d => d.p.educator ? 2 : 1);
+    cell.append('text').attr('class', 'sb-label')
+      .attr('text-anchor', 'middle')
+      .attr('y', d => d.nr + 11)
+      .style('display', d => (d.nr >= 12 || d.slotPx > 30) ? null : 'none')
+      .style('font-weight', d => d.p.educator ? 500 : 400)
       .text(d => {
-        const max = Math.floor((ringW - 14) / 5.2);
-        const nm = d.data.name + (d.data.inMemoriam ? ' †' : '');
+        const nm = d.p.name + (d.p.inMemoriam ? ' †' : '');
+        const max = Math.max(9, Math.round((d.slotPx + d.nr) / 5));
         return nm.length > max ? nm.slice(0, max - 1) + '…' : nm;
       });
-    // Tomizuka at the center
-    svgS.append('clipPath').attr('id', 'clipSb').append('circle').attr('r', 96);
-    svgS.append('circle').attr('r', 100).style('fill', 'none')
-      .style('stroke', 'var(--accent)').style('stroke-width', 2.5);
-    svgS.append('image')
-      .attr('href', DATA.photo).attr('x', -96).attr('y', -96)
-      .attr('width', 192).attr('height', 192)
-      .attr('clip-path', 'url(#clipSb)')
+    cell.on('pointerenter', (e, d) => showTip(d.p, e))
+      .on('pointermove', (e) => moveTip(e))
+      .on('pointerleave', (e) => { if (e.pointerType !== 'touch') hideTip(); })
+      .on('click', (e, d) => { hideTip(); showDetail(d.p, e); });
+
+    // Tomizuka at the center, above the link bundle
+    rootB.append('clipPath').attr('id', 'clipBub').append('circle').attr('r', 116);
+    rootB.append('circle').attr('r', 120).style('fill', 'var(--surface)');
+    rootB.append('image')
+      .attr('href', DATA.photo).attr('x', -116).attr('y', -116)
+      .attr('width', 232).attr('height', 232)
+      .attr('clip-path', 'url(#clipBub)')
       .attr('preserveAspectRatio', 'xMidYMid slice');
-    svgS.append('text').attr('class', 'center-sub').attr('text-anchor', 'middle')
-      .attr('y', 122).text('ARC SIZE = FAMILY SIZE');
+    rootB.append('circle').attr('r', 120).style('fill', 'none')
+      .style('stroke', 'var(--accent)').style('stroke-width', 3);
+    rootB.append('text').attr('class', 'center-sub').attr('text-anchor', 'middle')
+      .attr('y', 148).text('BUBBLE SIZE = FAMILY SIZE');
   }
 
   // ---- treemap view: one tile per person, professors as framed groups -----
