@@ -98,3 +98,10 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      # Pages occasionally answers "Deployment failed, try again later" —
+      # one in-run retry rides out the transient
+      - name: Retry deploy once
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
