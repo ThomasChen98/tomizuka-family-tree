@@ -19605,11 +19605,11 @@ window.TREE_DATA = {
      "affiliation": null,
      "title": null,
      "inMemoriam": false,
-     "photo": null,
-     "bio": null,
-     "note": "ECE PhD, started Fall 2024",
-     "homepage": null,
-     "provisional": true,
+     "photo": "photos/peiqi-yu.jpg",
+     "bio": "My research focuses on long-horizon robotic manipulation using neuro-symbolic skill representations.",
+     "note": "Carnegie Mellon University",
+     "homepage": "https://patricia1019.github.io/",
+     "provisional": false,
      "children": []
     },
     {
