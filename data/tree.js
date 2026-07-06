@@ -11780,7 +11780,7 @@ window.TREE_DATA = {
        "affiliation": null,
        "title": null,
        "inMemoriam": false,
-       "photo": null,
+       "photo": "photos/jiachen-li.jpg",
        "bio": null,
        "note": null,
        "homepage": null,
