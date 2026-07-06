@@ -1151,9 +1151,14 @@ function initTree() {
         act = segs.find(sg => sg.dec === best.decade) || null;
       }
       segG.classed('active', d => d === act);
-      spokes.classed('hot', d => d.s > 1.55);
-      // light the magnified person's own branch line
-      linkSel.classed('hot', l => l.target.s > 1.5 || l.source.s > 1.5);
+      // light ONLY the hovered person's lineage — every branch link on the
+      // path back to generation 1, plus that ancestor's spoke to the center,
+      // so the hovered person's whole chain of advisors to Tomizuka reads
+      // at a glance (never the fisheye's incidental neighbours)
+      const chain = new Set();
+      if (best && best.s > 1.5) for (let c = best; c; c = c._par) chain.add(c);
+      spokes.classed('hot', d => chain.has(d));
+      linkSel.classed('hot', l => chain.has(l.target) && chain.has(l.source));
     }
   }
   function tick() {
