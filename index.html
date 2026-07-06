@@ -823,8 +823,9 @@ function initTree() {
   const linkGen = d3.linkRadial().angle(d => d.a).radius(d => d.r);
 
   function computeVisible() {
-    const nodes = [], links = [], ghosts = [];
+    const nodes = [], links = [], ghostSpecs = [];
     let maxDepth = 1;
+    const minSlot = {};        // narrowest angular slot per ring
     const kids = p => (p.educator && expanded.has(p.id) && p.children && p.children.length)
       ? p.children : [];
     const weigh = p => {
@@ -835,13 +836,14 @@ function initTree() {
     let total = 0;
     people.forEach(p => { total += weigh(p); });
 
-    function place(p, a0, a1, depth, parent) {
+    // pass 1: angles only — radii are decided afterwards from crowding
+    function placeAngles(p, a0, a1, depth, parent) {
       p.angle = (a0 + a1) / 2;
       p.slot = a1 - a0;
-      p.radius = R_GEN1 + (depth - 1) * R_GEN_STEP;
-      initNode(p, depth, parent);
-      p.chord = Math.max(6, Math.min(24, p.slot * p.radius));
+      p._depth = depth;
+      p._par = parent;
       p._open = false;
+      minSlot[depth] = Math.min(minSlot[depth] || Infinity, p.slot);
       nodes.push(p);
       maxDepth = Math.max(maxDepth, depth);
       const ks = kids(p);
@@ -851,26 +853,50 @@ function initTree() {
         ks.forEach(c => {
           const w = (a1 - a0) * c._w / p._w;
           links.push({ source: p, target: c });
-          place(c, a, a + w, depth + 1, p);
+          placeAngles(c, a, a + w, depth + 1, p);
           a += w;
         });
       } else if (p.educator && expanded.has(p.id)) {
         p._open = true;
-        const g = Math.min(0.02, Math.max(0.006, p.slot / 4));
-        [-1, 0, 1].forEach(k => ghosts.push({
-          id: p.id + ':ghost' + k, ghost: true, parent: p,
-          angle: p.angle + k * g, radius: p.radius + R_GEN_STEP,
-          name: 'via survey', batch: 'Next generation',
-        }));
+        ghostSpecs.push(p);
       }
     }
     let a = A0;
     people.forEach(p => {
       const w = (A1 - A0) * p._w / total;
-      place(p, a, a + w, 1, null);
+      placeAngles(p, a, a + w, 1, null);
       a += w;
     });
-    return { nodes, links, ghosts, maxDepth };
+
+    // pass 2: each ring grows outward until its tightest slot can hold a
+    // node (the user's "加大半径" — circumference is the real budget);
+    // growth per ring is capped so one pathological wedge can't explode it
+    const MIN_ARC = 14;
+    const ringR = { 1: R_GEN1 };
+    for (let d = 2; d <= maxDepth; d++) {
+      const need = MIN_ARC / Math.max(minSlot[d] || 1, 0.0001);
+      ringR[d] = Math.min(
+        Math.max(ringR[d - 1] + R_GEN_STEP, need),
+        ringR[d - 1] + 950,
+        3000);
+    }
+    nodes.forEach(p => {
+      p.radius = ringR[p._depth];
+      initNode(p, p._depth, p._par);
+      p.chord = Math.max(6, Math.min(24, p.slot * p.radius));
+    });
+    const ghosts = [];
+    ghostSpecs.forEach(p => {
+      const gr = ringR[p._depth + 1] || (p.radius + R_GEN_STEP);
+      const g = Math.min(0.02, Math.max(0.006, p.slot / 4));
+      [-1, 0, 1].forEach(k => ghosts.push({
+        id: p.id + ':ghost' + k, ghost: true, parent: p,
+        angle: p.angle + k * g, radius: gr,
+        name: 'via survey', batch: 'Next generation',
+      }));
+    });
+    const maxR = ringR[maxDepth] + 160;
+    return { nodes, links, ghosts, maxDepth, maxR };
   }
 
   function buildNodes(enter) {
@@ -929,7 +955,8 @@ function initTree() {
     return g;
   }
 
-  let lastMaxDepth = 1;
+  let lastFitR = R_GEN1 + 160;
+  let fisheyeMaxR = 900;
   function render() {
     const v = computeVisible();
     updateBand();
@@ -979,11 +1006,11 @@ function initTree() {
     initials = node.select('text.p-initials');
     visible = v.nodes;
 
-    // auto-fit the zoom when a ring is added or removed
-    if (v.maxDepth !== lastMaxDepth) {
-      lastMaxDepth = v.maxDepth;
-      const maxR = R_GEN1 + (v.maxDepth - 1) * R_GEN_STEP + 160;
-      const k = Math.min(1, (VBOX - 20) / maxR);
+    fisheyeMaxR = v.maxR + 100;
+    // auto-fit the zoom when the tree's extent changes meaningfully
+    if (Math.abs(v.maxR - lastFitR) > 80) {
+      lastFitR = v.maxR;
+      const k = Math.min(1, (VBOX - 20) / v.maxR);
       if (zoomRef) svg.call(zoomRef.transform, d3.zoomIdentity.scale(k));
     }
   }
@@ -1015,7 +1042,7 @@ function initTree() {
   svg.on('pointermove.fisheye', (e) => {
     const [mx, my] = d3.pointer(e, root.node());
     const r = Math.hypot(mx, my);
-    if (r > 265 && r < 900) {
+    if (r > 265 && r < fisheyeMaxR) {
       let a = Math.atan2(mx, -my);
       if (a < 0) a += 2 * Math.PI;
       targetA = a;
@@ -1075,7 +1102,7 @@ function initTree() {
   requestAnimationFrame(tick);
 
   // ---- zoom / pan ----------------------------------------------------------
-  const zoom = d3.zoom().scaleExtent([0.5, 9])
+  const zoom = d3.zoom().scaleExtent([0.08, 9])
     // default clickDistance 0 makes any 1px jitter between mousedown/up eat
     // the click as a "pan", so expanding a branch was nearly impossible
     .clickDistance(8)
