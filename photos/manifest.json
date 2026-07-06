@@ -172,8 +172,9 @@
   "confidence": "high (MSC lab site)"
  },
  "zhang-xiang": {
-  "source": "https://msc.berkeley.edu/assets/images/people/Xiang.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://drive.google.com/uc?export=download&id=1kHiMcSTDpcgkDXdhm75sv5BxbYhXhcMT",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-06"
  },
  "zhu-xinghao": {
   "source": "https://msc.berkeley.edu/assets/images/people/Xinghao.jpg",
@@ -305,8 +306,9 @@
   "confidence": "high (MSC lab site)"
  },
  "zhou-shiying": {
-  "source": "https://msc.berkeley.edu/assets/images/people/shiying.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://drive.google.com/uc?export=download&id=1ZbwQWEdcNIlWNN-0GO5B6fqYO5xH9sje",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-06"
  },
  "haninger-kevin": {
   "source": "https://msc.berkeley.edu/assets/images/people/Kevin.jpg",
@@ -443,7 +445,7 @@
  "chen-yuxin": {
   "source": "https://drive.google.com/uc?export=download&id=19Xgl2tSHkNxcbg0v_GupanpOEzK9yUsn",
   "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "ingested": "2026-07-06"
  },
  "liang-boyuan": {
   "source": "https://msc.berkeley.edu/assets/images/people/boyuan.jpg",
@@ -480,24 +482,24 @@
   "ingested": "2026-07-03"
  },
  "zehao-wang": {
-  "source": "https://tasl.ucr.edu/people_photos/zehaowang.jpg",
+  "source": "https://zehaowang983.github.io/",
   "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "ingested": "2026-07-06"
  },
  "mingxuan-yan": {
-  "source": "https://tasl.ucr.edu/people_photos/mingxuanyan.jpg",
+  "source": "https://waterhyacinthinnanhu.github.io/",
   "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "ingested": "2026-07-06"
  },
  "junge-zhang": {
-  "source": "https://tasl.ucr.edu/people_photos/jungezhang.jpg",
+  "source": "https://andy-zd.github.io/",
   "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "ingested": "2026-07-06"
  },
  "ce-hao": {
   "source": "https://drive.google.com/uc?export=download&id=1kGZRkogv9QbCy5hnAJ4ysOs_3ua9ot3D",
   "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "ingested": "2026-07-06"
  },
  "wenjie-jeff-li": {
   "source": "https://drive.google.com/uc?export=download&id=1s2iJ6X2T3UWlw6FeoLUzuHZtyT3eNU09",
@@ -512,7 +514,7 @@
  "wenjie-li": {
   "source": "https://drive.google.com/uc?export=download&id=1s2iJ6X2T3UWlw6FeoLUzuHZtyT3eNU09",
   "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "ingested": "2026-07-06"
  },
  "yun-hong": {
   "source": "https://engineering.purdue.edu/~byao/Photos/MyGroup/Students/Yun_1.JPG",
