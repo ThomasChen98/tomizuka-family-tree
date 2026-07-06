@@ -19641,11 +19641,11 @@ window.TREE_DATA = {
      "affiliation": null,
      "title": null,
      "inMemoriam": false,
-     "photo": null,
-     "bio": null,
-     "note": "RI PhD, started Fall 2024 (prev. MS in lab)",
-     "homepage": null,
-     "provisional": true,
+     "photo": "photos/yifan-sun.jpg",
+     "bio": "My research focuses on developing intelligent decision making and motion control methods that enable complex robotic systems to perform tasks such as human–robot collaboration and dexterous manipulation, while satisfying critical constraints such as safety and contact-rich interactions.",
+     "note": "Robotics Institute, CMU",
+     "homepage": "https://yifansun98.github.io/",
+     "provisional": false,
      "children": []
     }
    ]

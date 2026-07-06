@@ -2590,5 +2590,10 @@
   "source": "https://www.oit.edu/directory/menglun-lee",
   "confidence": "high (faculty-page hunt)",
   "ingested": "2026-07-05"
+ },
+ "yifan-sun": {
+  "source": "https://drive.google.com/uc?export=download&id=1VctBuqtgHt3-5Buz6QziIsbA19-Ogewg",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-06"
  }
 }
