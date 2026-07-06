@@ -20465,6 +20465,23 @@ window.TREE_DATA = {
    "children": []
   },
   {
+   "id": "wang-changhao",
+   "name": "Changhao Wang",
+   "batch": "PhD 2023",
+   "kind": "phd",
+   "year": 2023,
+   "decade": "2020s",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/wang-changhao.jpg",
+   "children": [],
+   "provisional": false,
+   "note": "Postdoc at Stanford",
+   "homepage": "https://changhaowang.github.io/"
+  },
+  {
    "id": "ma-hengbo",
    "name": "Hengbo Ma",
    "batch": "PhD 2023",
@@ -20504,20 +20521,6 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/weaver-catherin.jpg",
-   "children": []
-  },
-  {
-   "id": "wang-changhao",
-   "name": "Changhao Wang",
-   "batch": "PhD 2024",
-   "kind": "phd",
-   "year": 2024,
-   "decade": "2020s",
-   "educator": false,
-   "affiliation": null,
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/wang-changhao.jpg",
    "children": []
   },
   {
