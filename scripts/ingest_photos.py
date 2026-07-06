@@ -34,13 +34,26 @@ def load_tree():
 
 
 def name_index(tree):
+    """norm-name -> [(advisor-norm, id), ...]. Namesakes are real (three on the
+    tree already), so a bare name is not an identity — (name x advisor) is."""
     idx = {}
-    stack = list(tree.get('children', []))
+    stack = [(c, tree.get('name') or '') for c in tree.get('children', [])]
     while stack:
-        n = stack.pop()
-        idx.setdefault(norm_name(n['name']), n['id'])
-        stack.extend(n.get('children', []))
+        n, parent = stack.pop()
+        idx.setdefault(norm_name(n['name']), []).append((norm_name(parent), n['id']))
+        stack.extend((c, n['name']) for c in n.get('children', []))
     return idx
+
+
+def resolve(idx, name, advisor):
+    cands = idx.get(norm_name(name)) or []
+    if len(cands) == 1:
+        return cands[0][1]
+    adv = norm_name(advisor or '')
+    for parent, pid in cands:
+        if parent == adv:
+            return pid
+    return None  # ambiguous namesake, no advisor match — never guess a face
 
 
 IMG_HINTS = ('profile', 'avatar', 'portrait', 'headshot', 'prof_pic',
@@ -112,7 +125,7 @@ def main():
             name = (r.get('name') or '').strip()
             if not name or not url.lower().startswith('http'):
                 continue
-            pid = idx.get(norm_name(name))
+            pid = resolve(idx, name, r.get('advisor'))
             if pid is None or pid in blocked:
                 continue
             dst = f'photos/{pid}.jpg'

@@ -553,7 +553,7 @@ function initTree() {
   function updateSpokes() {
     spokes
       .attr('x1', d => pos(d.angle, R_SPOKE_IN)[0]).attr('y1', d => pos(d.angle, R_SPOKE_IN)[1])
-      .attr('x2', d => pos(d.angle, R_GEN1 - 12)[0]).attr('y2', d => pos(d.angle, R_GEN1 - 12)[1]);
+      .attr('x2', d => pos(d.angle, curR1 - 12)[0]).attr('y2', d => pos(d.angle, curR1 - 12)[1]);
   }
 
   // ---- center --------------------------------------------------------------
@@ -578,6 +578,7 @@ function initTree() {
   const rotDeg = a => a * 180 / Math.PI - 90;
   const isLeft = a => a > Math.PI;
   const CHORD = R_GEN1 * (A1 - A0) / N;
+  let curR1 = R_GEN1;   // ring-1 radius grows under mass expansion
   let node = d3.select(null), label = d3.select(null), initials = d3.select(null);
   let linkSel = d3.select(null);
   let zoomRef = null;
@@ -828,94 +829,116 @@ function initTree() {
     const minSlot = {};        // narrowest angular slot per ring
     const kids = p => (p.educator && expanded.has(p.id) && p.children && p.children.length)
       ? p.children : [];
-    const weigh = p => {
-      const ks = kids(p);
-      p._w = ks.length ? ks.reduce((acc, c) => acc + weigh(c), 0) : 1;
-      return p._w;
-    };
-    let total = 0;
-    people.forEach(p => { total += weigh(p); });
 
-    // pass 1: angles only — radii are decided afterwards from crowding.
-    // Two regimes:
-    //  * hierarchical (few branches open): children subdivide their parent's
-    //    slot, sitting centered right outside them;
-    //  * grid (mass expansion): gen-1 slots would collapse below a dot, so
-    //    every ring spaces its members evenly instead. DFS order is kept, so
-    //    children stay contiguous and links provably never cross.
-    const gridMode = total > (A1 - A0) * R_GEN1 / 12;
-    if (!gridMode) {
-      const placeAngles = (p, a0, a1, depth, parent) => {
-        p.angle = (a0 + a1) / 2;
-        p.slot = a1 - a0;
-        p._depth = depth;
-        p._par = parent;
-        p._open = false;
-        minSlot[depth] = Math.min(minSlot[depth] || Infinity, p.slot);
-        nodes.push(p);
-        maxDepth = Math.max(maxDepth, depth);
-        const ks = kids(p);
-        if (ks.length) {
-          p._open = true;
-          let a = a0;
-          ks.forEach(c => {
-            const w = (a1 - a0) * c._w / p._w;
-            links.push({ source: p, target: c });
-            placeAngles(c, a, a + w, depth + 1, p);
-            a += w;
-          });
-        } else if (p.educator && expanded.has(p.id)) {
-          p._open = true;
-          ghostSpecs.push(p);
+    // ONE layout for every expansion state: a weighted radial partition in
+    // which each subtree's angular need is floored at MIN_ARC on its ring,
+    // and ring radii — the first ring included — grow until the needs fit
+    // the circle (加大半径 wherever the tree is crowded, and only then).
+    // Closed tree ⇒ equal needs ⇒ the classic uniform ring; mass expansion
+    // ⇒ dynasties open into wide wedges with children always fanning
+    // straight out of their parent: links stay radial, nothing crosses.
+    const MIN_ARC = 14;
+    const byDepth = {};
+    const walk = (p, depth, parent) => {
+      p._depth = depth;
+      p._par = parent;
+      p._open = false;
+      (byDepth[depth] = byDepth[depth] || []).push(p);
+      nodes.push(p);
+      maxDepth = Math.max(maxDepth, depth);
+      const ks = kids(p);
+      if (ks.length) {
+        p._open = true;
+        ks.forEach(c => { links.push({ source: p, target: c }); walk(c, depth + 1, p); });
+      } else if (p.educator && expanded.has(p.id)) {
+        p._open = true;
+        ghostSpecs.push(p);
+      }
+    };
+    people.forEach(p => walk(p, 1, null));
+
+    const R1_MAX = 1000;
+    const R = { 1: R_GEN1 }, su = {};
+    for (let d = 2; d <= maxDepth; d++) R[d] = R[d - 1] + R_GEN_STEP;
+    const needOf = p => {
+      const ks = kids(p);
+      p._need = ks.length
+        ? Math.max(su[p._depth], ks.reduce((acc, c) => acc + needOf(c), 0))
+        : su[p._depth];
+      return p._need;
+    };
+    // crowded rings need real radial separation, or links between them go
+    // tangential no matter how small the angular offsets are
+    const step = d => (byDepth[d] || []).length > 40 ? 380 : R_GEN_STEP;
+    let totalNeed = 0;
+    for (let round = 0; round < 16; round++) {
+      for (let d = 1; d <= maxDepth; d++) su[d] = MIN_ARC / R[d];
+      totalNeed = 0;
+      people.forEach(p => { totalNeed += needOf(p); });
+      const f = totalNeed / (A1 - A0);
+      if (f <= 1.001) break;
+      const fc = Math.min(f, 1.35);
+      let grew = false;
+      // ring 1 grows first — it relieves the angular budget without pushing
+      // the chart's outer edge — then the outer rings scale together
+      if (R[1] < R1_MAX) {
+        const nr = Math.min(R[1] * fc, R1_MAX);
+        if (nr > R[1] + 0.5) grew = true;
+        R[1] = nr;
+      } else {
+        for (let d = 2; d <= maxDepth; d++) R[d] *= fc;
+        grew = true;
+      }
+      for (let d = 2; d <= maxDepth; d++) R[d] = Math.max(R[d], R[d - 1] + step(d));
+      if (!grew) break;
+    }
+    // dial each ring back to what IT actually requires — uniform growth
+    // overshoots the rings whose sectors weren't the binding ones
+    const fits = () => {
+      for (let d = 1; d <= maxDepth; d++) su[d] = MIN_ARC / R[d];
+      totalNeed = 0;
+      people.forEach(p => { totalNeed += needOf(p); });
+      return totalNeed <= (A1 - A0) * 1.001;
+    };
+    for (let pass = 0; pass < 2; pass++) {
+      for (let d = 2; d <= maxDepth; d++) {
+        let hi = R[d];
+        let lo = Math.max(R[d - 1] + step(d), hi * 0.5);
+        if (lo >= hi - 1) continue;
+        R[d] = lo;
+        if (fits()) continue;            // floor is feasible — take it
+        for (let b = 0; b < 5; b++) {    // bisect to this ring's true minimum
+          R[d] = (lo + hi) / 2;
+          if (fits()) hi = R[d]; else lo = R[d];
         }
-      };
-      let a = A0;
-      people.forEach(p => {
-        const w = (A1 - A0) * p._w / total;
-        placeAngles(p, a, a + w, 1, null);
-        a += w;
-      });
-    } else {
-      const byDepth = {};
-      const walk = (p, depth, parent) => {
-        p._depth = depth;
-        p._par = parent;
-        p._open = false;
-        (byDepth[depth] = byDepth[depth] || []).push(p);
-        nodes.push(p);
-        maxDepth = Math.max(maxDepth, depth);
-        const ks = kids(p);
-        if (ks.length) {
-          p._open = true;
-          ks.forEach(c => { links.push({ source: p, target: c }); walk(c, depth + 1, p); });
-        } else if (p.educator && expanded.has(p.id)) {
-          p._open = true;
-          ghostSpecs.push(p);
-        }
-      };
-      people.forEach(p => walk(p, 1, null));
-      for (let d = 1; d <= maxDepth; d++) {
-        const ring = byDepth[d];
-        const slot = (A1 - A0) / ring.length;
-        ring.forEach((p, i) => {
-          p.slot = slot;
-          p.angle = A0 + (i + 0.5) * slot;
-        });
-        minSlot[d] = slot;
+        R[d] = hi;
       }
     }
+    fits();   // leave su/_need consistent with the final radii
+    // place: slots divide ∝ need and fill the whole span, so every slot is
+    // at least its need whenever the needs fit; parents sit mid-wedge
+    const place = (p, a0, a1) => {
+      p.angle = (a0 + a1) / 2;
+      p.slot = a1 - a0;
+      const ks = kids(p);
+      if (ks.length) {
+        const tot = ks.reduce((acc, c) => acc + c._need, 0);
+        let a = a0;
+        ks.forEach(c => { const w = (a1 - a0) * c._need / tot; place(c, a, a + w); a += w; });
+      }
+    };
+    let a = A0;
+    people.forEach(p => { const w = (A1 - A0) * p._need / totalNeed; place(p, a, a + w); a += w; });
+    for (let d = 1; d <= maxDepth; d++) minSlot[d] = su[d];
+    const ring1R = R[1];
 
     // pass 2: each ring grows outward until its tightest slot can hold a
     // node (the user's "加大半径" — circumference is the real budget);
-    // growth per ring is capped so one pathological wedge can't explode it
-    const MIN_ARC = 14;
-    const ringR = { 1: R_GEN1 };
+    // an absolute cap keeps one pathological wedge from exploding the chart
+    const ringR = { 1: ring1R };
     for (let d = 2; d <= maxDepth; d++) {
       const need = MIN_ARC / Math.max(minSlot[d] || 1, 0.0001);
-      ringR[d] = Math.min(
-        Math.max(ringR[d - 1] + R_GEN_STEP, need),
-        ringR[d - 1] + 950,
-        3000);
+      ringR[d] = Math.max(ringR[d - 1] + R_GEN_STEP, need);
     }
     nodes.forEach(p => {
       p.radius = ringR[p._depth];
@@ -933,7 +956,7 @@ function initTree() {
       }));
     });
     const maxR = ringR[maxDepth] + 160;
-    return { nodes, links, ghosts, maxDepth, maxR };
+    return { nodes, links, ghosts, maxDepth, maxR, r1: ring1R };
   }
 
   function buildNodes(enter) {
@@ -996,6 +1019,7 @@ function initTree() {
   let fisheyeMaxR = 900;
   function render() {
     const v = computeVisible();
+    curR1 = v.r1;
     updateBand();
     updateSpokes();
     linkSel = gLinks.selectAll('path.branch-link').data(v.links, l => l.target.id).join('path')

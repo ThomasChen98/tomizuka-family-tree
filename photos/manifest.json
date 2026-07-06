@@ -229,9 +229,9 @@
   "confidence": "high (MSC lab site)"
  },
  "li-jiachen": {
-  "source": "https://www.apscl.me.utexas.edu/wp-content/uploads/2024/09/Jiachen.jpg",
-  "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "source": "https://tasl.ucr.edu/people_photos/jiachenli.jpg",
+  "confidence": "curator-verified (his own lab site; UT namesake photo was mis-routed here)",
+  "ingested": "2026-07-06"
  },
  "hu-yeping": {
   "source": "https://msc.berkeley.edu/assets/images/people/yeping.jpg",
@@ -2600,5 +2600,10 @@
   "source": "https://drive.google.com/uc?export=download&id=1TfeDR9l75SQK-k17bdFg0H8re84iKjLU",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-06"
+ },
+ "jiachen-li": {
+  "source": "https://www.apscl.me.utexas.edu/wp-content/uploads/2024/09/Jiachen.jpg",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-05"
  }
 }

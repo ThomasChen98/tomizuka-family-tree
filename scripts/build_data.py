@@ -174,7 +174,9 @@ def merge_survey(tree, path):
     by_name, ids, parent_of = {}, set(), {}
 
     def index(node, parent_name):
-        by_name.setdefault(norm_name(node['name']), node)
+        # a name maps to a LIST of nodes: genuine namesakes exist on the tree,
+        # so identity is (name x advisor), never the bare name
+        by_name.setdefault(norm_name(node['name']), []).append(node)
         ids.add(node.get('id'))
         parent_of[node.get('id')] = parent_name
         for c in node.get('children', []):
@@ -198,16 +200,20 @@ def merge_survey(tree, path):
         provisional = (r.get('source') or '').strip() == 'bootstrap'
 
         # distinct=yes explicitly declares a namesake: never merge by name
-        me = None if (r.get('distinct') or '').strip().lower() in ('yes', 'true', '1') \
-            else by_name.get(norm_name(name))
-        if me is not None:
-            # same name but a DIFFERENT advisor than the tree records is a
-            # homonym or a co-advised duplicate — never overwrite, flag it
-            adv_n = norm_name(r.get('advisor') or '')
-            par = parent_of.get(me.get('id'))
-            if adv_n and par and adv_n != norm_name(par):
+        distinct = (r.get('distinct') or '').strip().lower() in ('yes', 'true', '1')
+        adv_n = norm_name(r.get('advisor') or '')
+        cands = [] if distinct else (by_name.get(norm_name(name)) or [])
+        if adv_n:
+            # identity is (name x advisor): route to the candidate under the
+            # SAME advisor; a name that exists only under other advisors is a
+            # homonym or co-advised duplicate — never overwrite, flag it
+            me = next((c for c in cands
+                       if norm_name(parent_of.get(c.get('id')) or '') == adv_n), None)
+            if me is None and cands:
                 mismatched.append(r)
                 continue
+        else:
+            me = cands[0] if cands else None
         if me is not None:                      # update an existing card
             if not provisional:
                 me['provisional'] = False       # a real survey confirms the card
@@ -251,7 +257,10 @@ def merge_survey(tree, path):
                     me['affiliation'] = None
             continue
 
-        parent = by_name.get(norm_name(r.get('advisor') or ''))
+        pcands = by_name.get(norm_name(r.get('advisor') or '')) or []
+        # among advisor namesakes, only an educator can be the parent
+        parent = (pcands[0] if len(pcands) == 1
+                  else next((c for c in pcands if c.get('educator')), None))
         if parent is None:                      # advisor unknown -> human pass
             unmatched.append(r)
             continue
@@ -285,12 +294,23 @@ def merge_survey(tree, path):
             'children': [],
         }
         parent.setdefault('children', []).append(child)
-        by_name.setdefault(norm_name(name), child)
+        by_name.setdefault(norm_name(name), []).append(child)
         parent_of[pid] = parent['name']
 
     for node_list in _walk_children(tree):
         node_list.sort(key=lambda c: (c['year'] or 9999, c['name']))
 
+    # accumulate across ALL survey files; write_review() flushes once at the end
+    # (a per-file write let the last, clean file erase earlier files' reports)
+    _REVIEW['unmatched'].extend(unmatched)
+    _REVIEW['mismatched'].extend(mismatched)
+
+
+_REVIEW = {'unmatched': [], 'mismatched': []}
+
+
+def write_review():
+    unmatched, mismatched = _REVIEW['unmatched'], _REVIEW['mismatched']
     if unmatched or mismatched:
         with open('data/needs-review.md', 'w') as f:
             if unmatched:
@@ -365,6 +385,7 @@ def main():
         tree = json.load(open(base_in))
         for sv in surveys:
             merge_survey(tree, sv)
+        write_review()
         refresh_photos(tree)
         write_tree(tree)
         return
