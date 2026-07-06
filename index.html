@@ -836,37 +836,74 @@ function initTree() {
     let total = 0;
     people.forEach(p => { total += weigh(p); });
 
-    // pass 1: angles only — radii are decided afterwards from crowding
-    function placeAngles(p, a0, a1, depth, parent) {
-      p.angle = (a0 + a1) / 2;
-      p.slot = a1 - a0;
-      p._depth = depth;
-      p._par = parent;
-      p._open = false;
-      minSlot[depth] = Math.min(minSlot[depth] || Infinity, p.slot);
-      nodes.push(p);
-      maxDepth = Math.max(maxDepth, depth);
-      const ks = kids(p);
-      if (ks.length) {
-        p._open = true;
-        let a = a0;
-        ks.forEach(c => {
-          const w = (a1 - a0) * c._w / p._w;
-          links.push({ source: p, target: c });
-          placeAngles(c, a, a + w, depth + 1, p);
-          a += w;
+    // pass 1: angles only — radii are decided afterwards from crowding.
+    // Two regimes:
+    //  * hierarchical (few branches open): children subdivide their parent's
+    //    slot, sitting centered right outside them;
+    //  * grid (mass expansion): gen-1 slots would collapse below a dot, so
+    //    every ring spaces its members evenly instead. DFS order is kept, so
+    //    children stay contiguous and links provably never cross.
+    const gridMode = total > (A1 - A0) * R_GEN1 / 12;
+    if (!gridMode) {
+      const placeAngles = (p, a0, a1, depth, parent) => {
+        p.angle = (a0 + a1) / 2;
+        p.slot = a1 - a0;
+        p._depth = depth;
+        p._par = parent;
+        p._open = false;
+        minSlot[depth] = Math.min(minSlot[depth] || Infinity, p.slot);
+        nodes.push(p);
+        maxDepth = Math.max(maxDepth, depth);
+        const ks = kids(p);
+        if (ks.length) {
+          p._open = true;
+          let a = a0;
+          ks.forEach(c => {
+            const w = (a1 - a0) * c._w / p._w;
+            links.push({ source: p, target: c });
+            placeAngles(c, a, a + w, depth + 1, p);
+            a += w;
+          });
+        } else if (p.educator && expanded.has(p.id)) {
+          p._open = true;
+          ghostSpecs.push(p);
+        }
+      };
+      let a = A0;
+      people.forEach(p => {
+        const w = (A1 - A0) * p._w / total;
+        placeAngles(p, a, a + w, 1, null);
+        a += w;
+      });
+    } else {
+      const byDepth = {};
+      const walk = (p, depth, parent) => {
+        p._depth = depth;
+        p._par = parent;
+        p._open = false;
+        (byDepth[depth] = byDepth[depth] || []).push(p);
+        nodes.push(p);
+        maxDepth = Math.max(maxDepth, depth);
+        const ks = kids(p);
+        if (ks.length) {
+          p._open = true;
+          ks.forEach(c => { links.push({ source: p, target: c }); walk(c, depth + 1, p); });
+        } else if (p.educator && expanded.has(p.id)) {
+          p._open = true;
+          ghostSpecs.push(p);
+        }
+      };
+      people.forEach(p => walk(p, 1, null));
+      for (let d = 1; d <= maxDepth; d++) {
+        const ring = byDepth[d];
+        const slot = (A1 - A0) / ring.length;
+        ring.forEach((p, i) => {
+          p.slot = slot;
+          p.angle = A0 + (i + 0.5) * slot;
         });
-      } else if (p.educator && expanded.has(p.id)) {
-        p._open = true;
-        ghostSpecs.push(p);
+        minSlot[d] = slot;
       }
     }
-    let a = A0;
-    people.forEach(p => {
-      const w = (A1 - A0) * p._w / total;
-      placeAngles(p, a, a + w, 1, null);
-      a += w;
-    });
 
     // pass 2: each ring grows outward until its tightest slot can hold a
     // node (the user's "加大半径" — circumference is the real budget);
