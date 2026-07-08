@@ -10825,28 +10825,10 @@ window.TREE_DATA = {
      "title": null,
      "inMemoriam": false,
      "photo": "photos/yuxiao-chen.jpg",
-     "bio": "I worked on formal methods and safety-critical control during my PhD and postdoc years. Now I work on end-to-end policy training for AV.",
-     "note": "Sen. research scientist @Nvidia",
+     "bio": null,
+     "note": "then postdoc at Caltech (Ames lab), later NVIDIA Research; UM PhD under Peng (co-advised with Necmiye Ozay)",
      "homepage": null,
-     "provisional": false,
-     "children": []
-    },
-    {
-     "id": "yuxiao-chen-us",
-     "name": "Yuxiao Chen US",
-     "batch": "PhD 2018",
-     "kind": "phd",
-     "year": 2018,
-     "decade": "2010s",
-     "educator": false,
-     "affiliation": null,
-     "title": null,
-     "inMemoriam": false,
-     "photo": "photos/yuxiao-chen-us.jpg",
-     "bio": "I worked on formal methods and safety-critical control during my PhD @Michigan and postdoc @Caltech. I currently work on end-to-end policy training for AV @Nvidia.",
-     "note": "Sen. research scientist @Nvidia",
-     "homepage": null,
-     "provisional": false,
+     "provisional": true,
      "children": []
     },
     {
@@ -19517,9 +19499,9 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": "photos/abulikemu-abuduweili.jpg",
      "bio": null,
-     "note": "Research Scientist at Apple",
-     "homepage": "https://walleclipse.github.io/",
-     "provisional": false,
+     "note": "now at Apple",
+     "homepage": null,
+     "provisional": true,
      "children": []
     },
     {
@@ -19624,10 +19606,10 @@ window.TREE_DATA = {
      "title": null,
      "inMemoriam": false,
      "photo": "photos/peiqi-yu.jpg",
-     "bio": "My research focuses on long-horizon robotic manipulation using neuro-symbolic skill representations.",
-     "note": "Carnegie Mellon University",
-     "homepage": "https://patricia1019.github.io/",
-     "provisional": false,
+     "bio": null,
+     "note": "ECE PhD, started Fall 2024",
+     "homepage": null,
+     "provisional": true,
      "children": []
     },
     {
@@ -19660,10 +19642,10 @@ window.TREE_DATA = {
      "title": null,
      "inMemoriam": false,
      "photo": "photos/yifan-sun.jpg",
-     "bio": "My research focuses on developing intelligent decision making and motion control methods that enable complex robotic systems to perform tasks such as human–robot collaboration and dexterous manipulation, while satisfying critical constraints such as safety and contact-rich interactions.",
-     "note": "Robotics Institute, CMU",
-     "homepage": "https://yifansun98.github.io/",
-     "provisional": false,
+     "bio": null,
+     "note": "RI PhD, started Fall 2024 (prev. MS in lab)",
+     "homepage": null,
+     "provisional": true,
      "children": []
     }
    ]
@@ -19889,10 +19871,7 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/zhou-shiying.jpg",
-   "children": [],
-   "provisional": false,
-   "bio": "I lead the Didi autonomous planning and simulation team. I am the US Labs site lead.",
-   "note": "US site lead Didi Labs"
+   "children": []
   },
   {
    "id": "lin-hsien-chung",
@@ -20251,9 +20230,9 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": "photos/junge-zhang.jpg",
      "bio": null,
-     "note": "GT TASL Lab",
-     "homepage": "https://andy-zd.github.io/",
-     "provisional": false,
+     "note": "Ph.D. student, Fall 2024–present",
+     "homepage": null,
+     "provisional": true,
      "children": []
     },
     {
@@ -20269,9 +20248,9 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": "photos/litian-gong.jpg",
      "bio": null,
-     "note": "PhD student, GT TASL Lab",
-     "homepage": "https://litiangong.com/",
-     "provisional": false,
+     "note": "Incoming Ph.D. student, Fall 2026 (not yet started as of Jul 2026); M.S. from same lab in 2026",
+     "homepage": null,
+     "provisional": true,
      "children": []
     },
     {
@@ -20286,10 +20265,10 @@ window.TREE_DATA = {
      "title": null,
      "inMemoriam": false,
      "photo": "photos/mingxuan-yan.jpg",
-     "bio": "I am Mingxuan Yan (pron: Ming-shwen Yen), a second-year PhD student. I am currently a member of GT TASL Lab under the supervision of Prof. Jiachen Li.",
-     "note": "PhD student, GT TASL Lab",
-     "homepage": "https://waterhyacinthinnanhu.github.io/",
-     "provisional": false,
+     "bio": null,
+     "note": "Ph.D. student, Fall 2024–present",
+     "homepage": null,
+     "provisional": true,
      "children": []
     },
     {
@@ -20305,9 +20284,9 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": "photos/xiaopan-zhang.jpg",
      "bio": null,
-     "note": "PhD student, GT TASL Lab",
+     "note": "Ph.D. student, Spring 2024–present",
      "homepage": null,
-     "provisional": false,
+     "provisional": true,
      "children": []
     },
     {
@@ -20323,9 +20302,9 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": "photos/zehao-wang.jpg",
      "bio": null,
-     "note": "Ph.D. Student at GT TASL Lab",
-     "homepage": "https://zehaowang983.github.io/",
-     "provisional": false,
+     "note": "Ph.D. candidate, Fall 2023–present",
+     "homepage": null,
+     "provisional": true,
      "children": []
     },
     {
@@ -20341,16 +20320,14 @@ window.TREE_DATA = {
      "inMemoriam": false,
      "photo": "photos/zhixu-li.jpg",
      "bio": null,
-     "note": "PhD student, GT TASL Lab",
+     "note": "Ph.D. candidate, Fall 2023–present (followed Li from UCR to Georgia Tech)",
      "homepage": null,
-     "provisional": false,
+     "provisional": true,
      "children": []
     }
    ],
    "provisional": false,
-   "note": null,
-   "bio": "Dr. Jiachen Li is currently an Assistant Professor at Georgia Tech. He received his Ph.D. from UC Berkeley and was a Postdoctoral Scholar at Stanford.",
-   "homepage": "https://www.linkedin.com/in/jiachen-li/"
+   "note": null
   },
   {
    "id": "fahandezhsaadi-saman",
@@ -20465,41 +20442,6 @@ window.TREE_DATA = {
    "children": []
   },
   {
-   "id": "ce-hao",
-   "name": "Ce Hao",
-   "batch": "PhD 2023",
-   "kind": "phd",
-   "year": 2023,
-   "decade": "2020s",
-   "educator": true,
-   "affiliation": "Beijing Zhongguancun Academy",
-   "title": "Assistant professor",
-   "inMemoriam": false,
-   "photo": "photos/ce-hao.jpg",
-   "bio": "I jointed MSC Lab in 2019 as an RA, and enrolled as a PhD student on 2021. \nI left on 2023 and went to NUS at Singapore.\n\nI studied autonomous driving control system with Catherine Weaver, superviosed by Chen Tang, Wei Zhan, Liting Sun and Professor Tomizuka.\n\nNow I am working in Beijing as an assistant professor.",
-   "note": null,
-   "homepage": "https://cehao1.github.io/",
-   "provisional": false,
-   "children": []
-  },
-  {
-   "id": "wang-changhao",
-   "name": "Changhao Wang",
-   "batch": "PhD 2023",
-   "kind": "phd",
-   "year": 2023,
-   "decade": "2020s",
-   "educator": false,
-   "affiliation": null,
-   "title": null,
-   "inMemoriam": false,
-   "photo": "photos/wang-changhao.jpg",
-   "children": [],
-   "provisional": false,
-   "note": "Postdoc at Stanford",
-   "homepage": "https://changhaowang.github.io/"
-  },
-  {
    "id": "ma-hengbo",
    "name": "Hengbo Ma",
    "batch": "PhD 2023",
@@ -20539,6 +20481,20 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/weaver-catherin.jpg",
+   "children": []
+  },
+  {
+   "id": "wang-changhao",
+   "name": "Changhao Wang",
+   "batch": "PhD 2024",
+   "kind": "phd",
+   "year": 2024,
+   "decade": "2020s",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
+   "inMemoriam": false,
+   "photo": "photos/wang-changhao.jpg",
    "children": []
   },
   {
@@ -20595,10 +20551,7 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/zhang-xiang.jpg",
-   "children": [],
-   "provisional": false,
-   "note": "Fanuc",
-   "homepage": "https://xiang-zhang-98.github.io/"
+   "children": []
   },
   {
    "id": "zhu-xinghao",
@@ -20649,15 +20602,12 @@ window.TREE_DATA = {
    "kind": "phd",
    "year": 2025,
    "decade": "2020s",
-   "educator": true,
-   "affiliation": "UT Austin",
-   "title": "Assistant Professor",
+   "educator": false,
+   "affiliation": null,
+   "title": null,
    "inMemoriam": false,
    "photo": "photos/xu-chenfeng.jpg",
-   "children": [],
-   "provisional": false,
-   "note": null,
-   "homepage": "https://www.cs.utexas.edu/people/faculty-researchers/chenfeng-xu"
+   "children": []
   },
   {
    "id": "li-chenran",
@@ -20760,9 +20710,7 @@ window.TREE_DATA = {
    "inMemoriam": false,
    "photo": "photos/li-yiheng.jpg",
    "children": [],
-   "provisional": false,
-   "note": "Research Scientist at Waymo",
-   "homepage": "https://yihengli.com"
+   "provisional": false
   },
   {
    "id": "liang-boyuan",
@@ -20850,7 +20798,7 @@ window.TREE_DATA = {
   },
   {
    "id": "wenjie-li",
-   "name": "Wenjie (Jeff) Li",
+   "name": "Wenjie Li",
    "batch": "PhD Candidate",
    "kind": "current",
    "year": null,
@@ -20861,9 +20809,9 @@ window.TREE_DATA = {
    "inMemoriam": false,
    "photo": "photos/wenjie-li.jpg",
    "bio": null,
-   "note": "UC Berkeley",
+   "note": null,
    "homepage": null,
-   "provisional": false,
+   "provisional": true,
    "children": []
   },
   {
@@ -20906,11 +20854,7 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/chen-yuxin.jpg",
-   "children": [],
-   "provisional": false,
-   "bio": "Yuxin Chen is currently a Ph.D. candidate at UC Berkeley. He received his M.S. in Robotics and B.S. in Aerospace degrees from the University of Michigan, as well as a B.S. in Mechanical Engineering degree from Shanghai Jiao Tong University.",
-   "note": "UC Berkeley",
-   "homepage": "https://thomaschen98.github.io/"
+   "children": []
   }
  ]
 };
