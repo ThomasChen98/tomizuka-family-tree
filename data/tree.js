@@ -19497,11 +19497,11 @@ window.TREE_DATA = {
      "affiliation": null,
      "title": null,
      "inMemoriam": false,
-     "photo": null,
-     "bio": null,
-     "note": "now at Instinct Robotics",
-     "homepage": null,
-     "provisional": true,
+     "photo": "photos/weiye-zhao.jpg",
+     "bio": "Weiye Zhao earned his PhD in Electrical and Computer Engineering from Carnegie Mellon University in 2024, where he worked with Dr. Changliu Liu. His research lies at the intersection of provable safe reinforcement learning and control theory. He is now the founder and CEO of Instinct Robotics, a startup dedicated to developing foundational robotics model for manufacturing skills.",
+     "note": "CEO at Instinct Robotics",
+     "homepage": "https://scholar.google.com/citations?user=P-79KOcAAAAJ&hl=en",
+     "provisional": false,
      "children": []
     },
     {
