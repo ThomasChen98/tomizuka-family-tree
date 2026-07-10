@@ -242,8 +242,9 @@
   "confidence": "high (MSC lab site)"
  },
  "chen-jianyu": {
-  "source": "https://msc.berkeley.edu/assets/images/people/Jianyu.jpg",
-  "confidence": "high (MSC lab site)"
+  "source": "https://drive.google.com/uc?export=download&id=1jHlj7-oKbt4mY65fsXnpSre5eG1KFBTM",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-10"
  },
  "wang-zining": {
   "source": "https://msc.berkeley.edu/assets/images/people/Zining.jpg",
@@ -732,9 +733,9 @@
   "ingested": "2026-07-05"
  },
  "yanjiang-guo": {
-  "source": "https://group.iiis.tsinghua.edu.cn/~isrlab/author/yanjiang-guo/avatar_huc52f97e4d9302082542a2803c94a610e_4999553_270x270_fill_q75_lanczos_center.JPG",
+  "source": "https://drive.google.com/uc?export=download&id=1kwktTCi8w5ssxsKUQoEmAFvkVCQilriv",
   "confidence": "self-submitted (survey)",
-  "ingested": "2026-07-05"
+  "ingested": "2026-07-10"
  },
  "zheyuan-jiang": {
   "source": "https://group.iiis.tsinghua.edu.cn/~isrlab/author/zheyuan-jiang/avatar_hud7ff50c38c0b6078374d05458d12f451_297180_270x270_fill_lanczos_center_3.png",
@@ -2620,5 +2621,20 @@
   "source": "https://drive.google.com/uc?export=download&id=1JXJz0pUXtiUt_vSLCGVolOp3lqsf1sUt",
   "confidence": "self-submitted (survey)",
   "ingested": "2026-07-09"
+ },
+ "jianke-zhang": {
+  "source": "https://drive.google.com/uc?export=download&id=1giQET904NhbjumxGg5qtYfAlejO3WRSr",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-10"
+ },
+ "kun-feng": {
+  "source": "https://drive.google.com/uc?export=download&id=1TCBDsrSdtU-_oFyN4tZPV6ujhTKmfwQq",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-10"
+ },
+ "puzhen-yuan": {
+  "source": "https://drive.google.com/uc?export=download&id=1nb8_4uIBiJlHslOEJCOX0NQoJQBRDt9d",
+  "confidence": "self-submitted (survey)",
+  "ingested": "2026-07-10"
  }
 }
