@@ -20860,9 +20860,9 @@ window.TREE_DATA = {
    "title": null,
    "inMemoriam": false,
    "photo": "photos/wenjie-li.jpg",
-   "bio": null,
+   "bio": "Jeff is currently a Ph.D. student at UC Berkeley. His current work centers on tactile-enabled dexterous manipulation.",
    "note": "UC Berkeley",
-   "homepage": null,
+   "homepage": "https://jeffwli.github.io/",
    "provisional": false,
    "children": []
   },
