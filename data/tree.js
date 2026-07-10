@@ -20196,6 +20196,24 @@ window.TREE_DATA = {
      "children": []
     },
     {
+     "id": "xiang-ji",
+     "name": "Xiang Ji",
+     "batch": "PhD Candidate",
+     "kind": "current",
+     "year": null,
+     "decade": "Current",
+     "educator": false,
+     "affiliation": null,
+     "title": null,
+     "inMemoriam": false,
+     "photo": "photos/xiang-ji.jpg",
+     "bio": null,
+     "note": "incoming PhD student of College of AI, Tsinghua University",
+     "homepage": null,
+     "provisional": false,
+     "children": []
+    },
+    {
      "id": "xiang-zhu",
      "name": "Xiang Zhu",
      "batch": "PhD Candidate",
